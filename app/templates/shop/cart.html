@@ -1,72 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-<section style="background:linear-gradient(135deg,#2F2A25,#4a3a2c);color:#fff;padding:50px 0 40px">
+<section style="padding:140px 0 40px;background:#fff;border-bottom:1px solid var(--line)">
   <div class="wrap">
-    <h1 style="font-family:Georgia,serif;font-size:40px">Panier 🛒</h1>
-    <p style="color:#e6d9c6">Vérifie ta commande - Expédition 24h depuis Nantes</p>
+    <div class="section-label">Panier</div>
+    <h1 style="font-family:var(--serif);font-size:48px;letter-spacing:-1px">Panier — {{ items|length }} articles</h1>
   </div>
 </section>
 
 <section>
-  <div class="wrap" style="max-width:900px">
+  <div class="wrap" style="max-width:1000px">
     {% if not items %}
-    <div class="card reveal" style="text-align:center;padding:80px 30px">
-      <div style="font-size:64px;margin-bottom:20px">🛒</div>
-      <h2 style="font-family:Georgia,serif">Ton panier est vide</h2>
-      <p style="color:#6b5f52;margin:12px 0 24px">Découvre nos best-sellers gender reveal à 70% de marge</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a class="btn gold" href="/shop/event/gender_reveal">🎈 Voir Gender Reveal dès 3.90€</a>
-        <a class="btn ghost" href="/shop">Toute la boutique</a>
-      </div>
+    <div style="text-align:center;padding:100px 0" class="reveal">
+      <div style="font-family:var(--serif);font-size:72px;opacity:.2">∅</div>
+      <h2 style="font-family:var(--serif);font-size:28px;margin:20px 0">Ton panier est vide</h2>
+      <p style="color:#8a8a8a;font-weight:300;margin-bottom:32px">Découvre nos best-sellers gender reveal</p>
+      <a href="/shop/event/gender_reveal" class="btn">Explorer Gender Reveal →</a>
     </div>
     {% else %}
-    <div class="grid2" style="align-items:start">
+    <div style="display:grid;grid-template-columns:1.5fr .8fr;gap:60px;align-items:start">
       <div>
         {% for it in items %}
         <div class="cart-item reveal" style="transition-delay: {{ loop.index * 0.05 }}s">
-          <div class="cart-item-img">
-            <img src="/static/images/06-bulles-confettis.jpg" alt="" onerror="this.style.display='none'">
-          </div>
+          <div style="width:80px;height:80px;background:#F5F2ED;overflow:hidden"><img src="/static/images/06-bulles-confettis.jpg" style="width:100%;height:100%;object-fit:cover"></div>
           <div style="flex:1">
-            <h4 style="font-family:Georgia,serif">{{ it['name'] }}</h4>
-            {% if it['variant_name'] %}<div style="font-size:12px;color:#8a7d6d"><span class="badge {% if 'rose' in it['variant_name']|lower %}rose{% elif 'bleu' in it['variant_name']|lower %}bleu{% else %}gold{% endif %}">{{ it['variant_name'] }} • {{ it['attribute_value'] }}</span></div>{% endif %}
-            <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
-              <span style="font-size:13px">Qté {{ it['quantity'] }} x {{ it['price_ttc_at_add'] }}€</span>
-              <span style="font-weight:800;color:var(--terra)">{{ (it['quantity'] * it['price_ttc_at_add'])|round(2) }}€</span>
-            </div>
+            <div style="font-family:var(--serif);font-size:16px">{{ it['name'] }}</div>
+            {% if it['variant_name'] %}<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8a8a;margin-top:4px">{{ it['variant_name'] }} • {{ it['attribute_value'] }}</div>{% endif %}
+            <div style="font-size:13px;margin-top:8px">Qté {{ it['quantity'] }} × {{ it['price_ttc_at_add'] }}€ = <b>{{ (it['quantity']*it['price_ttc_at_add'])|round(2) }}€</b></div>
           </div>
-          <form method="post" action="/cart/remove/{{ it['id'] }}">
-            <button class="btn small ghost" style="color:#9c3b2e;border-color:#EFC9C3">✕</button>
-          </form>
+          <form method="post" action="/cart/remove/{{ it['id'] }}"><button style="border:1px solid var(--line);background:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer">✕</button></form>
         </div>
         {% endfor %}
-        <form method="post" action="/cart/clear" style="margin-top:16px">
-          <button class="btn small ghost">Vider le panier</button>
-        </form>
       </div>
-
-      <div class="card reveal" style="position:sticky;top:100px;background:linear-gradient(135deg,#FFFBF5,#FAF6F0);border:2px solid var(--gold)">
-        <h3 style="font-family:Georgia,serif;font-size:22px;margin-bottom:12px">Résumé commande</h3>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Sous-total</span><b>{{ total|round(2) }}€</b></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;color:#6b5f52"><span>Livraison</span><span>Calculée à l'étape suivante</span></div>
+      <div style="position:sticky;top:120px;border:1px solid var(--line);padding:32px;background:#fff" class="reveal">
+        <h3 style="font-family:var(--serif);font-size:20px;margin-bottom:16px">Résumé</h3>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><span style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#8a8a8a">Sous-total</span><b>{{ total|round(2) }}€</b></div>
         {% if total < shipping_free_from %}
-        <div style="margin:12px 0;padding:12px;background:#FDF1DD;border:1px solid #F1DEB8;border-radius:12px;font-size:13px">
-          🚚 Plus que <b>{{ (shipping_free_from - total)|round(2) }}€</b> pour la livraison gratuite Mondial Relay !<br>
-          <div style="height:6px;background:#F1DEB8;border-radius:999px;margin-top:8px;overflow:hidden">
-            <div style="height:100%;width:{{ (total/shipping_free_from*100)|round(0) }}%;background:var(--gold);transition:1s"></div>
-          </div>
-        </div>
+        <div style="margin:16px 0;padding:16px;background:#FFFBF5;border:1px solid var(--line);font-size:13px">Plus que {{ (shipping_free_from - total)|round(2) }}€ pour livraison gratuite Mondial Relay<div style="height:2px;background:var(--line);margin-top:10px"><div style="height:100%;width:{{ (total/shipping_free_from*100)|round(0) }}%;background:var(--ink)"></div></div></div>
         {% else %}
-        <div style="margin:12px 0;padding:12px;background:#EAF3EA;border:1px solid #CBE3CE;border-radius:12px;font-size:13px;color:#2E7D43">
-          ✅ <b>Livraison gratuite Mondial Relay débloquée !</b> 🎉
-        </div>
+        <div style="margin:16px 0;padding:12px;background:#000;color:#fff;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-align:center">✓ Livraison gratuite débloquée</div>
         {% endif %}
-        <div style="display:flex;justify-content:space-between;padding:12px 0;font-size:20px;font-weight:800"><span>Total</span><span style="color:var(--terra)">{{ total|round(2) }}€ TTC</span></div>
-        <a class="btn gold" href="/checkout" style="width:100%;justify-content:center;font-size:16px;padding:16px;margin-top:12px">Commander →</a>
-        <div style="text-align:center;margin-top:12px;font-size:12px;color:#8a7d6d">
-          🔒 Paiement sécurisé • 📦 Expédition 24h • ↩️ 14j retours<br>
-          <a href="/shop" style="color:var(--terra);font-weight:600">← Continuer mes achats</a>
-        </div>
+        <div style="display:flex;justify-content:space-between;padding:16px 0;font-family:var(--serif);font-size:22px"><span>Total</span><span>{{ total|round(2) }}€</span></div>
+        <a href="/checkout" class="btn" style="width:100%;justify-content:center">Commander →</a>
+        <div style="text-align:center;margin-top:16px"><a href="/shop" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8a8a">← Continuer mes achats</a></div>
       </div>
     </div>
     {% endif %}
