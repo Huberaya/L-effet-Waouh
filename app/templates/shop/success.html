@@ -1,24 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-  <div class="wrap" style="max-width:600px;text-align:center">
-    <div class="card" style="padding:40px">
-      <div style="font-size:48px">✅</div>
-      <h1 style="font-family:Georgia,serif">Merci ! Commande {{ order['number'] }}</h1>
-      <p style="color:#6b5f52">Un email de confirmation va vous être envoyé à {{ order['email'] }}</p>
-      <div style="background:#FBF7F1;border-radius:12px;padding:16px;margin:16px 0;text-align:left">
-        <b>Résumé :</b><br>
+<section style="min-height:80vh;display:flex;align-items:center;background:radial-gradient(circle at 50% 0%,rgba(217,164,65,.15),transparent 60%),var(--cream)">
+  <div class="wrap" style="max-width:700px;text-align:center;width:100%">
+    <div class="card reveal" style="padding:60px 30px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.1);border:2px solid var(--gold)">
+      <div style="width:80px;height:80px;background:linear-gradient(135deg,#EAF3EA,#CBE3CE);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 20px;animation:scaleIn .6s ease">✅</div>
+      <h1 style="font-family:Georgia,serif;font-size:36px;margin-bottom:12px">Merci ! 🎉</h1>
+      <p style="font-size:18px;color:#6b5f52;margin-bottom:8px">Commande <b style="color:var(--terra)">{{ order['number'] }}</b> confirmée</p>
+      <p style="color:#8a7d6d;font-size:14px">Un email va être envoyé à {{ order['email'] }} avec le suivi</p>
+      
+      <div style="background:linear-gradient(135deg,#FFFBF5,#FAF6F0);border:1px solid var(--line);border-radius:16px;padding:20px;margin:24px 0;text-align:left">
+        <h4 style="margin-bottom:12px">📦 Récapitulatif</h4>
         {% for it in items %}
-        {{ it['name_snapshot'] }} x{{ it['quantity'] }} = {{ it['total_ttc'] }}€<br>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:14px">
+          <span>{{ it['name_snapshot'] }} x{{ it['quantity'] }}</span><b>{{ it['total_ttc'] }}€</b>
+        </div>
         {% endfor %}
-        <hr style="margin:10px 0">
-        Total TTC: <b>{{ order['total_ttc']|round(2) }}€</b> dont livraison {{ order['shipping_cost_ttc'] }}€<br>
-        Livraison: {{ order['shipping_method_code'] }}<br>
-        Statut: <span class="badge gold">{{ order['status'] }}</span>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;font-weight:800;font-size:16px">
+          <span>Total TTC</span><span style="color:var(--terra)">{{ order['total_ttc']|round(2) }}€</span>
+        </div>
+        <div style="font-size:12px;color:#6b5f52">
+          Livraison: {{ order['shipping_method_code'] }} ({{ order['shipping_cost_ttc'] }}€) • 
+          Statut: <span class="badge gold">{{ order['status'] }}</span>
+        </div>
       </div>
-      <a class="btn gold" href="/shop">Continuer vos achats</a>
-      <a class="btn ghost" href="/admin-v2">Voir dans Admin</a>
+
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="btn gold" href="/shop">Continuer mes achats →</a>
+        <a class="btn ghost" href="/shop/event/gender_reveal">🎈 Recommander Gender Reveal</a>
+      </div>
+      
+      <div style="margin-top:24px;padding:16px;background:#EAF3EA;border-radius:12px;font-size:13px;color:#2E7D43">
+        💡 <b>Prochaine étape :</b> Ta commande est en préparation à Nantes. Expédition dans 24h. Tu recevras un email avec le numéro de suivi.<br>
+        <b>LTV :</b> Dans 6 mois, on t'enverra -10% pour déco naissance 👶
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Confetti explosion on success
+  setTimeout(() => {
+    createConfetti('#D9A441', 100);
+    setTimeout(() => createConfetti('#FF6B8A', 60), 300);
+    setTimeout(() => createConfetti('#4FC3F7', 60), 600);
+  }, 500);
+});
+</script>
 {% endblock %}

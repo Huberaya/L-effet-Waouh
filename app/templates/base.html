@@ -3,34 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{% block title %}L'Effet Waouh - Vente & Location{% endblock %}</title>
+<title>{% block title %}L'Effet Waouh - Vente & Location d'animations qui créent l'effet waouh{% endblock %}</title>
+<meta name="description" content="Gender reveal, naissance, mariage : ballons éclatables, fumigènes rose/bleu, cierges magiques, confettis. Livraison 48h depuis Nantes. Location photobooth 360 avec opérateur.">
 <link rel="stylesheet" href="/static/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 </head>
 <body>
 <div class="topbar">
   <div class="in">
-    <a href="/" class="brand"><span>✦</span> L'Effet Waouh <small>V2 VENTE</small></a>
+    <a href="/" class="brand"><span>✦</span> L'Effet Waouh <small>Animations & gadgets • Nantes</small></a>
     <div class="nav">
-      <a href="/shop">Boutique</a>
-      <a href="/shop/event/gender_reveal">Gender Reveal 🎈</a>
-      <a href="/shop/event/naissance">Naissance 👶</a>
-      <a href="/shop/event/mariage">Mariage 💍</a>
-      <a href="/shop/event/baby_shower">Baby Shower</a>
-      <a href="/cart">Panier 🛒</a>
+      <a href="/shop" class="{% if request.url.path == '/shop' %}active{% endif %}">Boutique</a>
+      <a href="/shop/event/gender_reveal" class="{% if 'gender_reveal' in request.url.path %}active{% endif %}">🎈 Gender Reveal</a>
+      <a href="/shop/event/naissance">👶 Naissance</a>
+      <a href="/shop/event/mariage">💍 Mariage</a>
+      <a href="/cart">Panier 🛒 <span class="cart-badge" id="cartCount">0</span></a>
       <a href="/admin-v2">Admin</a>
     </div>
   </div>
 </div>
+
 {% block content %}{% endblock %}
+
 <footer>
   <div class="wrap">
     <div class="cols">
-      <div><b>L'Effet Waouh V2</b><br>Vente & location d'animations<br>Nantes - France entière</div>
-      <div><b>Univers</b><br><a href="/shop/event/gender_reveal">Gender Reveal</a><br><a href="/shop/event/naissance">Naissance</a><br><a href="/shop/event/mariage">Mariage</a></div>
-      <div><b>Aide</b><br>Livraison 4.90€ - Gratuit dès 59€<br>Retours 14j<br>contact@leffetwaouh.fr</div>
+      <div>
+        <b style="font-family:Georgia,serif;font-size:18px">✦ L'Effet Waouh</b><br>
+        Vente & location d'animations<br>
+        qui créent l'effet waouh<br><br>
+        <span style="font-size:12px">📦 Stock à Nantes - Expédition 24h<br>
+        🚚 Livraison dès 4.90€ - Gratuit dès 59€<br>
+        💬 Réponse sous 2h</span>
+      </div>
+      <div>
+        <b>Univers</b><br>
+        <a href="/shop/event/gender_reveal">🎈 Gender Reveal - Ballons 90cm, fumigènes</a><br>
+        <a href="/shop/event/naissance">👶 Naissance - Guirlandes, BABY</a><br>
+        <a href="/shop/event/mariage">💍 Mariage - Cierges, confettis bio</a><br>
+        <a href="/shop/event/baby_shower">🍼 Baby Shower - Kits 70pcs</a><br>
+        <a href="/shop/c/packs">📦 Packs - Essentiel 44.90€</a>
+      </div>
+      <div>
+        <b>Besoin d'aide ?</b><br>
+        <a href="mailto:contact@leffetwaouh.fr">contact@leffetwaouh.fr</a><br>
+        Livraison & retours<br>
+        CGV / Mentions légales<br><br>
+        <b>Location premium</b><br>
+        Photobooth 360 - 550€/6h<br>
+        Miroir magique - 600€
+      </div>
     </div>
-    <div class="note">© 2026 L'Effet Waouh V2 - Marge moyenne 70% - Stock géré</div>
+    <div class="note">
+      <span>© 2026 L'Effet Waouh - Marge moyenne 70% - 30 produits en stock - 1975 unités</span>
+      <span>✦ On installe, on anime, vous profitez ✦</span>
+    </div>
   </div>
 </footer>
+
+<script src="/static/js/waouh.js"></script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

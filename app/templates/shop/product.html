@@ -1,70 +1,139 @@
 {% extends "base.html" %}
-{% block title %}{{ product['name'] }} - L'Effet Waouh{% endblock %}
+{% block title %}{{ product['name'] }} - {{ product['price_ttc'] }}€ - L'Effet Waouh{% endblock %}
 {% block content %}
-<section>
+<section style="padding:40px 0 20px;background:#fff;border-bottom:1px solid var(--line)">
   <div class="wrap">
-    <div class="grid2" style="align-items:start">
-      <div class="card">
-        <div style="background:#FBF7F1;border-radius:12px;height:340px;display:flex;align-items:center;justify-content:center;color:#9b8f80">
-          📸 {{ product['name'] }}<br><small>Image à ajouter dans /static/uploads/</small>
+    <div style="display:flex;gap:8px;align-items:center;font-size:13px;color:#8a7d6d;margin-bottom:16px">
+      <a href="/shop" style="color:var(--terra)">Boutique</a><span>/</span>
+      <a href="/shop/event/{{ product['event_type'] }}" style="color:var(--terra)">{{ product['event_type'] }}</a><span>/</span>
+      <span>{{ product['name'][:40] }}</span>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:30px">
+  <div class="wrap">
+    <div class="product-hero">
+      <!-- GALLERY -->
+      <div class="gallery">
+        <div class="gallery-main">
+          <img src="/static/images/01-hero.jpg" alt="{{ product['name'] }}" id="mainImg" onerror="this.src='/static/images/06-bulles-confettis.jpg'">
+          <div style="position:absolute;top:14px;left:14px;display:flex;gap:8px">
+            <span class="badge gold">{{ product['event_type'] }}</span>
+            {% if product['is_featured'] %}<span class="badge gold">★ Produit phare - marge {{ marge }}%</span>{% endif %}
+          </div>
+          <div style="position:absolute;top:14px;right:14px" class="badge" style="background:rgba(0,0,0,.7);color:#fff">📦 {{ product['stock_qty'] }} en stock</div>
         </div>
-        {% if images %}
-        <div style="display:flex;gap:8px;margin-top:10px">
-          {% for img in images %}<div style="width:60px;height:60px;background:#eee;border-radius:8px"></div>{% endfor %}
+        <div class="gallery-thumbs">
+          <div class="thumb active" data-img="/static/images/01-hero.jpg"><img src="/static/images/01-hero.jpg" alt=""></div>
+          <div class="thumb" data-img="/static/images/06-bulles-confettis.jpg"><img src="/static/images/06-bulles-confettis.jpg" alt=""></div>
+          <div class="thumb" data-img="/static/images/05-cierges-magiques.jpg"><img src="/static/images/05-cierges-magiques.jpg" alt=""></div>
+          <div class="thumb" data-img="/static/images/04-neon.jpg"><img src="/static/images/04-neon.jpg" alt=""></div>
+        </div>
+
+        <!-- Gender reveal demo -->
+        {% if product['event_type'] == 'gender_reveal' %}
+        <div style="margin-top:20px">
+          <h4 style="font-size:14px;text-transform:uppercase;letter-spacing:1px;color:#8a7d6d;margin-bottom:10px">🎈 Teste la révélation</h4>
+          <div class="gender-reveal" id="grDemo">
+            <div class="hint">Clique pour révéler ♀ ou ♂</div>
+          </div>
         </div>
         {% endif %}
       </div>
+
+      <!-- INFOS -->
       <div>
-        <span class="badge gold">{{ product['event_type'] }}</span>
-        {% if product['is_featured'] %}<span class="badge gold">★ Produit phare</span>{% endif %}
-        {% if product['is_consumable'] %}<span class="badge">Consommable - Pas de retour</span>{% endif %}
-        <h1 style="font-family:Georgia,serif;font-size:32px;margin:10px 0">{{ product['name'] }}</h1>
-        <p style="color:#6b5f52">{{ product['short_desc'] }}</p>
-        <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:16px 0">
-          <div class="price" style="font-size:32px">{{ product['price_ttc'] }}€ <small>TTC</small></div>
-          <div style="font-size:13px;color:#6b5f52">HT: {{ product['price_ht'] }}€ | TVA {{ product['tva_rate'] }}% | Coût achat {{ product['cost_price'] }}€ | Marge {{ marge }}%</div>
-          <div style="font-size:13px;margin-top:6px">📦 Stock: <b>{{ product['stock_qty'] }}</b> unités à Nantes | Poids: {{ product['weight_grams'] }}g</div>
+        <div class="reveal">
+          {% if product['is_consumable'] %}<span class="badge" style="background:#FFF3E0;color:#E65100">🔥 Consommable - pas de retour - marge max</span>{% endif %}
+          <h1 style="font-family:Georgia,serif;font-size:clamp(26px,3.5vw,38px);margin:12px 0;line-height:1.1">{{ product['name'] }}</h1>
+          <p style="color:#6b5f52;font-size:16px;line-height:1.5">{{ product['short_desc'] }}</p>
         </div>
 
-        <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px">
-          <h3>Choisir variante</h3>
+        <div class="card reveal" style="margin:20px 0;background:linear-gradient(135deg,#FFFBF5,#FAF6F0);border:2px solid var(--gold)">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px">
+            <div class="price" style="font-size:36px">{{ product['price_ttc'] }}€ <small>TTC</small></div>
+            <div style="text-align:right;font-size:12px;color:#6b5f52">
+              HT {{ product['price_ht'] }}€ • TVA {{ product['tva_rate'] }}%<br>
+              Coût achat {{ product['cost_price'] }}€ • <b style="color:var(--terra)">Marge {{ marge }}%</b>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;font-size:12px;color:#6b5f52">
+            <span>📦 {{ product['stock_qty'] }} unités à Nantes</span>
+            <span>•</span>
+            <span>⚖️ {{ product['weight_grams'] }}g</span>
+            <span>•</span>
+            <span>🚚 Expédition 24h</span>
+            <span>•</span>
+            <span style="color:#2E7D32">✅ En stock</span>
+          </div>
+        </div>
+
+        <div class="card reveal reveal-delay-1">
+          <h3 style="margin-bottom:14px">🎨 Choisis ta variante</h3>
           {% if variants %}
-          <form method="post" action="/cart/add">
+          <div style="margin-bottom:16px">
+            {% for v in variants %}
+            <div class="variant-pill {% if loop.first %}active{% endif %} {% if 'rose' in v['name']|lower %}rose{% elif 'bleu' in v['name']|lower %}bleu{% endif %}" 
+                 data-variant-id="{{ v['id'] }}" 
+                 data-color="{{ v['attribute_value'] if v['attribute_type']=='color' else '' }}"
+                 onclick="document.querySelectorAll('.variant-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');document.getElementById('variantInput').value=this.dataset.variantId; if(this.dataset.color){const gr=document.getElementById('grDemo'); if(gr) gr.className='gender-reveal '+this.dataset.color}">
+              {{ v['name'] }} • {{ v['price_ttc'] or product['price_ttc'] }}€ • {{ v['stock_qty'] }} en stock
+            </div>
+            {% endfor %}
+          </div>
+          <form method="post" action="/cart/add" id="addForm">
             <input type="hidden" name="product_id" value="{{ product['id'] }}">
-            <label>Variante</label>
-            <select name="variant_id" required>
-              {% for v in variants %}
-              <option value="{{ v['id'] }}">{{ v['name'] }} - {{ v['price_ttc'] or product['price_ttc'] }}€ (stock {{ v['stock_qty'] }})</option>
-              {% endfor %}
-            </select>
-            <label>Quantité</label>
-            <input type="number" name="quantity" value="1" min="1" max="20">
-            <button class="btn gold" style="width:100%">Ajouter au panier 🛒</button>
+            <input type="hidden" name="variant_id" id="variantInput" value="{{ variants[0]['id'] if variants else '' }}">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+              <label style="font-weight:600">Qté</label>
+              <input type="number" name="quantity" value="1" min="1" max="20" style="width:80px;margin:0">
+              <span style="font-size:12px;color:#8a7d6d">Max 20 • Remise lot dispo</span>
+            </div>
+            <button class="btn gold" style="width:100%;font-size:16px;padding:16px" onclick="createConfetti('#D9A441',40)">Ajouter au panier 🛒 • {{ product['price_ttc'] }}€</button>
           </form>
           {% else %}
           <form method="post" action="/cart/add">
             <input type="hidden" name="product_id" value="{{ product['id'] }}">
-            <label>Quantité</label>
-            <input type="number" name="quantity" value="1" min="1" max="20">
-            <button class="btn gold" style="width:100%">Ajouter au panier 🛒 - {{ product['price_ttc'] }}€</button>
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+              <label style="font-weight:600">Quantité</label>
+              <input type="number" name="quantity" value="1" min="1" max="20" style="width:80px;margin:0">
+            </div>
+            <button class="btn gold" style="width:100%;font-size:16px;padding:16px" onclick="createConfetti('#D9A441',40)">Ajouter au panier 🛒 • {{ product['price_ttc'] }}€</button>
           </form>
           {% endif %}
-          <p style="font-size:12px;color:#8a7d6d;margin-top:10px">Livraison 4.90€ Mondial Relay, 6.90€ Colissimo. Gratuit dès 59€. Expédition 24h depuis Nantes.</p>
+          <div style="margin-top:14px;padding:12px;background:var(--soft);border-radius:12px;font-size:13px;color:#5a4f42">
+            🚚 <b>Livraison :</b> Mondial Relay 4.90€ (gratuit dès 59€) • Colissimo 6.90€ (gratuit dès 79€) • Chronopost 14.90€<br>
+            ↩️ <b>Retours :</b> 14j si non consommable • {% if product['is_consumable'] %}Ce produit est consommable, pas de retour{% else %}Retour gratuit{% endif %}
+          </div>
         </div>
 
-        <div class="card" style="margin-top:16px">
-          <h3>Description</h3>
-          <p style="font-size:14px;color:#4a4035;white-space:pre-wrap">{{ product['long_desc'] or product['short_desc'] }}</p>
+        <div class="card reveal reveal-delay-2" style="margin-top:16px">
+          <h3>📦 Description complète</h3>
+          <p style="font-size:14px;color:#4a4035;white-space:pre-wrap;line-height:1.6;margin-top:8px">{{ product['long_desc'] or product['short_desc'] }}</p>
+          <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+            <div style="background:var(--soft);padding:12px;border-radius:10px"><b>SKU</b><br>{{ product['sku'] }}</div>
+            <div style="background:var(--soft);padding:12px;border-radius:10px"><b>Poids</b><br>{{ product['weight_grams'] }}g</div>
+            <div style="background:var(--soft);padding:12px;border-radius:10px"><b>Event</b><br>{{ product['event_type'] }}</div>
+            <div style="background:var(--soft);padding:12px;border-radius:10px"><b>Marge</b><br>{{ marge }}% • {{ (product['price_ttc']-product['cost_price'])|round(2) }}€ net</div>
+          </div>
         </div>
       </div>
     </div>
 
     {% if similar %}
-    <h2 style="font-family:Georgia,serif;margin:40px 0 16px">Souvent achetés ensemble</h2>
-    <div class="grid4">
-      {% for s in similar %}
-      <div class="card"><h3><a href="/shop/p/{{ s['slug'] }}">{{ s['name'] }}</a></h3><div class="price">{{ s['price_ttc'] }}€</div><a class="btn small" href="/shop/p/{{ s['slug'] }}">Voir</a></div>
-      {% endfor %}
+    <div style="margin-top:60px" class="reveal">
+      <h2 style="font-family:Georgia,serif;font-size:28px;margin-bottom:16px">Souvent achetés <em style="color:var(--terra)">ensemble</em></h2>
+      <div class="grid4">
+        {% for s in similar %}
+        <div class="card">
+          <div class="card-img" style="height:140px"><img src="/static/images/06-bulles-confettis.jpg" alt="" onerror="this.style.display='none'"><div class="overlay"></div></div>
+          <h3 style="font-size:16px"><a href="/shop/p/{{ s['slug'] }}">{{ s['name'] }}</a></h3>
+          <div class="price">{{ s['price_ttc'] }}€</div>
+          <a class="btn small" href="/shop/p/{{ s['slug'] }}" style="margin-top:8px">Voir</a>
+        </div>
+        {% endfor %}
+      </div>
     </div>
     {% endif %}
   </div>

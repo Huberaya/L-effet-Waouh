@@ -1,50 +1,175 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- HERO ANIMÉ -->
 <div class="hero">
-  <div class="wrap">
-    <h1>Vente & Location <em>d'effet Waouh</em></h1>
-    <p>Gender Reveal, naissance, mariage : les gadgets qui font le buzz, livrés en 48h. Location premium avec opérateur le week-end.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-      <a class="btn gold" href="/shop/event/gender_reveal">🎈 Voir Gender Reveal</a>
-      <a class="btn ghost" style="color:#fff;border-color:#fff" href="/shop">Toute la boutique</a>
+  <div class="hero-bg">
+    <img src="/static/images/01-hero.jpg" alt="Mariage effet waouh" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-shade"></div>
+  <div class="hero-float hero-float-1"></div>
+  <div class="hero-float hero-float-2"></div>
+  <div class="hero-float hero-float-3"></div>
+  
+  <div class="hero-content">
+    <div class="hero-kick">✦ Nouveau • Vente + Location • Stock Nantes</div>
+    <h1>Le matériel qui crée <em>l'effet Waouh</em> à chaque fête</h1>
+    <p class="lead">Gender reveal, naissance, mariage : ballons éclatables 90cm, fumigènes rose/bleu, cierges magiques, confettis bio. <b>Livrés en 48h, loués avec opérateur le week-end.</b></p>
+    <div class="hero-cta">
+      <a class="btn gold" href="/shop/event/gender_reveal">🎈 Voir Gender Reveal - dès 3.90€ →</a>
+      <a class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.5)" href="/shop">Toute la boutique</a>
     </div>
-    <p style="margin-top:16px;font-size:13px;color:#cdbfae">{{ nb_products }} produits · {{ nb_gr }} gender reveal · Livraison dès 4.90€ - Gratuit dès 59€</p>
+    <div class="hero-chips">
+      <span class="chip">📦 <b>{{ nb_products }} produits</b> en stock</span>
+      <span class="chip">🎈 <b>{{ nb_gr }} gender reveal</b> best-sellers</span>
+      <span class="chip">🚚 <b>4.90€</b> livraison - gratuit dès 59€</span>
+      <span class="chip">⚡ <b>24h</b> expédition Nantes</span>
+      <span class="chip">💎 <b>70%</b> marge moyenne</span>
+    </div>
   </div>
 </div>
 
+<!-- UNIVERS ANIMÉS -->
 <section>
   <div class="wrap">
-    <h2 style="font-family:Georgia,serif;font-size:32px;margin-bottom:8px">Nos univers <em style="color:var(--terra)">les plus vendus</em></h2>
-    <p style="color:#6b5f52;margin-bottom:20px">De l'annonce du sexe à la sortie de mairie, tout est en stock à Nantes.</p>
+    <div class="reveal">
+      <h2 class="sec-title">Quatre univers, <em>un seul effet : Waouh</em></h2>
+      <p class="sec-sub">De l'annonce du sexe de bébé à la sortie de mairie, tout est en stock à Nantes. Clique, découvre, commande, reçois en 48h.</p>
+    </div>
+    
     <div class="grid4">
-      <a href="/shop/event/gender_reveal" class="card"><span class="badge gold">Tendance #1</span><h3>🎈 Gender Reveal</h3><p style="font-size:13px;color:#5c5246">Ballons 90cm, fumigènes, canons confettis rose/bleu</p><div class="price">dès 3.90€</div></a>
-      <a href="/shop/event/naissance" class="card"><span class="badge">Nouveau</span><h3>👶 Naissance</h3><p style="font-size:13px;color:#5c5246">Guirlandes, ballons BABY, kits empreintes</p><div class="price">dès 7.90€</div></a>
-      <a href="/shop/event/mariage" class="card"><span class="badge">Best marge</span><h3>💍 Mariage Vente</h3><p style="font-size:13px;color:#5c5246">Cierges lot 50, confettis bio 1kg, bulles</p><div class="price">dès 14.90€</div></a>
-      <a href="/shop/event/baby_shower" class="card"><span class="badge">Pack</span><h3>🍼 Baby Shower</h3><p style="font-size:13px;color:#5c5246">Kits déco 70 pièces fille/garçon</p><div class="price">24.90€</div></a>
+      <a href="/shop/event/gender_reveal" class="card reveal">
+        <div class="card-img" style="background:linear-gradient(135deg,#FFF0F3,#FFE4E9)">
+          <img src="/static/images/06-bulles-confettis.jpg" alt="Gender Reveal" onerror="this.parentElement.innerHTML='<div style=display:flex;align-items:center;justify-content:center;height:100%;font-size:48px>🎈</div>'">
+          <div class="overlay"></div>
+          <span style="position:absolute;top:12px;left:12px" class="badge gold">🔥 Tendance #1 TikTok</span>
+        </div>
+        <h3>🎈 Gender Reveal</h3>
+        <p class="desc">Ballons éclatables 90cm, fumigènes rose/bleu, canons confettis. Le viral 2026.</p>
+        <div class="price">dès 3.90€ <small>• 12 produits • 1200 en stock</small></div>
+      </a>
+      
+      <a href="/shop/event/naissance" class="card reveal reveal-delay-1">
+        <div class="card-img" style="background:linear-gradient(135deg,#E1F5FE,#FFF8E1)">
+          <img src="/static/images/08-piscine-balles.jpg" alt="Naissance" onerror="this.parentElement.innerHTML='<div style=display:flex;align-items:center;justify-content:center;height:100%;font-size:48px>👶</div>'">
+          <div class="overlay"></div>
+          <span style="position:absolute;top:12px;left:12px" class="badge new">💛 Récurrence</span>
+        </div>
+        <h3>👶 Naissance</h3>
+        <p class="desc">Guirlandes Bienvenue Bébé, ballons BABY, kits empreintes. Même cliente revient.</p>
+        <div class="price">dès 7.90€ <small>• 6 produits • marge 77%</small></div>
+      </a>
+      
+      <a href="/shop/event/mariage" class="card reveal reveal-delay-2">
+        <div class="card-img" style="background:linear-gradient(135deg,#FAF6F0,#F3EAE0)">
+          <img src="/static/images/05-cierges-magiques.jpg" alt="Mariage" onerror="this.parentElement.innerHTML='<div style=display:flex;align-items:center;justify-content:center;height:100%;font-size:48px>💍</div>'">
+          <div class="overlay"></div>
+          <span style="position:absolute;top:12px;left:12px" class="badge gold">💎 Best marge</span>
+        </div>
+        <h3>💍 Mariage Vente</h3>
+        <p class="desc">Cierges lot 50, confettis bio 1kg, bulles. Cross-sell avec location photobooth.</p>
+        <div class="price">dès 14.90€ <small>• 9 produits • 445 en stock</small></div>
+      </a>
+      
+      <a href="/shop/event/baby_shower" class="card reveal reveal-delay-3">
+        <div class="card-img" style="background:linear-gradient(135deg,#F3E5F5,#FFF0F3)">
+          <img src="/static/images/10-vin-honneur.jpg" alt="Baby Shower" onerror="this.parentElement.innerHTML='<div style=display:flex;align-items:center;justify-content:center;height:100%;font-size:48px>🍼</div>'">
+          <div class="overlay"></div>
+          <span style="position:absolute;top:12px;left:12px" class="badge rose">🎁 Pack</span>
+        </div>
+        <h3>🍼 Baby Shower</h3>
+        <p class="desc">Kits déco 70 pièces fille/garçon, cartes pronostics. Tout en un.</p>
+        <div class="price">24.90€ <small>• kits complets</small></div>
+      </a>
     </div>
 
-    <h2 style="font-family:Georgia,serif;font-size:28px;margin:40px 0 16px">Produits <em style="color:var(--terra)">phares</em> - Marge 70%</h2>
+    <!-- PRODUITS PHARES ANIMÉS -->
+    <div class="reveal" style="margin-top:60px">
+      <h2 class="sec-title">Best-sellers <em>à 70% de marge</em> — stock Nantes</h2>
+      <p class="sec-sub">Ce que TikTok achète tous les jours. Ajoute au panier, reçois en 48h.</p>
+    </div>
+    
     <div class="grid4">
       {% for p in featured %}
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span class="badge {% if p['event_type']=='gender_reveal' %}gold{% endif %}">{{ p['event_type'] }}</span>
-          {% if p['is_featured'] %}<span class="badge gold">★ Phare</span>{% endif %}
+      <div class="card reveal" style="transition-delay: {{ loop.index * 0.05 }}s">
+        <div class="card-img">
+          <img src="/static/images/02-photobooth-360.jpg" alt="{{ p['name'] }}" onerror="this.style.display='none'">
+          <div class="overlay"></div>
+          <div style="position:absolute;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap">
+            <span class="badge {% if 'rose' in p['name']|lower %}rose{% elif 'bleu' in p['name']|lower %}bleu{% else %}gold{% endif %}">{{ p['event_type'] }}</span>
+            {% if p['is_featured'] %}<span class="badge gold">★ Phare</span>{% endif %}
+          </div>
+          <div style="position:absolute;bottom:10px;right:10px" class="badge" style="background:rgba(0,0,0,.7);color:#fff">{{ p['stock_qty'] }} en stock</div>
         </div>
         <h3><a href="/shop/p/{{ p['slug'] }}">{{ p['name'] }}</a></h3>
-        <p style="font-size:12px;color:#8a7d6d">{{ p['short_desc'][:70] }}</p>
-        <div class="price">{{ p['price_ttc'] }}€ <small>/ {{ p['stock_qty'] }} en stock</small></div>
-        <div style="margin-top:8px"><a class="btn small" href="/shop/p/{{ p['slug'] }}">Voir</a></div>
+        <p class="desc">{{ p['short_desc'][:75] }}</p>
+        <div class="price">{{ p['price_ttc'] }}€ <small>TTC • coût {{ p['cost_price'] }}€ • marge {{ ((p['price_ttc']-p['cost_price'])/p['price_ttc']*100)|round(0) }}%</small></div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <a class="btn small" href="/shop/p/{{ p['slug'] }}">Voir détails</a>
+          <form method="post" action="/cart/add" style="margin:0">
+            <input type="hidden" name="product_id" value="{{ p['id'] }}">
+            <input type="hidden" name="quantity" value="1">
+            <button class="btn small gold">+ Panier</button>
+          </form>
+        </div>
       </div>
       {% endfor %}
     </div>
 
-    <div style="margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;justify-content:space-between">
-      <div>
-        <h3 style="font-family:Georgia,serif">📦 Stock réel à Nantes - Expédition 24h</h3>
-        <p style="color:#6b5f52;font-size:14px">Pas de dropshipping. 1500€ de stock initial = 1975 unités. Marge 70%.</p>
+    <!-- GENDER REVEAL INTERACTIF -->
+    <div class="reveal" style="margin-top:80px">
+      <div style="background:#1a1a1a;border-radius:24px;padding:30px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,107,138,.3),transparent);border-radius:50%;filter:blur(20px)"></div>
+        <div style="position:absolute;bottom:-30px;left:-30px;width:150px;height:150px;background:radial-gradient(circle,rgba(79,195,247,.3),transparent);border-radius:50%;filter:blur(20px)"></div>
+        
+        <div class="grid2" style="align-items:center;position:relative;z-index:1">
+          <div>
+            <span class="badge rose" style="font-size:12px;padding:6px 12px">🎈 Expérience interactive</span>
+            <h2 style="font-family:Georgia,serif;font-size:36px;color:#fff;margin:16px 0;line-height:1.1">Teste le <em style="color:var(--gold2)">gender reveal</em> en live</h2>
+            <p style="color:#cdc2b2;font-size:16px;margin-bottom:20px">Clique sur le point d'interrogation pour révéler rose ou bleu. C'est exactement ce que tes clients vivent.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <a class="btn rose" href="/shop/event/gender_reveal">Voir catalogue Gender Reveal →</a>
+              <span style="color:#8d8172;font-size:13px;align-self:center">12 produits • dès 3.90€ • 1200 en stock</span>
+            </div>
+          </div>
+          <div class="gender-reveal" onclick="this.classList.contains('rose')||this.classList.contains('bleu')?'':(Math.random()>0.5?this.classList.add('rose'):this.classList.add('bleu'),createConfetti(this.classList.contains('rose')?'#FF6B8A':'#4FC3F7',80),this.querySelector('.hint').textContent=this.classList.contains('rose')?'C’est une fille ! ♀':'C’est un garçon ! ♂')">
+            <div class="hint">Clique pour révéler 🎈</div>
+          </div>
+        </div>
       </div>
-      <div><a class="btn gold" href="/admin-v2">Voir Admin V2 →</a></div>
+    </div>
+
+    <!-- CHIFFRES ANIMÉS -->
+    <div class="grid4" style="margin-top:60px">
+      <div class="card reveal" style="text-align:center;background:linear-gradient(135deg,#2F2A25,#4a3a2c);color:#fff;border:none">
+        <div style="font-size:42px;font-family:Georgia,serif;font-weight:800;color:var(--gold2)">1975</div>
+        <div style="font-size:13px;color:#cdc2b2;text-transform:uppercase;letter-spacing:1px;font-weight:600">Unités en stock à Nantes</div>
+      </div>
+      <div class="card reveal reveal-delay-1" style="text-align:center;background:linear-gradient(135deg,#B0764A,#C67B4F);color:#fff;border:none">
+        <div style="font-size:42px;font-family:Georgia,serif;font-weight:800">70%</div>
+        <div style="font-size:13px;color:#f0e6d6;text-transform:uppercase;letter-spacing:1px;font-weight:600">Marge moyenne vente</div>
+      </div>
+      <div class="card reveal reveal-delay-2" style="text-align:center;background:linear-gradient(135deg,#D9A441,#E8B26A);color:#fff;border:none">
+        <div style="font-size:42px;font-family:Georgia,serif;font-weight:800">24h</div>
+        <div style="font-size:13px;color:#fff;text-transform:uppercase;letter-spacing:1px;font-weight:600">Expédition depuis Nantes</div>
+      </div>
+      <div class="card reveal reveal-delay-3" style="text-align:center;background:#fff">
+        <div style="font-size:42px;font-family:Georgia,serif;font-weight:800;color:var(--terra)">1500€</div>
+        <div style="font-size:13px;color:#6b5f52;text-transform:uppercase;letter-spacing:1px;font-weight:600">Stock initial = 2 cartons</div>
+      </div>
+    </div>
+
+    <!-- CTA FINAL -->
+    <div class="reveal" style="margin-top:60px;background:linear-gradient(135deg,#2F2A25 0%,#4a3a2c 50%,#6b4a2f 100%);border-radius:24px;padding:50px 30px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(217,164,65,.15),transparent 50%),radial-gradient(circle at 70% 50%,rgba(255,107,138,.1),transparent 50%)"></div>
+      <div style="position:relative;z-index:1">
+        <h2 style="font-family:Georgia,serif;font-size:clamp(28px,4vw,44px);color:#fff;margin-bottom:14px">Prêt à créer <em style="color:var(--gold2)">l'effet Waouh</em> ?</h2>
+        <p style="color:#e6d9c6;max-width:600px;margin:0 auto 28px;font-size:17px">30 produits en stock, livraison 48h, location premium le week-end. La boutique qui tourne tous les jours, pas que le samedi.</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+          <a class="btn gold" href="/shop/event/gender_reveal">🎈 Commander Gender Reveal</a>
+          <a class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" href="/shop">Voir toute la boutique</a>
+          <a class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" href="/admin-v2">Voir Admin V2 →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
