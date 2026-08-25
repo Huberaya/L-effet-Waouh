@@ -24,12 +24,13 @@ app = FastAPI(
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 # Routers
-from .routers import shop, cart, checkout, admin, shop_v3
+from .routers import shop, cart, checkout, admin, shop_v3, admin_v3
 app.include_router(shop.router)
 app.include_router(shop_v3.router)
 app.include_router(cart.router)
 app.include_router(checkout.router)
 app.include_router(admin.router)
+app.include_router(admin_v3.router)
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):

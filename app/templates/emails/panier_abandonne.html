@@ -1,0 +1,16 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h1 style="font-family:Georgia,serif">Votre panier vous attend 🛒</h1>
+<p>Vous avez laissé quelques produits dans votre panier:</p>
+<ul>
+  {% for item in cart_items %}
+  <li>{{ item.name }} — {{ item.price }}€ x {{ item.qty }}</li>
+  {% endfor %}
+</ul>
+<div style="background:#FFFBF5;border:1px solid #EDE6DC;padding:16px;margin:20px 0">
+  <b>💡 Ajoutez {{ remaining_for_free_shipping }}€ pour livraison gratuite!</b><br>
+  <small>Seuil 75€ — Mondial Relay 4.90€ sinon</small>
+</div>
+<p style="text-align:center"><a href="https://leffetwaouh.fr/cart" class="btn">Finaliser ma commande →</a></p>
+<p style="font-size:12px;color:#999">Stock Nantes 48h — Paiement sécurisé Stripe</p>
+{% endblock %}

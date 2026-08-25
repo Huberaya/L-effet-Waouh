@@ -88,14 +88,21 @@
 
       <!-- PERSONNALISATION -->
       <div style="margin-bottom:20px;background:#FFFBF5;border:1px solid var(--line);padding:16px;border-radius:12px">
-        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:10px">Personnalisation — Aperçu live</div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:10px">Personnalisation — Aperçu live canvas</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-          <input placeholder="Prénom" style="border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px">
-          <input placeholder="Date" style="border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px">
+          <input id="input-prenom" placeholder="Prénom" value="Léon" style="border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px">
+          <input id="input-date" placeholder="Date" value="12.03.2026" style="border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px">
         </div>
-        <input placeholder="Message (optionnel)" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px;margin-bottom:12px">
-        <div style="background:#fff;border:1px solid var(--line);padding:12px;text-align:center;font-family:var(--serif);font-size:20px;border-radius:8px">Léon — 12.03.2026</div>
-        <div style="font-size:11px;color:#999;margin-top:8px">Canvas preview JS à implémenter — génère PDF/image pour POD</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+          <input id="input-poids" placeholder="Poids Taille Heure" value="3.2kg — 50cm — 14h32" style="border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px">
+          <select id="ballon-color" style="border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px"><option value="or">Or</option><option value="rose">Rose</option><option value="bleu">Bleu</option></select>
+        </div>
+        <input id="input-message" placeholder="Message (optionnel)" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px;margin-bottom:12px">
+        <div style="background:#fff;border:1px solid var(--line);padding:8px;border-radius:8px;text-align:center">
+          <canvas id="affiche-canvas" width="400" height="300" style="max-width:100%;height:auto;border:1px solid #f5f5f5"></canvas>
+          <div id="ballon-preview-text" style="font-family:var(--serif);font-size:20px;margin-top:8px">Léon</div>
+        </div>
+        <div style="font-size:11px;color:#999;margin-top:8px">✅ Canvas live → export PNG pour POD Printful/imprimeur Nantes → production 24/48h</div>
       </div>
 
       <form method="post" action="/cart/add" style="margin-bottom:20px">

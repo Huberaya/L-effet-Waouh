@@ -1,0 +1,14 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h1 style="font-family:Georgia,serif">Merci {{ prenom }}! 🎉</h1>
+<p>Votre commande <b>{{ order_number }}</b> est confirmée.</p>
+<p>Elle est préparée à Nantes avec soin.</p>
+<ul>
+  <li>Total: {{ total }}€</li>
+  <li>Livraison: {{ shipping_method }} — {{ shipping_cost }}€</li>
+  <li>Délai: {{ delai }}</li>
+</ul>
+<p><b>Prochaines étapes:</b><br>
+Préparation 24h → Expédition + tracking → Livraison → Demande avis J+7</p>
+<p style="text-align:center"><a href="https://leffetwaouh.fr/shop" class="btn">Voir nos kits →</a></p>
+{% endblock %}

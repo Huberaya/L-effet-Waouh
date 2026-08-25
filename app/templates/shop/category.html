@@ -1,47 +1,32 @@
-{% extends "base.html" %}
-{% block title %}{{ title }} — Portfolio{% endblock %}
+{% extends "base_v3.html" %}
 {% block content %}
-<section style="padding:140px 0 60px;background:#fff">
-  <div class="wrap">
-    <div class="section-label">Portfolio • {{ products|length }} produits</div>
-    <h1 style="font-family:var(--serif);font-size:clamp(40px,6vw,72px);line-height:.9;letter-spacing:-2px;margin-bottom:20px">
-      {% if current_category %}{{ current_category['name'] }}{% else %}{{ title }}{% endif %}
-    </h1>
-    <p style="max-width:600px;color:#6a6a6a;font-weight:300;font-size:18px">
-      {% if current_category %}{{ current_category['description'] }}{% else %}Une sélection où la lumière devient matière. Stock Nantes, expédition 24h, marge 70%.{% endif %}
-    </p>
-    
-    <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
-      <a href="/shop" class="btn small {% if not current_event %}gold{% else %}ghost{% endif %}">Tout</a>
-      <a href="/shop/event/gender_reveal" class="btn small {% if current_event=='gender_reveal' %}gold{% else %}ghost{% endif %}">Gender Reveal 🎈</a>
-      <a href="/shop/event/mariage" class="btn small {% if current_event=='mariage' %}gold{% else %}ghost{% endif %}">Mariage 💍</a>
-      <a href="/shop/event/naissance" class="btn small {% if current_event=='naissance' %}gold{% else %}ghost{% endif %}">Naissance 👶</a>
-    </div>
+<div style="padding-top:90px"></div>
+<div class="wrap">
+  <div class="section-label">Boutique — {{ title }}</div>
+  <h1 class="sec-title">{{ title }}</h1>
+  {% if current_category %}
+  <p class="sec-sub">{{ current_category.description or '' }}</p>
+  {% endif %}
+  {% if categories %}
+  <div class="chips" style="margin:16px 0">
+    {% for cat in categories %}
+    <a href="/shop/c/{{ cat.slug }}" class="chip">{{ cat.name }}</a>
+    {% endfor %}
   </div>
-</section>
-
-<section style="padding:0 0 120px">
-  <div class="wrap">
-    <div class="portfolio-grid" style="grid-template-columns:repeat(3,1fr)">
-      {% for p in products %}
-      <a href="/shop/p/{{ p['slug'] }}" class="portfolio-item reveal" style="transition-delay: {{ (loop.index % 6) * 0.06 }}s">
-        {% set img = "06-bulles-confettis.jpg" %}
-        {% if 'ballon' in p['name']|lower %}{% set img = "06-bulles-confettis.jpg" %}
-        {% elif 'fumigene' in p['name']|lower %}{% set img = "09-premiere-danse.jpg" %}
-        {% elif 'cierge' in p['name']|lower %}{% set img = "05-cierges-magiques.jpg" %}
-        {% elif 'neon' in p['name']|lower %}{% set img = "04-neon.jpg" %}
-        {% elif 'guirlande' in p['name']|lower or 'BABY' in p['name'] %}{% set img = "10-vin-honneur.jpg" %}
-        {% endif %}
-        <img src="/static/images/{{ img }}" alt="{{ p['name'] }}" loading="lazy">
-        <div class="info">
-          <div class="cat">{{ p['event_type'] }} • {% if p['is_featured'] %}★ Phare • {% endif %}{{ p['stock_qty'] }} en stock</div>
-          <h3>{{ p['name'] }}</h3>
-          <div class="price">{{ p['price_ttc'] }}€ TTC • Marge {{ ((p['price_ttc']-p['cost_price'])/p['price_ttc']*100)|round(0) if p['cost_price'] else 70 }}% • {{ p['short_desc'][:50] }}</div>
-        </div>
-        <div class="plus">→</div>
-      </a>
-      {% endfor %}
-    </div>
+  {% endif %}
+  <div class="prod-grid" style="margin-top:24px">
+    {% for p in products %}
+    <a href="/shop/p/{{ p.slug }}" class="prod-card">
+      <div class="img"><img src="/static/images/06-bulles-confettis.jpg" alt="{{ p.name }}" loading="lazy"></div>
+      <div class="badges"><span class="badge gold">{{ p.event_type }}</span>{% if p.is_featured %}<span class="badge ink">Best</span>{% endif %}</div>
+      <h4>{{ p.name }}</h4>
+      <div class="desc">{{ p.short_desc[:70] if p.short_desc else '' }}</div>
+      <div class="price">{{ p.price_ttc }}€ <small>• {{ p.stock_qty }} en stock</small></div>
+    </a>
+    {% endfor %}
   </div>
-</section>
+  {% if not products %}
+  <div style="text-align:center;padding:60px">Aucun produit — <a href="/shop">voir toute la boutique</a></div>
+  {% endif %}
+</div>
 {% endblock %}

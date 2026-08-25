@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>
+body{font-family:-apple-system, sans-serif;background:#FFFBF5;color:#121212;margin:0;padding:0}
+.wrap{max-width:600px;margin:0 auto;background:#fff;border:1px solid #EDE6DC}
+.header{padding:20px;text-align:center;border-bottom:1px solid #EDE6DC}
+.header b{font-family:Georgia, serif;font-size:20px}
+.content{padding:24px;line-height:1.6}
+.btn{display:inline-block;padding:12px 20px;background:#121212;color:#fff;border-radius:999px;text-decoration:none;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.footer{padding:20px;text-align:center;font-size:11px;color:#999;border-top:1px solid #EDE6DC}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="header"><b>L'Effet Waouh</b><br><small style="letter-spacing:2px;text-transform:uppercase;color:#B0764A">La marque des grands moments de vie</small></div>
+  <div class="content">{% block content %}{% endblock %}</div>
+  <div class="footer">📦 Stock Nantes — 48h • 🚚 Gratuit dès 75€ • ⭐ Avis vérifiés<br>© 2026 L'Effet Waouh — <a href="https://leffetwaouh.fr">leffetwaouh.fr</a> | <a href="{{ unsubscribe_url }}">Se désabonner</a></div>
+</div>
+</body>
+</html>
