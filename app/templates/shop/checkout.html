@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <div class="wrap" style="max-width:700px">
+    <h1 style="font-family:Georgia,serif">Commande - Livraison</h1>
+    <div class="grid2">
+      <div class="card">
+        <h3>Résumé ({{ items|length }} articles)</h3>
+        {% for it in items %}
+        <div style="display:flex;justify-content:space-between;font-size:14px;padding:4px 0;border-bottom:1px solid #eee">
+          <span>{{ it['name'] }} x{{ it['quantity'] }}</span><b>{{ (it['quantity']*it['price_ttc_at_add'])|round(2) }}€</b>
+        </div>
+        {% endfor %}
+        <div style="text-align:right;margin-top:10px;font-size:18px"><b>Total produits: {{ total_ttc|round(2) }}€</b></div>
+      </div>
+      <div class="card">
+        <h3>Livraison</h3>
+        {% for sm in shipping_methods %}
+        <div style="font-size:13px;padding:6px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px">
+          <b>{{ sm['name'] }}</b> - {{ sm['price_ttc'] }}€ {% if sm['free_from'] %}<small>(gratuit dès {{ sm['free_from'] }}€)</small>{% endif %}<br>
+          <small>{{ sm['estimated_days_min'] }}-{{ sm['estimated_days_max'] }} jours - {{ sm['carrier'] }}</small>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>Vos informations</h3>
+      <form method="post" action="/checkout/confirm">
+        <div class="grid2">
+          <div><label>Prénom *</label><input name="first_name" required></div>
+          <div><label>Nom *</label><input name="last_name" required></div>
+        </div>
+        <label>Email *</label><input type="email" name="email" required>
+        <label>Téléphone</label><input name="phone">
+        <label>Adresse *</label><input name="street" required placeholder="12 rue de la Paix">
+        <div class="grid2">
+          <div><label>Code postal *</label><input name="zip_code" required></div>
+          <div><label>Ville *</label><input name="city" required></div>
+        </div>
+        <label>Mode livraison *</label>
+        <select name="shipping_method" required>
+          {% for sm in shipping_methods %}
+          <option value="{{ sm['code'] }}">{{ sm['name'] }} - {{ sm['price_ttc'] }}€</option>
+          {% endfor %}
+        </select>
+        <label>Notes (optionnel)</label><textarea name="notes" rows="2" placeholder="Code porte, étage..."></textarea>
+        <button class="btn gold" style="width:100%;margin-top:12px">Payer {{ total_ttc|round(2) }}€ + livraison →</button>
+        <p style="font-size:11px;color:#8a7d6d;text-align:center;margin-top:8px">Paiement sécurisé Stripe - Test mode pour l'instant (pas de vrai paiement)</p>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

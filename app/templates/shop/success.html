@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <div class="wrap" style="max-width:600px;text-align:center">
+    <div class="card" style="padding:40px">
+      <div style="font-size:48px">✅</div>
+      <h1 style="font-family:Georgia,serif">Merci ! Commande {{ order['number'] }}</h1>
+      <p style="color:#6b5f52">Un email de confirmation va vous être envoyé à {{ order['email'] }}</p>
+      <div style="background:#FBF7F1;border-radius:12px;padding:16px;margin:16px 0;text-align:left">
+        <b>Résumé :</b><br>
+        {% for it in items %}
+        {{ it['name_snapshot'] }} x{{ it['quantity'] }} = {{ it['total_ttc'] }}€<br>
+        {% endfor %}
+        <hr style="margin:10px 0">
+        Total TTC: <b>{{ order['total_ttc']|round(2) }}€</b> dont livraison {{ order['shipping_cost_ttc'] }}€<br>
+        Livraison: {{ order['shipping_method_code'] }}<br>
+        Statut: <span class="badge gold">{{ order['status'] }}</span>
+      </div>
+      <a class="btn gold" href="/shop">Continuer vos achats</a>
+      <a class="btn ghost" href="/admin-v2">Voir dans Admin</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

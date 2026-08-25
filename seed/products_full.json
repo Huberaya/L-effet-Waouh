@@ -1,0 +1,87 @@
+[
+  {
+    "sku": "GR-BAL-90-001",
+    "slug": "ballon-eclatable-gender-reveal-90cm",
+    "name": "Ballon Éclatable Gender Reveal 90cm + Confettis",
+    "event_type": "gender_reveal",
+    "categories": ["gender-ballon", "gender-reveal"],
+    "price_ttc": 10.0,
+    "cost_price": 2.5,
+    "stock": 150,
+    "weight": 200,
+    "is_featured": true,
+    "is_consumable": true,
+    "images": ["ballon-noir-90cm.jpg"],
+    "variants": [
+      {"sku": "GR-BAL-90-001-ROSE", "name": "Rose - Fille", "color": "rose", "price": 10.0, "stock": 80},
+      {"sku": "GR-BAL-90-001-BLEU", "name": "Bleu - Garçon", "color": "bleu", "price": 10.0, "stock": 70}
+    ],
+    "seo": {"title": "Ballon Gender Reveal 90cm Rose ou Bleu - Annonce Sexe Bébé", "keywords": "ballon gender reveal, ballon rose bleu, annonce sexe bebe"}
+  },
+  {
+    "sku": "GR-FUM-002",
+    "slug": "fumigenes-couleur-rose-bleu-lot-2",
+    "name": "Fumigènes Couleur Gender Reveal - Lot de 2",
+    "event_type": "gender_reveal",
+    "categories": ["gender-fumigene"],
+    "price_ttc": 14.9,
+    "cost_price": 4.0,
+    "stock": 80,
+    "is_featured": true,
+    "variants": [
+      {"sku": "GR-FUM-002-ROSE", "name": "Rose x2", "color": "rose", "price": 14.9, "stock": 40},
+      {"sku": "GR-FUM-002-BLEU", "name": "Bleu x2", "color": "bleu", "price": 14.9, "stock": 40}
+    ]
+  },
+  {
+    "sku": "GR-CAN-30-003",
+    "slug": "canon-confettis-gender-reveal-30cm",
+    "name": "Canon à Confettis Gender Reveal 30cm",
+    "event_type": "gender_reveal",
+    "categories": ["gender-canon-confetti"],
+    "price_ttc": 3.9,
+    "cost_price": 0.9,
+    "stock": 300,
+    "is_featured": true,
+    "variants": [
+      {"sku": "GR-CAN-30-003-ROSE-X1", "name": "Rose x1", "pack": "x1", "price": 3.9, "stock": 100},
+      {"sku": "GR-CAN-30-003-BLEU-X1", "name": "Bleu x1", "pack": "x1", "price": 3.9, "stock": 100},
+      {"sku": "GR-CAN-30-003-ROSE-X3", "name": "Rose x3 (-10%)", "pack": "x3", "price": 10.5, "stock": 50}
+    ]
+  },
+  {
+    "sku": "PACK-GR-ESSENT-040",
+    "slug": "pack-gender-reveal-essentiel",
+    "name": "Pack Gender Reveal Essentiel",
+    "event_type": "gender_reveal",
+    "categories": ["gender-reveal"],
+    "price_ttc": 44.9,
+    "cost_price": 15.0,
+    "stock": 40,
+    "is_featured": true,
+    "bundle": ["GR-BAL-90-001", "GR-FUM-002", "GR-CAN-30-003 x3", "GR-GRAT-005", "GR-HOLI-006"],
+    "description": "Le pack le plus vendu : ballon 90cm + 2 fumigènes + 3 canons + cartes + poudre"
+  },
+  {
+    "sku": "MAR-CIERGE-020",
+    "slug": "cierges-magiques-lot-50-40cm",
+    "name": "Cierges Magiques 40cm - Lot de 50",
+    "event_type": "mariage",
+    "categories": ["mariage-cierges"],
+    "price_ttc": 28.9,
+    "cost_price": 9.0,
+    "stock": 100,
+    "is_featured": true,
+    "is_consumable": true
+  },
+  {
+    "sku": "MAR-CONFET-BIO-022",
+    "slug": "confettis-biodegradables-blanc-lot-1kg",
+    "name": "Confettis Biodégradables Blancs 1kg",
+    "event_type": "mariage",
+    "categories": ["mariage-confettis"],
+    "price_ttc": 19.9,
+    "cost_price": 5.0,
+    "stock": 60
+  }
+]

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}L'Effet Waouh - Vente & Location{% endblock %}</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="in">
+    <a href="/" class="brand"><span>✦</span> L'Effet Waouh <small>V2 VENTE</small></a>
+    <div class="nav">
+      <a href="/shop">Boutique</a>
+      <a href="/shop/event/gender_reveal">Gender Reveal 🎈</a>
+      <a href="/shop/event/naissance">Naissance 👶</a>
+      <a href="/shop/event/mariage">Mariage 💍</a>
+      <a href="/shop/event/baby_shower">Baby Shower</a>
+      <a href="/cart">Panier 🛒</a>
+      <a href="/admin-v2">Admin</a>
+    </div>
+  </div>
+</div>
+{% block content %}{% endblock %}
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><b>L'Effet Waouh V2</b><br>Vente & location d'animations<br>Nantes - France entière</div>
+      <div><b>Univers</b><br><a href="/shop/event/gender_reveal">Gender Reveal</a><br><a href="/shop/event/naissance">Naissance</a><br><a href="/shop/event/mariage">Mariage</a></div>
+      <div><b>Aide</b><br>Livraison 4.90€ - Gratuit dès 59€<br>Retours 14j<br>contact@leffetwaouh.fr</div>
+    </div>
+    <div class="note">© 2026 L'Effet Waouh V2 - Marge moyenne 70% - Stock géré</div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <div class="wrap" style="max-width:800px">
+    <h1 style="font-family:Georgia,serif;font-size:32px">Panier 🛒</h1>
+    {% if not items %}
+    <div class="card" style="text-align:center;padding:40px">
+      <p>Votre panier est vide.</p>
+      <a class="btn gold" href="/shop/event/gender_reveal">Voir Gender Reveal 🎈</a>
+    </div>
+    {% else %}
+    <div class="card">
+      <table class="table">
+        <tr><th>Produit</th><th>Qté</th><th>Prix</th><th>Total</th><th></th></tr>
+        {% for it in items %}
+        <tr>
+          <td>{{ it['name'] }} {% if it['variant_name'] %}<br><small>{{ it['variant_name'] }} ({{ it['attribute_value'] }})</small>{% endif %}</td>
+          <td>{{ it['quantity'] }}</td>
+          <td>{{ it['price_ttc_at_add'] }}€</td>
+          <td><b>{{ (it['quantity'] * it['price_ttc_at_add'])|round(2) }}€</b></td>
+          <td><form method="post" action="/cart/remove/{{ it['id'] }}"><button class="btn small ghost">X</button></form></td>
+        </tr>
+        {% endfor %}
+      </table>
+      <div style="text-align:right;margin-top:16px">
+        <div style="font-size:20px">Total: <b>{{ total|round(2) }}€ TTC</b></div>
+        {% if total < shipping_free_from %}
+        <div style="font-size:13px;color:#9A6A1F">Plus que {{ (shipping_free_from - total)|round(2) }}€ pour livraison gratuite Mondial Relay !</div>
+        {% else %}
+        <div style="font-size:13px;color:#2E7D43">✅ Livraison gratuite Mondial Relay débloquée !</div>
+        {% endif %}
+      </div>
+      <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap">
+        <form method="post" action="/cart/clear"><button class="btn ghost small">Vider panier</button></form>
+        <a class="btn" href="/shop">Continuer achats</a>
+        <a class="btn gold" href="/checkout">Commander →</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

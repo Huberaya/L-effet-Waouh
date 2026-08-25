@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - L'Effet Waouh{% endblock %}
+{% block content %}
+<section style="background:#fff;border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <h1 style="font-family:Georgia,serif;font-size:36px">{{ title }}</h1>
+    <p style="color:#6b5f52">{% if current_category %}{{ current_category['description'] }}{% else %}Tous nos produits en stock - Livraison 48h{% endif %}</p>
+    {% if categories %}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      {% for c in categories %}
+      <a href="/shop/c/{{ c['slug'] }}" class="badge" style="padding:6px 12px">{{ c['name'] }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div>{{ products|length }} produits</div>
+      <div style="display:flex;gap:8px">
+        <a href="/shop?event=gender_reveal" class="btn small ghost">Gender Reveal</a>
+        <a href="/shop?event=mariage" class="btn small ghost">Mariage</a>
+        <a href="/shop?event=naissance" class="btn small ghost">Naissance</a>
+      </div>
+    </div>
+    <div class="grid4">
+      {% for p in products %}
+      <div class="card">
+        <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+          <span class="badge {% if 'rose' in p['name']|lower %}rose{% elif 'bleu' in p['name']|lower %}bleu{% else %}gold{% endif %}">{{ p['event_type'] }}</span>
+          {% if p['is_consumable'] %}<span class="badge">Conso</span>{% endif %}
+          {% if p['stock_qty'] < 10 %}<span class="badge" style="background:#F9E6E3;color:#9c3b2e">Stock faible {{ p['stock_qty'] }}</span>{% endif %}
+        </div>
+        <h3><a href="/shop/p/{{ p['slug'] }}">{{ p['name'] }}</a></h3>
+        <p style="font-size:12px;color:#6b5f52;min-height:36px">{{ p['short_desc'][:80] }}</p>
+        <div class="price">{{ p['price_ttc'] }}€ <small>TTC / {{ p['stock_qty'] }} en stock</small></div>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <a class="btn small" href="/shop/p/{{ p['slug'] }}">Voir détails</a>
+          <form method="post" action="/cart/add" style="margin:0">
+            <input type="hidden" name="product_id" value="{{ p['id'] }}">
+            <input type="hidden" name="quantity" value="1">
+            <button class="btn small gold">+ Panier</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

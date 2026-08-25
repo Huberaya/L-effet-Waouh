@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ product['name'] }} - L'Effet Waouh{% endblock %}
+{% block content %}
+<section>
+  <div class="wrap">
+    <div class="grid2" style="align-items:start">
+      <div class="card">
+        <div style="background:#FBF7F1;border-radius:12px;height:340px;display:flex;align-items:center;justify-content:center;color:#9b8f80">
+          📸 {{ product['name'] }}<br><small>Image à ajouter dans /static/uploads/</small>
+        </div>
+        {% if images %}
+        <div style="display:flex;gap:8px;margin-top:10px">
+          {% for img in images %}<div style="width:60px;height:60px;background:#eee;border-radius:8px"></div>{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <div>
+        <span class="badge gold">{{ product['event_type'] }}</span>
+        {% if product['is_featured'] %}<span class="badge gold">★ Produit phare</span>{% endif %}
+        {% if product['is_consumable'] %}<span class="badge">Consommable - Pas de retour</span>{% endif %}
+        <h1 style="font-family:Georgia,serif;font-size:32px;margin:10px 0">{{ product['name'] }}</h1>
+        <p style="color:#6b5f52">{{ product['short_desc'] }}</p>
+        <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:16px 0">
+          <div class="price" style="font-size:32px">{{ product['price_ttc'] }}€ <small>TTC</small></div>
+          <div style="font-size:13px;color:#6b5f52">HT: {{ product['price_ht'] }}€ | TVA {{ product['tva_rate'] }}% | Coût achat {{ product['cost_price'] }}€ | Marge {{ marge }}%</div>
+          <div style="font-size:13px;margin-top:6px">📦 Stock: <b>{{ product['stock_qty'] }}</b> unités à Nantes | Poids: {{ product['weight_grams'] }}g</div>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px">
+          <h3>Choisir variante</h3>
+          {% if variants %}
+          <form method="post" action="/cart/add">
+            <input type="hidden" name="product_id" value="{{ product['id'] }}">
+            <label>Variante</label>
+            <select name="variant_id" required>
+              {% for v in variants %}
+              <option value="{{ v['id'] }}">{{ v['name'] }} - {{ v['price_ttc'] or product['price_ttc'] }}€ (stock {{ v['stock_qty'] }})</option>
+              {% endfor %}
+            </select>
+            <label>Quantité</label>
+            <input type="number" name="quantity" value="1" min="1" max="20">
+            <button class="btn gold" style="width:100%">Ajouter au panier 🛒</button>
+          </form>
+          {% else %}
+          <form method="post" action="/cart/add">
+            <input type="hidden" name="product_id" value="{{ product['id'] }}">
+            <label>Quantité</label>
+            <input type="number" name="quantity" value="1" min="1" max="20">
+            <button class="btn gold" style="width:100%">Ajouter au panier 🛒 - {{ product['price_ttc'] }}€</button>
+          </form>
+          {% endif %}
+          <p style="font-size:12px;color:#8a7d6d;margin-top:10px">Livraison 4.90€ Mondial Relay, 6.90€ Colissimo. Gratuit dès 59€. Expédition 24h depuis Nantes.</p>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>Description</h3>
+          <p style="font-size:14px;color:#4a4035;white-space:pre-wrap">{{ product['long_desc'] or product['short_desc'] }}</p>
+        </div>
+      </div>
+    </div>
+
+    {% if similar %}
+    <h2 style="font-family:Georgia,serif;margin:40px 0 16px">Souvent achetés ensemble</h2>
+    <div class="grid4">
+      {% for s in similar %}
+      <div class="card"><h3><a href="/shop/p/{{ s['slug'] }}">{{ s['name'] }}</a></h3><div class="price">{{ s['price_ttc'] }}€</div><a class="btn small" href="/shop/p/{{ s['slug'] }}">Voir</a></div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite
+*.sqlite3
+.venv/
+venv/
+.env
+*.log
+
+# Uploads
+app/static/uploads/
+waouh_v2.db
+waouh.db
+waouh/waouh.db
+
+# Secrets
+.admin_credentials
+reports/
+prospection/messages_pretes.md
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <div class="wrap">
+    <h1>Admin - Produits ({{ products|length }})</h1>
+    <table class="table">
+      <tr><th>SKU</th><th>Nom</th><th>Event</th><th>Prix TTC</th><th>Coût</th><th>Marge</th><th>Stock</th></tr>
+      {% for p in products %}
+      <tr>
+        <td><small>{{ p['sku'] }}</small></td>
+        <td><a href="/shop/p/{{ p['slug'] }}">{{ p['name'] }}</a>{% if p['is_featured'] %} ★{% endif %}</td>
+        <td><span class="badge">{{ p['event_type'] }}</span></td>
+        <td>{{ p['price_ttc'] }}€</td>
+        <td>{{ p['cost_price'] }}€</td>
+        <td>{{ ((p['price_ttc']-p['cost_price'])/p['price_ttc']*100)|round(1) if p['cost_price'] else 0 }}%</td>
+        <td>{% if p['stock_qty'] <= p['stock_alert_threshold'] %}<b style="color:red">{{ p['stock_qty'] }}</b>{% else %}{{ p['stock_qty'] }}{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</section>
+{% endblock %}
