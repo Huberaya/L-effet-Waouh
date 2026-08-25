@@ -1,0 +1,26 @@
+{% extends "base_v3.html" %}
+{% block content %}
+<div style="padding-top:90px"></div>
+<div class="wrap">
+  <div class="section-label">Kits événementiels — Objectif panier moyen x4</div>
+  <h1 class="sec-title">Kits complets<br>— Économie 15% vs séparé</h1>
+  <p class="sec-sub">Un kit = tout pour votre événement. Plus besoin de chercher. Panier moyen 74.90€ vs 19.90€ à l'unité. Stock Nantes 48h.</p>
+  
+  <div class="kit-banner" style="margin:24px 0">
+    <div><h3>Exemple: Kit Mariage Essentiel 50 pers — 88.90€</h3><p>50 cierges + 1kg confettis + 24 bulles + 20 marque-places + livre or. Au lieu de 108€ séparé.</p></div>
+    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold)">Marge 63% • Best-seller</div>
+  </div>
+
+  <div class="prod-grid">
+    {% for p in products %}
+    <a href="/shop/p/{{ p['slug'] }}" class="prod-card" style="border:2px solid var(--ink)">
+      <div class="img"><img src="/static/images/10-vin-honneur.jpg" alt="{{ p['name'] }}"></div>
+      <div class="badges"><span class="badge ink">KIT</span><span class="badge gold">{{ p['event_type'] }}</span><span class="badge">-15%</span></div>
+      <h4>{{ p['name'] }}</h4>
+      <div class="desc">{{ p['short_desc'] }}</div>
+      <div class="price">{{ p['price_ttc'] }}€ <small>• Économie 15% • {{ p['stock_qty'] }} en stock</small></div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base_v3.html" %}
+{% block content %}
+<div style="padding-top:90px"></div>
+<div class="wrap">
+  <div class="section-label">Blog / Magazine — Trafic idées déco</div>
+  <h1 class="sec-title">Idées pour un événement<br>inoubliable</h1>
+  <p class="sec-sub">Guides complets pour organiser Gender Reveal, Baby Shower, Mariage, Baptême, Anniversaire. SEO + produits intégrés.</p>
+  <div class="cat-grid" style="margin-top:24px">
+    {% for a in articles %}
+    <a href="/blog/{{ a.slug }}" class="cat-card">
+      <div class="eyebrow">{{ a.keywords }} • Guide</div>
+      <h3>{{ a.title }}</h3>
+      <p>{{ a.desc }}</p>
+      <div class="meta">Lire le guide →</div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

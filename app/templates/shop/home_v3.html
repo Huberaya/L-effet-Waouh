@@ -1,0 +1,214 @@
+{% extends "base_v3.html" %}
+{% block content %}
+
+<div class="hero-v3">
+  <div class="hero-v3-inner">
+    <div>
+      <div class="section-label">Nouveau — La marque des grands moments de vie</div>
+      <h1>Tout ce qu'il vous faut pour créer un <em>événement inoubliable</em></h1>
+      <p class="sub">Mariage, Gender Reveal, Naissance, Baby Shower, Baptême, Anniversaire. 150+ produits pensés pour l'effet Waouh, personnalisables, en stock à Nantes. Livraison 48h.</p>
+      <div class="ctas">
+        <a href="/shop" class="btn">Explorer la boutique →</a>
+        <a href="/kits" class="btn light">Voir les kits x4 panier</a>
+      </div>
+      <div class="search-hero">
+        <span>⌕</span>
+        <form action="/search" method="get" style="flex:1;display:flex">
+          <input name="q" placeholder="Ex: gender reveal fille garçon, baptême garçon, anniversaire licorne 5 ans..." autofocus>
+        </form>
+      </div>
+      <div class="chips">
+        <span class="chip" data-q="gender reveal fille">gender reveal fille</span>
+        <span class="chip" data-q="bapteme garcon">baptême garçon</span>
+        <span class="chip" data-q="anniversaire licorne">licorne 5 ans</span>
+        <span class="chip" data-q="cadeau invité mariage">cadeau invité mariage</span>
+        <span class="chip" data-q="30 ans rose gold">30 ans rose gold</span>
+        <span class="chip" data-q="personnalisé prénom">personnalisé prénom</span>
+      </div>
+      <div class="trust">
+        <span>✅ Paiement sécurisé</span>
+        <span>⭐ Avis vérifiés</span>
+        <span>📦 48h Nantes</span>
+        <span>🚚 Gratuit dès 75€</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="/static/images/01-hero.jpg" alt="L'Effet Waouh" onerror="this.src='/static/images/10-vin-honneur.jpg'">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent);color:#fff;padding:16px;font-size:12px;letter-spacing:.5px">150+ produits • 9 univers • Personnalisable • Kits complets</div>
+    </div>
+  </div>
+</div>
+
+<!-- 9 UNIVERSES -->
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="section-label">9 univers — Navigation simple</div>
+    <div class="cat-grid">
+      <a href="/shop/event/mariage" class="cat-card">
+        <div class="eyebrow">Mariage • 38 produits</div>
+        <h3>Mariage</h3>
+        <p>Déco salle, table, voiture, gadgets, accessoires invités/mariés, cadeaux invités, jeux, photobooth, EVJF, kits.</p>
+        <div class="meta">Best: cierges 40cm • arche blanc/or • rideau LED</div>
+        <div class="arrow">→</div>
+      </a>
+      <a href="/shop/event/gender_reveal" class="cat-card" style="border-left:3px solid var(--rose)">
+        <div class="eyebrow">Gender Reveal • Tendance #1 TikTok • 22 produits</div>
+        <h3>Gender Reveal</h3>
+        <p>Ballons 90cm, confettis, fumigènes T1, boîtes surprise, kits révélation, déco rose/bleu, badges Team Boy/Girl, cartes à gratter.</p>
+        <div class="meta">4409 ventes/mois Amazon • Marge 74%</div>
+        <div class="arrow">→</div>
+      </a>
+      <a href="/shop/event/baby_shower" class="cat-card">
+        <div class="eyebrow">Baby Shower • 18 produits</div>
+        <h3>Baby Shower</h3>
+        <p>Kits déco 70pcs, ballons, guirlandes, vaisselle, table, jeux pronostics, cadeaux invités, photobooth.</p>
+        <div class="meta">Kit complet 20 pers 88.90€</div>
+        <div class="arrow">→</div>
+      </a>
+      <a href="/shop/event/naissance" class="cat-card">
+        <div class="eyebrow">Naissance • Récurrence • 21 produits</div>
+        <h3>Naissance</h3>
+        <p>Cadeaux, déco, boîtes souvenirs, empreintes, cartes étapes, affiches personnalisées, coffrets parents.</p>
+        <div class="meta">LTV 51€ après GR • Affiche perso 12.90€</div>
+        <div class="arrow">→</div>
+      </a>
+      <a href="/shop/event/bapteme" class="cat-card" style="border-left:3px solid var(--gold)">
+        <div class="eyebrow">Baptême • Nouveau • 20 produits</div>
+        <h3>Baptême</h3>
+        <p>Déco, cadeaux invités, contenants dragées plexi, bougies personnalisées, table, souvenirs, parrain/marraine.</p>
+        <div class="meta">Best-seller: bougie ambré 6.90€ • magnet photo</div>
+        <div class="arrow">→</div>
+      </a>
+      <a href="/shop/event/anniversaire" class="cat-card">
+        <div class="eyebrow">Anniversaire • 40 produits • 16 thèmes</div>
+        <h3>Anniversaire</h3>
+        <p>Enfant/adulte, 1/18/20/30/40/50/60 ans. Thèmes: licorne, princesse, super-héros, foot, espace, Harry Potter, Barbie, Glow.</p>
+        <div class="meta">Best 2024: licorne • 30 ans rose gold</div>
+        <div class="arrow">→</div>
+      </a>
+      <a href="/shop?personalizable=1" class="cat-card" style="background:#121212;color:#fff">
+        <div class="eyebrow" style="color:var(--gold)">Axe stratégique • Marge 80%</div>
+        <h3 style="color:#fff">Personnalisé</h3>
+        <p style="color:#aaa">Prénom, date, message, photo, couleur, thème. Aperçu live avant commande. Affiches, ballons, bougies, étiquettes.</p>
+        <div class="meta" style="color:#777">Expérience: Produit → Perso → Aperçu → Commande</div>
+        <div class="arrow" style="color:#fff">→</div>
+      </a>
+      <a href="/kits" class="cat-card" style="background:#FFFBF5;border:2px solid var(--ink)">
+        <div class="eyebrow">Objectif panier x4 • 13 kits</div>
+        <h3>Kits Événementiels</h3>
+        <p>Kit Mariage 50 pers, GR Premium 30 pers, Baby Shower 20 pers, Baptême 20 invités, Anniv Licorne 15 enfants. Économie 15%.</p>
+        <div class="meta">Panier moyen 74.90€ vs 19.90€</div>
+        <div class="arrow">→</div>
+      </a>
+      <a href="/shop?promo=1" class="cat-card">
+        <div class="eyebrow">Promos • Nouveautés</div>
+        <h3>Promos & Nouveautés</h3>
+        <p>Produits d'appel dès 2.90€, best-sellers, nouveautés. Idéal pour découvrir.</p>
+        <div class="meta">Bougies chiffres 2.90€ • Confettis 3.90€</div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BEST SELLERS -->
+<section>
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:24px">
+      <div>
+        <div class="section-label">Best-sellers — Marge 65-84%</div>
+        <h2 class="sec-title">En stock à Nantes<br>— Expédition 24/48h</h2>
+      </div>
+      <a href="/shop" class="btn light">Toute la boutique →</a>
+    </div>
+    <div class="prod-grid">
+      {% for p in featured %}
+      <a href="/shop/p/{{ p['slug'] }}" class="prod-card">
+        <div class="img"><img src="/static/images/06-bulles-confettis.jpg" alt="{{ p['name'] }}" loading="lazy"></div>
+        <div class="badges">
+          <span class="badge {% if 'rose' in p['name']|lower %}rose{% elif 'bleu' in p['name']|lower %}bleu{% elif p['is_featured'] %}gold{% else %}ink{% endif %}">{{ p['event_type'] }}</span>
+          {% if p['is_featured'] %}<span class="badge ink">★ Best</span>{% endif %}
+        </div>
+        <h4>{{ p['name'][:55] }}</h4>
+        <div class="desc">{{ p['short_desc'][:70] }}</div>
+        <div class="price">{{ p['price_ttc'] }}€ <small>• {{ p['stock_qty'] }} en stock • marge {{ ((p['price_ttc']-p['cost_price'])/p['price_ttc']*100)|round(0) if p['cost_price'] else 65 }}%</small></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- KITS BANNER -->
+<section style="padding:0">
+  <div class="wrap">
+    <div class="kit-banner">
+      <div>
+        <h3>Kits événementiels — Panier moyen x4</h3>
+        <p>Un kit = tout pour votre événement. Économie 15% vs achat séparé. Ex: Kit Mariage 50 pers 88.90€ au lieu de 108€.</p>
+      </div>
+      <a href="/kits" class="btn gold">Voir les 13 kits →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONNALISATION -->
+<section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+      <div>
+        <div class="section-label">Axe stratégique — Personnalisation</div>
+        <h2 class="sec-title">Chaque événement est <em style="font-style:italic;font-weight:300">unique</em></h2>
+        <p class="sec-sub">Prénom, date, message, photo, couleur, thème. Expérience: Produit → Personnalisation → Aperçu live → Commande. Marge 80%.</p>
+        <div style="margin-top:24px;display:grid;gap:12px">
+          <div style="display:flex;gap:12px;align-items:center"><span style="width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center">1</span><span>Affiche personnalisée prénom date poids — 12.90€ — Marge 84%</span></div>
+          <div style="display:flex;gap:12px;align-items:center"><span style="width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center">2</span><span>Ballon bulle prénom + confettis 60cm — 18.90€ — Best-seller</span></div>
+          <div style="display:flex;gap:12px;align-items:center"><span style="width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center">3</span><span>Bougie soja personnalisée 70g — 6.90€ — Lot 10/20/30</span></div>
+        </div>
+        <a href="/shop?personalizable=1" class="btn" style="margin-top:24px">Voir personnalisables →</a>
+      </div>
+      <div style="background:var(--cream);border:1px solid var(--line);padding:24px;border-radius:16px">
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:12px">Aperçu live — Canvas</div>
+        <div style="background:#fff;border:1px solid var(--line);aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;text-align:center">
+          <div style="font-family:var(--serif);font-size:28px">Léon</div>
+          <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#999">12 • 03 • 2026 — 3.2kg — 50cm — 14h32</div>
+          <div style="margin-top:20px;width:60px;height:1px;background:var(--line)"></div>
+          <div style="font-size:11px;color:#999;margin-top:8px">Affiche A4 — Prénom, date, poids, taille, heure — Design minimal</div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:8px">
+          <input placeholder="Prénom" value="Léon" style="flex:1;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px">
+          <input placeholder="Date" value="12.03.2026" style="flex:1;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG PREVIEW -->
+<section>
+  <div class="wrap">
+    <div class="section-label">Blog — Trafic idées déco</div>
+    <h2 class="sec-title">Idées pour un événement inoubliable</h2>
+    <div class="cat-grid" style="margin-top:24px">
+      <a href="/blog/idees-gender-reveal" class="cat-card">
+        <div class="eyebrow">Gender Reveal • 5400 recherches/mois</div>
+        <h3>15 idées originales d'annonce fille/garçon</h3>
+        <p>Ballon, fumigènes, cartes à gratter, boîte surprise... Guide complet 2024-2025.</p>
+        <div class="meta">Lire →</div>
+      </a>
+      <a href="/blog/organiser-baby-shower" class="cat-card">
+        <div class="eyebrow">Baby Shower • 3600/mois</div>
+        <h3>Comment organiser un Baby Shower parfait</h3>
+        <p>Checklist, déco, jeux, cadeaux invités. Tout pour 20 personnes.</p>
+        <div class="meta">Lire →</div>
+      </a>
+      <a href="/blog/themes-anniversaire-enfant" class="cat-card">
+        <div class="eyebrow">Anniversaire • 8100/mois</div>
+        <h3>16 thèmes anniversaire enfant qui cartonnent</h3>
+        <p>Licorne best-seller 2024, Harry Potter, super-héros, Barbie, Glow Party...</p>
+        <div class="meta">Lire →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

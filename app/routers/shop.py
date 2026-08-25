@@ -76,14 +76,25 @@ def product_detail(request: Request, slug: str):
     # Calcul marge
     marge = round((prod["price_ttc"] - (prod["cost_price"] or 0)) / prod["price_ttc"] * 100, 1) if prod["price_ttc"] else 0
     conn.close()
-    return templates.TemplateResponse(request, "shop/product.html", {
-        "request": request,
-        "product": prod,
-        "variants": variants,
-        "images": images,
-        "similar": similar,
-        "marge": marge
-    })
+    # Try V3 template, fallback V2
+    try:
+        return templates.TemplateResponse(request, "shop/product_v3.html", {
+            "request": request,
+            "product": prod,
+            "variants": variants,
+            "images": images,
+            "similar": similar,
+            "marge": marge
+        })
+    except:
+        return templates.TemplateResponse(request, "shop/product.html", {
+            "request": request,
+            "product": prod,
+            "variants": variants,
+            "images": images,
+            "similar": similar,
+            "marge": marge
+        })
 
 @router.get("/shop/event/{event_type}", response_class=HTMLResponse)
 def shop_event(request: Request, event_type: str):

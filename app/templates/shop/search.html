@@ -1,0 +1,55 @@
+{% extends "base_v3.html" %}
+{% block content %}
+<div style="padding-top:90px"></div>
+<div class="wrap">
+  <div class="section-label">Recherche intelligente — couleur / thème / âge / prénom / occasion</div>
+  <h1 class="sec-title">Recherche: "{{ query }}" — {{ products|length }} résultats</h1>
+  
+  <div class="search-hero" style="margin-top:20px">
+    <span>⌕</span>
+    <form action="/search" method="get" style="flex:1;display:flex"><input name="q" value="{{ query }}" placeholder="Ex: gender reveal fille garçon, baptême garçon, anniversaire licorne 5 ans..." style="flex:1;border:none;outline:none;font-size:16px"></form>
+  </div>
+  <div class="chips">
+    <span class="chip" data-q="gender reveal fille">gender reveal fille</span>
+    <span class="chip" data-q="bapteme garcon">baptême garçon</span>
+    <span class="chip" data-q="anniversaire licorne">licorne</span>
+    <span class="chip" data-q="30 ans rose gold">30 ans rose gold</span>
+    <span class="chip" data-q="cadeau invité mariage">cadeau invité</span>
+  </div>
+
+  {% if products %}
+  <div class="prod-grid" style="margin-top:24px">
+    {% for p in products %}
+    <a href="/shop/p/{{ p['slug'] }}" class="prod-card">
+      <div class="img"><img src="/static/images/06-bulles-confettis.jpg" alt="{{ p['name'] }}"></div>
+      <div class="badges"><span class="badge gold">{{ p['event_type'] }}</span>{% if p['is_featured'] %}<span class="badge ink">Best</span>{% endif %}</div>
+      <h4>{{ p['name'] }}</h4>
+      <div class="desc">{{ p['short_desc'][:70] }}</div>
+      <div class="price">{{ p['price_ttc'] }}€ <small>• {{ p['stock_qty'] }} en stock</small></div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div style="text-align:center;padding:60px 0">
+    <p>Aucun résultat pour "{{ query }}". Essayez:</p>
+    <div class="chips" style="justify-content:center;margin-top:16px">
+      <span class="chip" data-q="gender reveal">gender reveal</span>
+      <span class="chip" data-q="mariage">mariage</span>
+      <span class="chip" data-q="bapteme">baptême</span>
+      <span class="chip" data-q="anniversaire">anniversaire</span>
+    </div>
+    {% if suggestions %}
+    <div class="prod-grid" style="margin-top:24px">
+      {% for p in suggestions %}
+      <a href="/shop/p/{{ p['slug'] }}" class="prod-card">
+        <div class="img"><img src="/static/images/06-bulles-confettis.jpg"></div>
+        <h4>{{ p['name'] }}</h4>
+        <div class="price">{{ p['price_ttc'] }}€</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
