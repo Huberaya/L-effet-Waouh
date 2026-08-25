@@ -1,0 +1,7 @@
+waouh/
+visuels/
+*.db
+__pycache__/
+.venv/
+.env
+waouh-v2/
