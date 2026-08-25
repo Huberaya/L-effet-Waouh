@@ -52,6 +52,17 @@ def home(request: Request):
     except:
         nb_gr = 0
     conn.close()
+    # Enrich with product images
+    try:
+        from .core.product_images import get_product_image
+        enriched = []
+        for p in featured:
+            d = dict(p)
+            d['image_url'] = get_product_image(d)
+            enriched.append(d)
+        featured = enriched
+    except:
+        pass
     # Try V3 home, fallback V2
     try:
         return templates.TemplateResponse(request, "shop/home_v3.html", {

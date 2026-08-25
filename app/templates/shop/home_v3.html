@@ -124,7 +124,7 @@
     <div class="prod-grid">
       {% for p in featured %}
       <a href="/shop/p/{{ p['slug'] }}" class="prod-card">
-        <div class="img"><img src="/static/images/06-bulles-confettis.jpg" alt="{{ p['name'] }}" loading="lazy"></div>
+        <div class="img"><img src="{{ p.image_url or '/static/images/06-bulles-confettis.jpg' }}" alt="{{ p['name'] }}" loading="lazy" onerror="this.src='/static/images/01-hero.jpg'"></div>
         <div class="badges">
           <span class="badge {% if 'rose' in p['name']|lower %}rose{% elif 'bleu' in p['name']|lower %}bleu{% elif p['is_featured'] %}gold{% else %}ink{% endif %}">{{ p['event_type'] }}</span>
           {% if p['is_featured'] %}<span class="badge ink">★ Best</span>{% endif %}

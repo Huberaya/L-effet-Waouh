@@ -3,10 +3,20 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 import pathlib, re
 from ..core.database import get_sqlite_conn
+from ..core.product_images import get_product_image
 
 router = APIRouter()
 BASE_DIR = pathlib.Path(__file__).parent.parent
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+
+def enrich_products(products):
+    """Ajoute image_url correspondante à chaque produit"""
+    enriched = []
+    for p in products:
+        d = dict(p)
+        d['image_url'] = get_product_image(d)
+        enriched.append(d)
+    return enriched
 
 def intelligent_search_score(query: str, product: dict) -> int:
     """Scoring recherche intelligente couleur/thème/âge/prénom/occasion"""
@@ -71,6 +81,7 @@ def search(request: Request, q: str = ""):
     if not q:
         products = conn.execute("SELECT * FROM products WHERE is_active=1 ORDER BY is_featured DESC LIMIT 40").fetchall()
         conn.close()
+        products = enrich_products(products)
         return templates.TemplateResponse(request, "shop/category.html", {
             "request": request,
             "products": products,
@@ -112,10 +123,10 @@ def search(request: Request, q: str = ""):
     conn.close()
     return templates.TemplateResponse(request, "shop/search.html", {
         "request": request,
-        "products": result_products,
+        "products": enrich_products(result_products),
         "query": q,
         "title": f"Recherche: {q} - {len(result_products)} résultats",
-        "suggestions": suggestions,
+        "suggestions": enrich_products(suggestions),
         "scored": [(s, dict(p)['name'][:40]) for s,p in scored[:10]]
     })
 
@@ -146,7 +157,7 @@ def kits(request: Request):
     conn.close()
     return templates.TemplateResponse(request, "shop/kits.html", {
         "request": request,
-        "products": kits_products,
+        "products": enrich_products(kits_products),
         "title": "Kits Événementiels - Panier moyen x4"
     })
 
@@ -176,7 +187,7 @@ def event_page(request: Request, event_type: str):
     }
     return templates.TemplateResponse(request, "shop/event.html", {
         "request": request,
-        "products": products,
+        "products": enrich_products(products),
         "subcategories": subcats,
         "event_type": event_type,
         "title": titles.get(event_type, event_type)

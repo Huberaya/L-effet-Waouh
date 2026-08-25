@@ -14,7 +14,7 @@
   <div class="prod-grid">
     {% for p in products %}
     <a href="/shop/p/{{ p['slug'] }}" class="prod-card" style="border:2px solid var(--ink)">
-      <div class="img"><img src="/static/images/10-vin-honneur.jpg" alt="{{ p['name'] }}"></div>
+      <div class="img"><img src="{{ p.image_url or '/static/images/10-vin-honneur.jpg' }}" alt="{{ p['name'] }}" onerror="this.src='/static/images/01-hero.jpg'"></div>
       <div class="badges"><span class="badge ink">KIT</span><span class="badge gold">{{ p['event_type'] }}</span><span class="badge">-15%</span></div>
       <h4>{{ p['name'] }}</h4>
       <div class="desc">{{ p['short_desc'] }}</div>

@@ -3,10 +3,19 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 import pathlib
 from ..core.database import get_sqlite_conn
+from ..core.product_images import get_product_image
 
 router = APIRouter()
 BASE_DIR = pathlib.Path(__file__).parent.parent
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+
+def enrich_products(products):
+    enriched=[]
+    for p in products:
+        d=dict(p)
+        d['image_url']=get_product_image(d)
+        enriched.append(d)
+    return enriched
 
 @router.get("/shop", response_class=HTMLResponse)
 def shop_all(request: Request, event: str = None, q: str = None):
@@ -25,7 +34,7 @@ def shop_all(request: Request, event: str = None, q: str = None):
     conn.close()
     return templates.TemplateResponse(request, "shop/category.html", {
         "request": request,
-        "products": products,
+        "products": enrich_products(products),
         "categories": cats,
         "current_event": event,
         "query": q,
@@ -56,7 +65,7 @@ def shop_category(request: Request, slug: str):
     conn.close()
     return templates.TemplateResponse(request, "shop/category.html", {
         "request": request,
-        "products": products,
+        "products": enrich_products(products),
         "categories": subcats,
         "current_category": cat,
         "title": cat["name"]
@@ -76,23 +85,27 @@ def product_detail(request: Request, slug: str):
     # Calcul marge
     marge = round((prod["price_ttc"] - (prod["cost_price"] or 0)) / prod["price_ttc"] * 100, 1) if prod["price_ttc"] else 0
     conn.close()
+    # Enrich
+    prod_dict = dict(prod)
+    prod_dict['image_url'] = get_product_image(prod_dict)
+    similar_enriched = enrich_products(similar)
     # Try V3 template, fallback V2
     try:
         return templates.TemplateResponse(request, "shop/product_v3.html", {
             "request": request,
-            "product": prod,
+            "product": prod_dict,
             "variants": variants,
             "images": images,
-            "similar": similar,
+            "similar": similar_enriched,
             "marge": marge
         })
     except:
         return templates.TemplateResponse(request, "shop/product.html", {
             "request": request,
-            "product": prod,
+            "product": prod_dict,
             "variants": variants,
             "images": images,
-            "similar": similar,
+            "similar": similar_enriched,
             "marge": marge
         })
 
@@ -104,7 +117,7 @@ def shop_event(request: Request, event_type: str):
     conn.close()
     return templates.TemplateResponse(request, "shop/category.html", {
         "request": request,
-        "products": products,
+        "products": enrich_products(products),
         "title": cat["name"] if cat else event_type,
         "current_event": event_type
     })
