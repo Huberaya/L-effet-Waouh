@@ -7,7 +7,7 @@
       <h1 style="font-family:var(--serif);font-size:40px;letter-spacing:-1px">Merci — {{ order['number'] }}</h1>
       <p style="color:#8a8a8a;font-weight:300;margin:12px 0 32px">Commande confirmée • Email envoyé à {{ order['email'] }}<br>Expédition 24h depuis Nantes</p>
       <div style="text-align:left;border-top:1px solid var(--line);padding-top:20px;margin-top:20px;font-size:13px">
-        {% for it in items %}<div style="display:flex;justify-content:space-between;padding:6px 0"><span>{{ it['name_snapshot'] }} ×{{ it['quantity'] }}</span><span>{{ it['total_ttc'] }}€</span></div>{% endfor %}
+        {% for it in items %}<div style="display:flex;justify-content:space-between;padding:6px 0"><span>{{ it['name_snapshot'] or it['name'] }} ×{{ it['quantity'] }}</span><span>{{ it['total_ttc'] or (it['quantity']*it['price_ttc_at_add']) }}€</span></div>{% endfor %}
         <div style="display:flex;justify-content:space-between;padding-top:12px;margin-top:12px;border-top:1px solid var(--ink);font-weight:700"><span>Total TTC</span><span>{{ order['total_ttc']|round(2) }}€</span></div>
       </div>
       <a href="/shop" class="btn" style="margin-top:32px">Continuer →</a>

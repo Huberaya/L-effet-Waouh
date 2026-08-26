@@ -210,7 +210,7 @@ section{padding:88px 0;position:relative}
     <div class="topbar-pill">
       <a href="/" class="brand"><div class="w">W</div>L'Effet Waouh<small>La marque des grands moments</small></a>
       <nav class="nav" id="mainNav">
-        <a href="/explorer" class="{% if request.url.path=='/explorer' %}active{% endif %}">Explorer <span class="count">120</span></a>
+        <a href="/explorer" class="{% if current_path=='/explorer' %}active{% endif %}">Explorer <span class="count">120</span></a>
         <a href="/explorer?event=mariage">Mariage <span class="count">30</span></a>
         <a href="/explorer?event=gender_reveal">Gender Reveal</a>
         <a href="/explorer?event=baby_shower">Baby Shower</a>
@@ -255,10 +255,10 @@ section{padding:88px 0;position:relative}
 </div>
 
 <div class="bottom-nav" id="bottomNav">
-  <a href="/" class="{% if request.url.path=='/' %}active{% endif %}">Accueil</a>
-  <a href="/explorer" class="{% if 'explorer' in request.url.path %}active{% endif %}">Explorer</a>
-  <a href="/kits">Kits</a>
-  <a href="/cart">Panier</a>
+  <a href="/" class="{% if current_path=='/' %}active{% endif %}">Accueil</a>
+  <a href="/explorer" class="{% if current_path=='/explorer' %}active{% endif %}">Explorer</a>
+  <a href="/kits" class="{% if current_path=='/kits' %}active{% endif %}">Kits</a>
+  <a href="/cart" class="{% if current_path=='/cart' %}active{% endif %}">Panier</a>
 </div>
 
 <footer>

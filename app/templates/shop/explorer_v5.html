@@ -92,8 +92,8 @@
     {% for p in products %}
     {% set fmt = 'small' %}
     {% if p.is_featured and loop.index <= 2 %}{% set fmt = 'large' %}
-    {% elif 'kit' in p.slug %}{% set fmt = 'kit' %}
-    {% elif 'personnalis' in p.slug %}{% set fmt = 'personalized' %}
+    {% elif p.slug and p.slug.indexOf('kit') !== -1 %}{% set fmt = 'kit' %}
+    {% elif p.slug and p.slug.indexOf('personnalis') !== -1 %}{% set fmt = 'personalized' %}
     {% elif loop.index % 4 == 0 %}{% set fmt = 'story' %}
     {% elif loop.index % 3 == 0 %}{% set fmt = 'medium' %}
     {% endif %}
@@ -105,7 +105,7 @@
           <div class="overlay"></div>
           {% if fmt=='large' %}
           <div style="position:absolute;top:16px;left:16px;display:flex;gap:8px"><span class="badge gold">★ Best-seller</span><span class="badge ink">{{ p.event_type }}</span></div>
-          <div style="position:absolute;bottom:16px;left:16px;background:rgba(10,10,10,.8);color:#fff;padding:8px 12px;border-radius:var(--radius-pill);font-size:10px;backdrop-filter:blur(12px)">Photo correspondante — {{ p.name[:30] }}</div>
+          <div style="position:absolute;bottom:16px;left:16px;background:rgba(10,10,10,.8);color:#fff;padding:8px 12px;border-radius:var(--radius-pill);font-size:10px;backdrop-filter:blur(12px)">Photo correspondante — {{ p.name }}</div>
           {% endif %}
           {% if fmt=='kit' %}
           <div style="position:absolute;top:16px;left:16px;background:var(--gold);color:#fff;padding:6px 12px;border-radius:var(--radius-pill);font-size:10px;font-weight:700">KIT COMPLET -15% • Économie {{ (p.price_ttc*0.15)|round(0) }}€</div>
@@ -120,7 +120,7 @@
       <div class="content">
         <div class="head">
           <div class="badges">
-            <span class="badge {% if 'rose' in p.name|lower %}rose{% elif 'bleu' in p.name|lower %}bleu{% elif p.is_featured %}gold{% else %}cream{% endif %}">{{ p.event_type }}</span>
+            <span class="badge {% if p.name and p.name.indexOf('Rose') !== -1 %}rose{% elif p.name and p.name.indexOf('Bleu') !== -1 %}bleu{% elif p.is_featured %}gold{% else %}cream{% endif %}">{{ p.event_type }}</span>
             {% if fmt=='personalized' %}<span class="badge gold">Perso live</span>{% endif %}
             {% if p.stock_qty < 10 %}<span class="badge rose">Stock faible</span>{% endif %}
           </div>
@@ -155,7 +155,7 @@
       </a>
       <div class="content">
         <div class="badges"><span class="badge cream">{{ p.event_type }}</span><span class="badge gold">Recommandé</span></div>
-        <h3 style="font-size:15px">{{ p.name[:45] }}</h3>
+        <h3 style="font-size:15px">{{ p.name }}</h3>
         <div class="foot"><div class="price" style="font-size:18px">{{ p.price_ttc }}€</div><button class="cta" onclick="flyToCart(event, '{{ p.slug }}')">+</button></div>
       </div>
     </div>

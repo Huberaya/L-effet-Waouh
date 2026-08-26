@@ -1,187 +1,362 @@
-{% extends "base_immersive.html" %}
-{% block content %}
-<div style="padding-top:120px"></div>
+{% extends "base_premium.html" %}
 
-<!-- HERO EXPLORER -->
-<div class="wrap">
-  <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:end;margin-bottom:48px">
-    <div>
-      <div class="section-label">Explorer — Navigation immersive sans doublons</div>
-      <h1 class="sec-title">Explorez<br>tout le catalogue<br><em>sans changer de page</em></h1>
-      <p class="sec-sub">Filtrez par événement, couleur, thème, âge, prix. Passez d'un univers à l'autre en scroll horizontal. Cartes aux formats variés, pas de répétition photo, pas de doublons.</p>
-    </div>
-    <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px">
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:12px">Incohérences corrigées</div>
-      <div style="font-size:12px;line-height:1.8;color:#666">
-        ✅ Photos uniques par produit (43 images correspondantes, plus de réutilisation partout)<br>
-        ✅ Doublons supprimés (171 → 143 produits uniques après déduplication)<br>
-        ✅ Cartes formats variés (large, medium, small, kit, perso)<br>
-        ✅ Filtres couleur/thème/âge/prix/perso/kit<br>
-        ✅ Navigation fluide horizontale + verticale<br>
-        ✅ Transitions + micro-interactions + 3D tilt
-      </div>
-    </div>
-  </div>
-</div>
+{% block title %}Catalogue & Explorateur — L'Effet Waouh{% endblock %}
+{% block meta_desc %}Explorez tous nos décors, kits d'animation et objets personnalisés. Filtrez par univers, couleur, thème, prix et options de personnalisation.{% endblock %}
 
-<!-- FILTERS BAR STICKY -->
-<div class="filters-bar">
-  <div class="filters-inner">
-    <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;white-space:nowrap">Filtrer:</span>
-    <a href="/explorer" class="filter-pill {% if not current_event %}active{% endif %}"><span class="icon">✨</span>Tous 143</a>
-    <a href="/explorer?event=mariage" class="filter-pill {% if current_event=='mariage' %}active{% endif %}"><span class="icon">💍</span>Mariage 40</a>
-    <a href="/explorer?event=gender_reveal" class="filter-pill {% if current_event=='gender_reveal' %}active{% endif %}"><span class="icon">🎈</span>Gender Reveal 14</a>
-    <a href="/explorer?event=baby_shower" class="filter-pill {% if current_event=='baby_shower' %}active{% endif %}"><span class="icon">👶</span>Baby Shower 20</a>
-    <a href="/explorer?event=naissance" class="filter-pill {% if current_event=='naissance' %}active{% endif %}"><span class="icon">🍼</span>Naissance 23</a>
-    <a href="/explorer?event=bapteme" class="filter-pill {% if current_event=='bapteme' %}active{% endif %}"><span class="icon">🕊️</span>Baptême 22</a>
-    <a href="/explorer?event=anniversaire" class="filter-pill {% if current_event=='anniversaire' %}active{% endif %}"><span class="icon">🎂</span>Anniversaire 31</a>
-    <a href="/explorer?filter=kit" class="filter-pill {% if filter=='kit' %}active{% endif %}"><span class="icon">📦</span>Kits x4</a>
-    <a href="/explorer?filter=perso" class="filter-pill {% if filter=='perso' %}active{% endif %}"><span class="icon">✏️</span>Perso</a>
-    <a href="/explorer?filter=rose" class="filter-pill"><span class="icon" style="background:var(--rose-light)">🌸</span>Rose</a>
-    <a href="/explorer?filter=bleu" class="filter-pill"><span class="icon" style="background:var(--bleu-light)">💙</span>Bleu</a>
-    <a href="/explorer?filter=or" class="filter-pill"><span class="icon" style="background:var(--gold-light)">✨</span>Or</a>
-  </div>
-</div>
+{% block extra_css %}
+<style>
+  .explorer-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 32px;
+    margin: 24px 0 64px;
+    align-items: flex-start;
+  }
 
-<!-- UNIVERSE HORIZONTAL SCROLL - Exploration intuitive -->
-<div class="wrap" style="margin-bottom:24px">
-  <div class="h-scroll" style="padding:1px">
-    {% for uni in universes %}
-    <a href="/explorer?event={{ uni.slug }}" class="universe-card tilt {% if current_event==uni.slug %}active{% endif %}" style="flex:0 0 300px;background:#fff;border-right:1px solid var(--line);padding:20px">
-      <div style="display:flex;gap:16px;align-items:center">
-        <div class="thumb" style="width:72px;height:72px;border-radius:16px;overflow:hidden;background:{{ uni.color }}"><img src="{{ uni.img }}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='/static/images/01-hero.jpg'"></div>
-        <div>
-          <h4 style="font-family:var(--serif);font-size:18px">{{ uni.name }} <span style="font-size:10px;opacity:.5">{{ uni.count }}</span></h4>
-          <p style="font-size:11px;color:#666">{{ uni.desc }}</p>
-          <div style="margin-top:8px;display:flex;gap:6px">
-            <span class="badge cream" style="font-size:8px">Explorer →</span>
-          </div>
-        </div>
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-</div>
+  /* Filter Sidebar */
+  .filter-sidebar {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    position: sticky;
+    top: 96px;
+  }
+  .filter-group {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .filter-group:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .filter-group-title {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .filter-options-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .filter-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+  .filter-label:hover {
+    color: var(--ink);
+  }
+  .filter-label input[type="radio"],
+  .filter-label input[type="checkbox"] {
+    accent-color: var(--gold);
+    margin-right: 8px;
+  }
 
-<!-- PRODUCTS IMMERSIVE GRID - Formats variés, pas de répétition -->
-<div class="wrap">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#999">{{ products|length }} produits uniques — Tri: best-sellers d'abord, pas de doublons</div>
-    <div style="display:flex;gap:8px">
-      <span class="badge cream">Format large = best-seller</span>
-      <span class="badge ink">Kit = fond noir</span>
-      <span class="badge gold">Perso = bord or</span>
-    </div>
-  </div>
+  /* Catalog Top Bar */
+  .catalog-topbar {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .catalog-count {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .catalog-sort-select {
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    background: #FAF8F5;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+  }
 
-  <div class="prod-grid-immersive">
-    {% for p in products %}
-    {% set format = 'small' %}
-    {% if p.is_featured and loop.index % 5 == 1 %}{% set format = 'large' %}
-    {% elif 'kit' in p.slug or 'Kit' in p.name %}{% set format = 'kit' %}
-    {% elif 'personnalis' in p.slug or 'Personnalis' in p.name %}{% set format = 'personalized' %}
-    {% elif loop.index % 3 == 0 %}{% set format = 'medium' %}
-    {% endif %}
-    
-    <a href="/shop/p/{{ p.slug }}" class="prod-card tilt format-{{ format }}" data-event="{{ p.event_type }}" data-price="{{ p.price_ttc }}">
-      <div class="img-wrap" style="{% if format=='kit' %}aspect-ratio:16/9{% elif format=='large' %}aspect-ratio:4/3{% else %}aspect-ratio:1{% endif %};background:{{ p.bg_color or '#FFFBF5' }}">
-        <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy" onerror="this.src='/static/images/01-hero.jpg'">
-        {% if format=='large' %}
-        <div style="position:absolute;top:16px;left:16px;display:flex;gap:8px">
-          <span class="badge gold">★ Best-seller</span>
-          <span class="badge ink">{{ p.event_type }}</span>
-        </div>
-        {% endif %}
-        {% if format=='kit' %}
-        <div style="position:absolute;top:16px;left:16px;background:var(--gold);color:#fff;padding:6px 12px;border-radius:999px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:600">Kit complet -15%</div>
-        {% endif %}
-      </div>
-      <div class="content">
-        <div class="top-row">
-          <div class="badges">
-            <span class="badge {% if 'rose' in p.name|lower %}rose{% elif 'bleu' in p.name|lower %}bleu{% elif p.is_featured %}gold{% else %}cream{% endif %}">{{ p.event_type }}</span>
-            {% if format=='personalized' %}<span class="badge gold">Perso</span>{% endif %}
-            {% if p.stock_qty < 10 %}<span class="badge rose">Stock faible</span>{% endif %}
-          </div>
-          <span style="font-size:10px;color:#999">{{ p.stock_qty }} en stock</span>
-        </div>
-        <h3>{{ p.name }}</h3>
-        <div class="desc">{{ p.short_desc }}</div>
-        <div class="price-row">
-          <div class="price">{{ p.price_ttc }}€<small>HT {{ p.price_ht }}€ • Marge {{ ((p.price_ttc-p.cost_price)/p.price_ttc*100)|round(0) if p.cost_price else 65 }}%</small></div>
-          <div class="add-btn">+</div>
-        </div>
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-</div>
+  /* Active Filters Bar */
+  .active-filters-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .active-filter-badge {
+    background: var(--ink);
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .active-filter-badge a {
+    color: var(--gold);
+    font-weight: 700;
+  }
 
-<!-- HORIZONTAL RECOMMENDATIONS - Scroll horizontal -->
-<div class="wrap" style="margin-top:64px">
-  <div class="section-label">Recommandations — Basées sur votre exploration</div>
-  <h2 class="sec-title" style="font-size:32px">Souvent achetés<br><em>ensemble</em></h2>
-  <div class="h-scroll" style="margin-top:24px">
-    {% for p in recommendations %}
-    <a href="/shop/p/{{ p.slug }}" class="prod-card tilt format-small">
-      <div class="img-wrap" style="aspect-ratio:1;background:#FFFBF5"><img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy"></div>
-      <div class="content">
-        <div class="badges"><span class="badge cream">{{ p.event_type }}</span></div>
-        <h3 style="font-size:14px">{{ p.name[:40] }}</h3>
-        <div class="price-row"><div class="price" style="font-size:16px">{{ p.price_ttc }}€</div><div class="add-btn">+</div></div>
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-</div>
+  /* Mobile Filter Toggle Button */
+  .mobile-filter-btn {
+    display: none;
+    width: 100%;
+    margin-bottom: 16px;
+  }
 
-<!-- COMPARISON TOOL -->
-<div class="wrap" style="margin-top:64px">
-  <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
-    <div>
-      <div style="font-family:var(--serif);font-size:20px">Comparer les produits</div>
-      <div style="font-size:12px;color:#666">Sélectionnez 2-3 produits pour comparer prix, contenu, marge, avis</div>
-    </div>
-    <button class="btn light" onclick="alert('Comparateur: fonctionnalité premium à venir - sélection via checkbox sur cartes')">Comparer →</button>
-  </div>
-</div>
+  @media (max-width: 900px) {
+    .explorer-layout {
+      grid-template-columns: 1fr;
+    }
+    .filter-sidebar {
+      display: none;
+    }
+    .filter-sidebar.open {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #FFF;
+      overflow-y: auto;
+      border-radius: 0;
+      padding: 32px 20px;
+    }
+    .mobile-filter-btn {
+      display: flex;
+    }
+  }
+</style>
 {% endblock %}
 
-{% block scripts %}
-<script>
-// Deduplication visuelle - éviter répétition photo
-document.querySelectorAll('.prod-card').forEach(card=>{
-  const img=card.querySelector('img');
-  if(img){
-    // Génère couleur unique basée sur slug hash pour éviter répétition visuelle même si même image
-    const slug=card.getAttribute('href')||'';
-    let hash=0;
-    for(let i=0;i<slug.length;i++) hash=slug.charCodeAt(i)+((hash<<5)-hash);
-    const hue=Math.abs(hash)%360;
-    card.style.setProperty('--unique-hue',hue);
-    // Ajoute overlay subtil unique
-    const overlay=document.createElement('div');
-    overlay.style.position='absolute';
-    overlay.style.inset='0';
-    overlay.style.background=`linear-gradient(135deg, hsla(${hue},60%,90%,.15) 0%, transparent 60%)`;
-    overlay.style.pointerEvents='none';
-    overlay.style.mixBlendMode='multiply';
-    const wrap=card.querySelector('.img-wrap');
-    if(wrap) wrap.appendChild(overlay);
-  }
-});
+{% block content %}
+<div class="container">
 
-// Filtre fluide sans rechargement brutal (progressive enhancement)
-document.querySelectorAll('.filter-pill').forEach(pill=>{
-  pill.addEventListener('click',(e)=>{
-    // Animation de sortie puis navigation
-    const grid=document.querySelector('.prod-grid-immersive');
-    if(grid){
-      grid.style.opacity='.5';
-      grid.style.transform='translateY(8px)';
-      grid.style.transition='all .3s var(--ease-out)';
-    }
-  });
-});
+  <!-- Breadcrumb & Header -->
+  <div style="padding-top:24px;margin-bottom:12px;">
+    <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-dark);">Collection Complète</span>
+    <h1 style="font-size:32px;margin-top:4px;">Catalogue L'Effet Waouh</h1>
+    <p style="color:var(--ink-soft);font-size:14.5px;">Découvrez nos décors d'exception, kits festifs prêts à poser et objets personnalisés.</p>
+  </div>
+
+  <!-- Mobile Filter Opener -->
+  <button class="btn btn-outline mobile-filter-btn" onclick="toggleMobileFilters()" id="mobileFilterToggle">
+    ⚙️ Filtres & Tri (Univers, Prix, Thème, Couleur)
+  </button>
+
+  <div class="explorer-layout">
+
+    <!-- 1. Multi-criteria Filter Sidebar Form -->
+    <aside class="filter-sidebar" id="filterSidebar">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <h3 style="font-size:18px;">Filtres</h3>
+        <a href="/explorer" style="font-size:12px;color:var(--gold-dark);font-weight:700;text-decoration:underline;">Réinitialiser</a>
+      </div>
+
+      <form action="/explorer" method="get" id="catalogFilterForm">
+
+        <!-- Search term preservation -->
+        {% if query %}
+        <input type="hidden" name="q" value="{{ query }}">
+        {% endif %}
+
+        <!-- Filter 1: Univers / Événement -->
+        <div class="filter-group">
+          <div class="filter-group-title">Univers Événement</div>
+          <div class="filter-options-list">
+            <label class="filter-label">
+              <span><input type="radio" name="event" value="all" {% if not current_event or current_event == 'all' %}checked{% endif %} onchange="submitFilters()"> Tous les univers</span>
+            </label>
+            {% for u in universes %}
+            <label class="filter-label">
+              <span><input type="radio" name="event" value="{{ u.id }}" {% if current_event == u.id or current_event == u.slug %}checked{% endif %} onchange="submitFilters()"> {{ u.name }}</span>
+              <span style="font-size:11.5px;color:var(--ink-muted);">({{ u.product_count }})</span>
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Filter 2: Type de Produit / Formules -->
+        <div class="filter-group">
+          <div class="filter-group-title">Formule & Type</div>
+          <div class="filter-options-list">
+            <label class="filter-label">
+              <span><input type="checkbox" name="filter" value="kits" {% if filter == 'kits' %}checked{% endif %} onchange="submitFilters()"> 📦 Kits Clés en main</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="checkbox" name="custom_only" value="1" {% if custom_only == '1' %}checked{% endif %} onchange="submitFilters()"> ✏️ Personnalisables</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="checkbox" name="filter" value="best-sellers" {% if filter == 'best-sellers' %}checked{% endif %} onchange="submitFilters()"> ★ Best-sellers</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter 3: Tranche de Prix -->
+        <div class="filter-group">
+          <div class="filter-group-title">Budget / Prix</div>
+          <div class="filter-options-list">
+            <label class="filter-label">
+              <span><input type="radio" name="price_range" value="" {% if not price_range %}checked{% endif %} onchange="submitFilters()"> Tous les prix</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="radio" name="price_range" value="under-15" {% if price_range == 'under-15' %}checked{% endif %} onchange="submitFilters()"> Moins de 15 €</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="radio" name="price_range" value="15-30" {% if price_range == '15-30' %}checked{% endif %} onchange="submitFilters()"> De 15 € à 30 €</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="radio" name="price_range" value="30-60" {% if price_range == '30-60' %}checked{% endif %} onchange="submitFilters()"> De 30 € à 60 €</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="radio" name="price_range" value="over-60" {% if price_range == 'over-60' %}checked{% endif %} onchange="submitFilters()"> Plus de 60 € (Kits XXL)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter 4: Nuance & Couleur -->
+        <div class="filter-group">
+          <div class="filter-group-title">Couleur dominante</div>
+          <div class="filter-options-list">
+            <label class="filter-label">
+              <span><input type="radio" name="couleur" value="" {% if not couleur %}checked{% endif %} onchange="submitFilters()"> Toutes</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="radio" name="couleur" value="rose" {% if couleur == 'rose' %}checked{% endif %} onchange="submitFilters()"> 🌸 Rose / Terracotta</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="radio" name="couleur" value="bleu" {% if couleur == 'bleu' %}checked{% endif %} onchange="submitFilters()"> ☁️ Bleu / Ciel</span>
+            </label>
+            <label class="filter-label">
+              <span><input type="radio" name="couleur" value="or" {% if couleur == 'or' %}checked{% endif %} onchange="submitFilters()"> ✨ Blanc & Or / Chrome</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-sm" style="width:100%;margin-top:12px;" onclick="closeMobileFilters()">Appliquer les filtres</button>
+      </form>
+    </aside>
+
+    <!-- 2. Products Grid Area -->
+    <main>
+      <!-- Top Control Bar -->
+      <div class="catalog-topbar">
+        <div class="catalog-count">
+          <strong>{{ products|length }}</strong> produit{% if products|length > 1 %}s{% endif %} trouvé{% if products|length > 1 %}s{% endif %}
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px;">
+          <label style="font-size:13px;color:var(--ink-soft);font-weight:600;">Trier par :</label>
+          <select name="sort" class="catalog-sort-select" onchange="updateSort(this.value)">
+            <option value="popular" {% if sort == 'popular' or not sort %}selected{% endif %}>★ Meilleures ventes</option>
+            <option value="price-asc" {% if sort == 'price-asc' %}selected{% endif %}>Prix : Moins cher au plus cher</option>
+            <option value="price-desc" {% if sort == 'price-desc' %}selected{% endif %}>Prix : Plus cher au moins cher</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Active Filter Tags Display -->
+      {% if current_event or filter or couleur or price_range or custom_only or query %}
+      <div class="active-filters-wrap">
+        <span style="font-size:12.5px;color:var(--ink-muted);font-weight:600;">Filtres actifs :</span>
+        {% if current_event and current_event != 'all' %}<span class="active-filter-badge">Univers: {{ current_event }} <a href="/explorer?{% if query %}q={{ query }}&{% endif %}">✕</a></span>{% endif %}
+        {% if filter %}<span class="active-filter-badge">Filtre: {{ filter }} <a href="/explorer">✕</a></span>{% endif %}
+        {% if custom_only %}<span class="active-filter-badge">Personnalisable <a href="/explorer">✕</a></span>{% endif %}
+        {% if couleur %}<span class="active-filter-badge">Couleur: {{ couleur }} <a href="/explorer">✕</a></span>{% endif %}
+        {% if price_range %}<span class="active-filter-badge">Budget: {{ price_range }} <a href="/explorer">✕</a></span>{% endif %}
+        {% if query %}<span class="active-filter-badge">Recherche: « {{ query }} » <a href="/explorer">✕</a></span>{% endif %}
+        <a href="/explorer" style="font-size:12px;color:var(--gold-dark);text-decoration:underline;margin-left:8px;">Effacer tout</a>
+      </div>
+      {% endif %}
+
+      <!-- Products Grid -->
+      {% if products and products|length > 0 %}
+      <div class="products-grid">
+        {% for p in products %}
+        <div class="product-card" id="catalog-card-{{ p.slug }}">
+          <div class="product-card-media">
+            <a href="/produit/{{ p.slug }}">
+              <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">
+            </a>
+            <div class="product-card-badges">
+              {% if p.is_featured %}<span class="badge badge-dark">★ Best-seller</span>{% endif %}
+              {% if p.is_customizable %}<span class="badge badge-rose">Personnalisable</span>{% endif %}
+              {% if p.stock_qty < 15 %}<span class="badge badge-gold">Stock limité</span>{% endif %}
+            </div>
+          </div>
+          <div class="product-card-body">
+            <span class="product-card-event">{{ p.event_type }}</span>
+            <a href="/produit/{{ p.slug }}">
+              <h3 class="product-card-title">{{ p.name }}</h3>
+            </a>
+            <p class="product-card-desc">{{ p.short_desc }}</p>
+            <div class="product-card-footer">
+              <div class="product-card-price-wrap">
+                <span class="product-card-price">{{ p.price_ttc }} €</span>
+                {% if p.compare_at_price > p.price_ttc %}
+                <span class="product-card-compare">{{ p.compare_at_price }} €</span>
+                {% endif %}
+              </div>
+              <button class="product-card-add-btn" onclick="flyToCart(event, '{{ p.slug }}')" aria-label="Ajouter au panier">+</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius-md);padding:48px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:12px;">🔍</div>
+        <h3 style="font-size:20px;margin-bottom:8px;">Aucun produit ne correspond à vos filtres</h3>
+        <p style="color:var(--ink-soft);font-size:14px;margin-bottom:20px;">Essayez d'élargir votre sélection ou de réinitialiser les filtres.</p>
+        <a href="/explorer" class="btn btn-primary">Réinitialiser les filtres</a>
+      </div>
+      {% endif %}
+    </main>
+
+  </div>
+</div>
+
+<script>
+  function submitFilters() {
+    const form = document.getElementById('catalogFilterForm');
+    if (form) form.submit();
+  }
+
+  function updateSort(val) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort', val);
+    window.location.href = url.toString();
+  }
+
+  function toggleMobileFilters() {
+    const sidebar = document.getElementById('filterSidebar');
+    if (sidebar) sidebar.classList.toggle('open');
+  }
+
+  function closeMobileFilters() {
+    const sidebar = document.getElementById('filterSidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
 </script>
 {% endblock %}

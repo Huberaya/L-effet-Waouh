@@ -3,10 +3,10 @@
 <div style="padding-top:90px"></div>
 <div class="wrap-narrow">
   <div class="section-label">Blog — Guide</div>
-  <h1 class="sec-title" style="font-size:38px">{{ slug.replace('-',' ') | title }}</h1>
-  <p class="sec-sub">Guide complet 2000 mots + photos + produits. Exemple structure SEO.</p>
+  <h1 class="sec-title" style="font-size:38px">{{ article.title if article and article.title else 'Guide Déco' }}</h1>
+  <p class="sec-sub">{{ article.desc if article and article.desc else 'Guide complet 2000 mots + photos + produits. Exemple structure SEO.' }}</p>
   <div style="background:#fff;border:1px solid var(--line);padding:32px;margin-top:24px;line-height:1.8">
-    <p><strong>Intro 150 mots avec mot-clé principal:</strong> Organiser {{ slug.replace('-',' ') }} peut sembler complexe, mais avec les bons produits et un peu d'organisation, vous créerez un moment inoubliable. Dans ce guide, on vous donne 15 idées testées, avec budget, checklist et produits L'Effet Waouh.</p>
+    <p><strong>Intro 150 mots avec mot-clé principal:</strong> Organiser votre événement peut sembler complexe, mais avec les bons produits et un peu d'organisation, vous créerez un moment inoubliable. Dans ce guide, on vous donne 15 idées testées, avec budget, checklist et produits L'Effet Waouh.</p>
     <h2 style="font-family:var(--serif);font-size:24px;margin:32px 0 16px">1. L'idée qui fait l'effet Waouh</h2>
     <p>Le ballon éclatable 90cm reste le best-seller absolu: 4409 ventes/mois sur Amazon, marge 74% wholesale. Il suffit d'une épingle et de confettis rose/bleu. Effet garanti pour vidéo TikTok.</p>
     <h2 style="font-family:var(--serif);font-size:24px;margin:32px 0 16px">2. Checklist complète</h2>
@@ -17,7 +17,7 @@
       <li>Photo: photobooth accessoires, cadre</li>
     </ul>
     <h2 style="font-family:var(--serif);font-size:24px;margin:32px 0 16px">3. Produits recommandés</h2>
-    <p>Ci-dessous notre sélection best-sellers pour {{ slug.replace('-',' ') }}:</p>
+    <p>Ci-dessous notre sélection best-sellers pour vos festivités:</p>
   </div>
   <div class="prod-grid" style="margin-top:24px">
     {% for p in related %}

@@ -1,0 +1,161 @@
+{% extends "base_premium.html" %}
+
+{% block title %}L'Atelier Personnalisation — Gravure & Impression sur-mesure{% endblock %}
+{% block meta_desc %}Découvrez nos créations personnalisées à la commande dans notre atelier nantais : livres d'or en bois naturel, bougies en verre ambré, affiches d'art et contenants à dragées gravés.{% endblock %}
+
+{% block extra_css %}
+<style>
+  .atelier-hero {
+    background: #FFFDF9;
+    border: 1px solid rgba(184, 147, 91, 0.3);
+    border-radius: var(--radius-lg);
+    padding: 56px 40px;
+    margin: 16px 0 48px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .live-wood-studio {
+    background: #E8D3B9;
+    border: 4px solid #C4A47E;
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(143, 109, 56, 0.2);
+  }
+  .steps-craft-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+  .step-craft-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    position: relative;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #FFF;
+    font-weight: 800;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 900px) {
+    .atelier-hero { grid-template-columns: 1fr; padding: 32px 20px; }
+    .steps-craft-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Atelier Hero & Interactive Studio -->
+  <section class="atelier-hero" id="atelierHero">
+    <div>
+      <span class="badge badge-rose" style="margin-bottom:14px;">Fabriqué & Gravé à Nantes</span>
+      <h1 style="font-size:clamp(30px,4vw,44px);color:var(--ink);line-height:1.2;margin-bottom:14px;">L'Atelier des Créations Uniques</h1>
+      <p style="color:var(--ink-soft);font-size:15px;line-height:1.6;margin-bottom:24px;">
+        Chaque histoire est unique. Nous gravons au laser de précision et imprimons sur papier d'art vos prénoms, dates et messages pour créer des souvenirs inaltérables.
+      </p>
+
+      <!-- Live interactive input -->
+      <div style="background:#FAF8F5;border:1px solid var(--line);border-radius:var(--radius-md);padding:20px;">
+        <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;margin-bottom:6px;">Testez votre texte en direct :</label>
+        <input type="text" id="liveAtelierText" value="Camille & Alexandre" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14px;margin-bottom:10px;" oninput="updateAtelierPreview()">
+        
+        <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;margin-bottom:6px;">Date ou sous-titre :</label>
+        <input type="text" id="liveAtelierDate" value="22 AOÛT 2026" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14px;" oninput="updateAtelierPreview()">
+      </div>
+    </div>
+
+    <!-- Live Preview Display -->
+    <div style="display:flex;justify-content:center;">
+      <div class="live-wood-studio" style="width:100%;max-width:340px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:#7A572F;font-weight:700;margin-bottom:8px;">Aperçu Gravure Bois</div>
+        <div id="atelierPrevName" style="font-family:var(--font-serif);font-size:24px;font-weight:700;color:#573B1B;letter-spacing:0.02em;margin-bottom:4px;">Camille & Alexandre</div>
+        <div id="atelierPrevDate" style="font-size:13px;text-transform:uppercase;letter-spacing:0.18em;color:#7A572F;font-weight:600;">22 AOÛT 2026</div>
+        <div style="margin-top:16px;color:#8F6D38;font-size:16px;">🌿 ✦ 🌿</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Steps How it works -->
+  <section class="steps-craft-grid">
+    <div class="step-craft-card">
+      <div class="step-num">1</div>
+      <h3 style="font-size:16px;margin-bottom:6px;">Choisissez votre support</h3>
+      <p style="font-size:13px;color:var(--ink-muted);line-height:1.5;">Livre d'or en bois naturel, bougie parfumée en verre ambré, affiche ou contenant à dragées.</p>
+    </div>
+    <div class="step-craft-card">
+      <div class="step-num">2</div>
+      <h3 style="font-size:16px;margin-bottom:6px;">Saisissez vos textes</h3>
+      <p style="font-size:13px;color:var(--ink-muted);line-height:1.5;">Prénoms, date, poids de naissance ou citations. Nous adaptons la mise en page manuellement.</p>
+    </div>
+    <div class="step-craft-card">
+      <div class="step-num">3</div>
+      <h3 style="font-size:16px;margin-bottom:6px;">Fabrication & Envoi 48h</h3>
+      <p style="font-size:13px;color:var(--ink-muted);line-height:1.5;">Gravé avec amour à Nantes et soigneusement emballé dans un carton renforcé protecteur.</p>
+    </div>
+  </section>
+
+  <!-- Customizable Products Catalog -->
+  <section id="atelierProducts" style="margin-bottom:64px;">
+    <div style="margin-bottom:28px;">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-dark);">Catalogue Sur-Mesure</span>
+      <h2 style="font-size:28px;">Tous les objets personnalisables</h2>
+    </div>
+
+    <div class="products-grid">
+      {% for p in custom_products %}
+      <div class="product-card">
+        <div class="product-card-media">
+          <a href="/produit/{{ p.slug }}">
+            <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">
+          </a>
+          <div class="product-card-badges">
+            <span class="badge badge-rose">Gravure Atelier</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-card-event">{{ p.event_type }}</span>
+          <a href="/produit/{{ p.slug }}">
+            <h3 class="product-card-title">{{ p.name }}</h3>
+          </a>
+          <p class="product-card-desc">{{ p.short_desc }}</p>
+          <div class="product-card-footer">
+            <div class="product-card-price-wrap">
+              <span class="product-card-price">{{ p.price_ttc }} €</span>
+              {% if p.compare_at_price > p.price_ttc %}
+              <span class="product-card-compare">{{ p.compare_at_price }} €</span>
+              {% endif %}
+            </div>
+            <a href="/produit/{{ p.slug }}" class="btn btn-primary btn-sm">Personnaliser →</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function updateAtelierPreview() {
+    const text = document.getElementById('liveAtelierText').value.trim() || 'Vos Prénoms';
+    const date = document.getElementById('liveAtelierDate').value.trim().toUpperCase() || 'DATE ÉVÉNEMENT';
+    document.getElementById('atelierPrevName').innerText = text;
+    document.getElementById('atelierPrevDate').innerText = date;
+  }
+</script>
+{% endblock %}

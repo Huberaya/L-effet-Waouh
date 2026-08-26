@@ -1,26 +1,123 @@
-{% extends "base_v3.html" %}
-{% block content %}
-<div style="padding-top:90px"></div>
-<div class="wrap">
-  <div class="section-label">Kits événementiels — Objectif panier moyen x4</div>
-  <h1 class="sec-title">Kits complets<br>— Économie 15% vs séparé</h1>
-  <p class="sec-sub">Un kit = tout pour votre événement. Plus besoin de chercher. Panier moyen 74.90€ vs 19.90€ à l'unité. Stock Nantes 48h.</p>
-  
-  <div class="kit-banner" style="margin:24px 0">
-    <div><h3>Exemple: Kit Mariage Essentiel 50 pers — 88.90€</h3><p>50 cierges + 1kg confettis + 24 bulles + 20 marque-places + livre or. Au lieu de 108€ séparé.</p></div>
-    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold)">Marge 63% • Best-seller</div>
-  </div>
+{% extends "base_premium.html" %}
 
-  <div class="prod-grid">
-    {% for p in products %}
-    <a href="/shop/p/{{ p['slug'] }}" class="prod-card" style="border:2px solid var(--ink)">
-      <div class="img"><img src="{{ p.image_url or '/static/images/10-vin-honneur.jpg' }}" alt="{{ p['name'] }}" onerror="this.src='/static/images/01-hero.jpg'"></div>
-      <div class="badges"><span class="badge ink">KIT</span><span class="badge gold">{{ p['event_type'] }}</span><span class="badge">-15%</span></div>
-      <h4>{{ p['name'] }}</h4>
-      <div class="desc">{{ p['short_desc'] }}</div>
-      <div class="price">{{ p['price_ttc'] }}€ <small>• Économie 15% • {{ p['stock_qty'] }} en stock</small></div>
-    </a>
-    {% endfor %}
-  </div>
+{% block title %}Kits Événementiels Clés en Main — L'Effet Waouh{% endblock %}
+{% block meta_desc %}Découvrez nos formules et kits complets prêts à poser pour mariages, gender reveals, baby showers et anniversaires. Économisez jusqu'à 20% avec nos packs harmonisés.{% endblock %}
+
+{% block extra_css %}
+<style>
+  .kits-hero {
+    background: linear-gradient(135deg, #2D2722 0%, #1A1A18 100%);
+    color: #FAF8F5;
+    border-radius: var(--radius-lg);
+    padding: 56px 40px;
+    margin: 16px 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kits-advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .advantage-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    text-align: center;
+  }
+  .advantage-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 900px) {
+    .kits-advantages-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Hero Kits -->
+  <section class="kits-hero" id="kitsHero">
+    <div style="max-width:640px;position:relative;z-index:2;">
+      <span class="badge badge-gold" style="margin-bottom:16px;">Packs Tout-en-un • -20% d'économie</span>
+      <h1 style="font-size:clamp(30px,4vw,44px);color:#FFF;line-height:1.2;margin-bottom:14px;">Les Kits Déco Clés en Main</h1>
+      <p style="color:#D6D6CE;font-size:15px;line-height:1.6;margin-bottom:28px;">
+        Plus besoin de passer des heures à chercher des éléments assortis. Nos kits rassemblent tout le nécessaire : arches de ballons, vaisselle coordonnée, accessoires d'animation et notice de montage.
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="#kitsList" class="btn btn-gold">Voir toutes les formules ↓</a>
+        <a href="/explorer" class="btn btn-outline" style="color:#FFF;border-color:rgba(255,255,255,0.4);">Voir les pièces à l'unité</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Big Advantages of Kits -->
+  <section class="kits-advantages-grid">
+    <div class="advantage-card">
+      <div class="advantage-icon">⏱️</div>
+      <h4 style="font-size:15px;margin-bottom:4px;">Gain de temps maximal</h4>
+      <p style="font-size:12.5px;color:var(--ink-muted);">Tous vos éléments festifs réunis en un seul clic et un seul colis.</p>
+    </div>
+    <div class="advantage-card">
+      <div class="advantage-icon">🎨</div>
+      <h4 style="font-size:15px;margin-bottom:4px;">Harmonie parfaite</h4>
+      <p style="font-size:12.5px;color:var(--ink-muted);">Couleurs, matières et formats testés et assortis par nos décoratrices.</p>
+    </div>
+    <div class="advantage-card">
+      <div class="advantage-icon">💰</div>
+      <h4 style="font-size:15px;margin-bottom:4px;">-20% d'économie</h4>
+      <p style="font-size:12.5px;color:var(--ink-muted);">Tarif pack avantageux comparé aux achats de produits séparés.</p>
+    </div>
+    <div class="advantage-card">
+      <div class="advantage-icon">📖</div>
+      <h4 style="font-size:15px;margin-bottom:4px;">Guide de montage inclus</h4>
+      <p style="font-size:12.5px;color:var(--ink-muted);">Notice illustrée pas-à-pas et accessoires de fixation fournis.</p>
+    </div>
+  </section>
+
+  <!-- Kits Catalog -->
+  <section id="kitsList" style="margin-bottom:64px;">
+    <div style="margin-bottom:28px;">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-dark);">Formules Disponibles</span>
+      <h2 style="font-size:28px;">Choisissez votre formule selon votre fête</h2>
+    </div>
+
+    <div class="products-grid">
+      {% for p in kits %}
+      <div class="product-card">
+        <div class="product-card-media">
+          <a href="/produit/{{ p.slug }}">
+            <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">
+          </a>
+          <div class="product-card-badges">
+            <span class="badge badge-gold">Pack complet</span>
+            <span class="badge badge-dark">-20% remise</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-card-event">{{ p.event_type }}</span>
+          <a href="/produit/{{ p.slug }}">
+            <h3 class="product-card-title">{{ p.name }}</h3>
+          </a>
+          <p class="product-card-desc">{{ p.short_desc }}</p>
+          <div class="product-card-footer">
+            <div class="product-card-price-wrap">
+              <span class="product-card-price">{{ p.price_ttc }} €</span>
+              {% if p.compare_at_price > p.price_ttc %}
+              <span class="product-card-compare">{{ p.compare_at_price }} €</span>
+              {% endif %}
+            </div>
+            <button class="product-card-add-btn" onclick="flyToCart(event, '{{ p.slug }}')" aria-label="Ajouter au panier">+</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
 </div>
 {% endblock %}

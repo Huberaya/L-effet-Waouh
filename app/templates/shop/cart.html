@@ -1,50 +1,299 @@
-{% extends "base.html" %}
-{% block content %}
-<section style="padding:140px 0 40px;background:#fff;border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <div class="section-label">Panier</div>
-    <h1 style="font-family:var(--serif);font-size:48px;letter-spacing:-1px">Panier — {{ items|length }} articles</h1>
-  </div>
-</section>
+{% extends "base_premium.html" %}
 
-<section>
-  <div class="wrap" style="max-width:1000px">
-    {% if not items %}
-    <div style="text-align:center;padding:100px 0" class="reveal">
-      <div style="font-family:var(--serif);font-size:72px;opacity:.2">∅</div>
-      <h2 style="font-family:var(--serif);font-size:28px;margin:20px 0">Ton panier est vide</h2>
-      <p style="color:#8a8a8a;font-weight:300;margin-bottom:32px">Découvre nos best-sellers gender reveal</p>
-      <a href="/shop/event/gender_reveal" class="btn">Explorer Gender Reveal →</a>
+{% block title %}Votre Panier — L'Effet Waouh{% endblock %}
+
+{% block extra_css %}
+<style>
+  .cart-layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 36px;
+    margin: 24px 0 64px;
+    align-items: flex-start;
+  }
+
+  /* Cart table / items */
+  .cart-box {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+  }
+  .cart-item-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-subtle);
+    align-items: center;
+  }
+  .cart-item-row:last-child {
+    border-bottom: none;
+  }
+  .cart-item-img {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    background: var(--bg-alt);
+  }
+
+  /* Free Shipping Progress bar */
+  .shipping-progress-card {
+    background: var(--gold-light);
+    border: 1px solid rgba(184, 147, 91, 0.3);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: rgba(184, 147, 91, 0.25);
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold-dark);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  /* Order Summary Box */
+  .summary-box {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    position: sticky;
+    top: 96px;
+  }
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ink);
+    border-top: 1.5px solid var(--line);
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+
+  /* Delivery options */
+  .delivery-option {
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .delivery-option.active {
+    border-color: var(--ink);
+    background: #FAF8F5;
+  }
+
+  @media (max-width: 900px) {
+    .cart-layout { grid-template-columns: 1fr; }
+    .summary-box { position: static; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div style="padding-top:24px;margin-bottom:16px;">
+    <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-dark);">Votre Commande</span>
+    <h1 style="font-size:32px;margin-top:4px;">Mon Panier d'Événement</h1>
+  </div>
+
+  {% if cart and cart.items and cart.items|length > 0 %}
+
+  <!-- Free Shipping Progress -->
+  {% set remaining_free_shipping = 59 - (cart.subtotal_ttc or 0) %}
+  <div class="shipping-progress-card">
+    {% if remaining_free_shipping > 0 %}
+    <div style="font-size:13.5px;font-weight:700;color:var(--ink);">
+      🚚 Plus que <strong>{{ remaining_free_shipping|round(2) }} €</strong> d'achats pour profiter de la <strong>livraison offerte</strong> !
+    </div>
+    {% set pct = ((cart.subtotal_ttc / 59) * 100)|round %}
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" style="width: {{ pct }}%;"></div>
     </div>
     {% else %}
-    <div style="display:grid;grid-template-columns:1.5fr .8fr;gap:60px;align-items:start">
-      <div>
-        {% for it in items %}
-        <div class="cart-item reveal" style="transition-delay: {{ loop.index * 0.05 }}s">
-          <div style="width:80px;height:80px;background:#F5F2ED;overflow:hidden"><img src="/static/images/06-bulles-confettis.jpg" style="width:100%;height:100%;object-fit:cover"></div>
-          <div style="flex:1">
-            <div style="font-family:var(--serif);font-size:16px">{{ it['name'] }}</div>
-            {% if it['variant_name'] %}<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8a8a;margin-top:4px">{{ it['variant_name'] }} • {{ it['attribute_value'] }}</div>{% endif %}
-            <div style="font-size:13px;margin-top:8px">Qté {{ it['quantity'] }} × {{ it['price_ttc_at_add'] }}€ = <b>{{ (it['quantity']*it['price_ttc_at_add'])|round(2) }}€</b></div>
-          </div>
-          <form method="post" action="/cart/remove/{{ it['id'] }}"><button style="border:1px solid var(--line);background:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer">✕</button></form>
-        </div>
-        {% endfor %}
-      </div>
-      <div style="position:sticky;top:120px;border:1px solid var(--line);padding:32px;background:#fff" class="reveal">
-        <h3 style="font-family:var(--serif);font-size:20px;margin-bottom:16px">Résumé</h3>
-        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><span style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#8a8a8a">Sous-total</span><b>{{ total|round(2) }}€</b></div>
-        {% if total < shipping_free_from %}
-        <div style="margin:16px 0;padding:16px;background:#FFFBF5;border:1px solid var(--line);font-size:13px">Plus que {{ (shipping_free_from - total)|round(2) }}€ pour livraison gratuite Mondial Relay<div style="height:2px;background:var(--line);margin-top:10px"><div style="height:100%;width:{{ (total/shipping_free_from*100)|round(0) }}%;background:var(--ink)"></div></div></div>
-        {% else %}
-        <div style="margin:16px 0;padding:12px;background:#000;color:#fff;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-align:center">✓ Livraison gratuite débloquée</div>
-        {% endif %}
-        <div style="display:flex;justify-content:space-between;padding:16px 0;font-family:var(--serif);font-size:22px"><span>Total</span><span>{{ total|round(2) }}€</span></div>
-        <a href="/checkout" class="btn" style="width:100%;justify-content:center">Commander →</a>
-        <div style="text-align:center;margin-top:16px"><a href="/shop" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8a8a">← Continuer mes achats</a></div>
-      </div>
+    <div style="font-size:13.5px;font-weight:700;color:#2F5335;">
+      ✨ Félicitations ! Vous bénéficiez de la <strong>livraison OFFERTE</strong> !
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" style="width: 100%;"></div>
     </div>
     {% endif %}
   </div>
-</section>
+
+  <div class="cart-layout">
+
+    <!-- 1. Cart Items List -->
+    <div class="cart-box">
+      <div style="font-size:16px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line-subtle);">
+        Articles sélectionnés ({{ cart.items|length }})
+      </div>
+
+      {% for item in cart.items %}
+      <div class="cart-item-row" id="cartRow-{{ item.id }}">
+        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="cart-item-img">
+        
+        <div>
+          <span style="font-size:10.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:700;">{{ item.product.event_type }}</span>
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:4px;">
+            <a href="/produit/{{ item.product.slug }}">{{ item.product.name }}</a>
+          </h3>
+          
+          {% if item.variant %}
+          <div style="font-size:12px;color:var(--ink-muted);margin-bottom:4px;">Option : <strong>{{ item.variant.name }}</strong></div>
+          {% endif %}
+
+          {% if item.custom_text %}
+          <div style="font-size:12px;color:#B5475E;background:#FDF2F4;padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:4px;">
+            ✏️ Gravure : « {{ item.custom_text }} »
+          </div>
+          {% endif %}
+
+          <div style="display:flex;align-items:center;gap:12px;margin-top:6px;">
+            <span style="font-size:13px;font-weight:700;">Quantité : {{ item.quantity }}</span>
+            <button onclick="removeItem({{ item.id }})" style="background:none;border:none;color:#B5475E;font-size:12px;cursor:pointer;text-decoration:underline;">Supprimer</button>
+          </div>
+        </div>
+
+        <div style="text-align:right;">
+          <div style="font-size:16px;font-weight:800;color:var(--ink);">{{ (item.unit_price * item.quantity)|round(2) }} €</div>
+          <div style="font-size:11.5px;color:var(--ink-muted);">{{ item.unit_price }} € / unité</div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;">
+        <a href="/explorer" style="font-size:13px;font-weight:600;color:var(--gold-dark);">← Continuer mes achats</a>
+        <button onclick="clearCart()" class="btn btn-outline btn-sm">Vider le panier</button>
+      </div>
+    </div>
+
+    <!-- 2. Summary & Simple Checkout Form -->
+    <div class="summary-box">
+      <h3 style="font-size:18px;margin-bottom:18px;">Récapitulatif de commande</h3>
+
+      <div class="summary-line">
+        <span>Sous-total articles TTC</span>
+        <strong style="color:var(--ink);">{{ cart.subtotal_ttc }} €</strong>
+      </div>
+
+      <!-- Delivery selection -->
+      <div style="margin:16px 0;">
+        <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;margin-bottom:8px;color:var(--ink-soft);">Mode de livraison :</label>
+        
+        <div class="delivery-option active" onclick="selectShipping('mondial', 4.90, this)">
+          <div>
+            <div style="font-weight:700;font-size:13px;">Mondial Relay (3-4j)</div>
+            <div style="font-size:11.5px;color:var(--ink-muted);">En point relais proche de chez vous</div>
+          </div>
+          <strong>{% if cart.subtotal_ttc >= 59 %}Gratuit{% else %}4,90 €{% endif %}</strong>
+        </div>
+
+        <div class="delivery-option" onclick="selectShipping('colissimo', 7.90, this)">
+          <div>
+            <div style="font-weight:700;font-size:13px;">Colissimo Domicile (48h)</div>
+            <div style="font-size:11.5px;color:var(--ink-muted);">Directement dans votre boîte aux lettres</div>
+          </div>
+          <strong>{% if cart.subtotal_ttc >= 75 %}Gratuit{% else %}7,90 €{% endif %}</strong>
+        </div>
+
+        <div class="delivery-option" onclick="selectShipping('chrono', 12.90, this)">
+          <div>
+            <div style="font-weight:700;font-size:13px;">Chronopost 24h Express</div>
+            <div style="font-size:11.5px;color:var(--ink-muted);">Livré demain matin avant 13h</div>
+          </div>
+          <strong>12,90 €</strong>
+        </div>
+      </div>
+
+      <div class="summary-line">
+        <span>Frais d'expédition estimés</span>
+        <span id="shippingPriceDisplay">{% if cart.subtotal_ttc >= 59 %}Offerts{% else %}4,90 €{% endif %}</span>
+      </div>
+
+      <div class="summary-total">
+        <span>Total TTC</span>
+        <span id="finalCartTotal">{{ cart.total_ttc }} €</span>
+      </div>
+
+      <!-- Quick Checkout Trigger -->
+      <div style="margin-top:24px;">
+        <form action="/checkout" method="post">
+          <div style="margin-bottom:14px;">
+            <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Votre Email pour le suivi :</label>
+            <input type="email" name="customer_email" required placeholder="nom@exemple.fr" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:13.5px;">
+          </div>
+          <button type="submit" class="btn btn-gold btn-lg" style="width:100%;" id="checkoutBtn">
+            🔒 Valider ma commande sécurisée
+          </button>
+        </form>
+      </div>
+
+      <div style="margin-top:18px;text-align:center;font-size:12px;color:var(--ink-muted);line-height:1.5;">
+        Paiement 100% sécurisé via CB / Apple Pay.<br>Expédition rapide garantie depuis Nantes.
+      </div>
+    </div>
+
+  </div>
+
+  {% else %}
+  <!-- Empty Cart State -->
+  <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:64px 24px;text-align:center;margin:32px 0 64px;">
+    <div style="font-size:48px;margin-bottom:16px;">🛍️</div>
+    <h2 style="font-size:24px;margin-bottom:8px;">Votre panier est actuellement vide</h2>
+    <p style="color:var(--ink-soft);font-size:14.5px;max-width:480px;margin:0 auto 24px;">
+      Découvrez nos décors d'exception, kits festifs prêts à poser et objets personnalisés pour votre prochain événement.
+    </p>
+    <a href="/explorer" class="btn btn-gold btn-lg">Explorer le catalogue →</a>
+  </div>
+  {% endif %}
+
+</div>
+
+<script>
+  async function removeItem(itemId) {
+    try {
+      const res = await fetch('/cart/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item_id: itemId })
+      });
+      if (res.ok) window.location.reload();
+    } catch(e) { console.error(e); }
+  }
+
+  async function clearCart() {
+    try {
+      const res = await fetch('/cart/clear', { method: 'POST' });
+      if (res.ok) window.location.reload();
+    } catch(e) { console.error(e); }
+  }
+
+  function selectShipping(type, cost, elem) {
+    document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('active'));
+    elem.classList.add('active');
+  }
+</script>
 {% endblock %}

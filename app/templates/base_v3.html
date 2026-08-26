@@ -130,7 +130,7 @@ footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
     </nav>
     <div class="topbar-right">
       <form class="search-mini" action="/search" method="get">
-        <input name="q" placeholder="Rechercher couleur, thème, âge..." value="{{ request.query_params.get('q','') if request is defined else '' }}">
+        <input name="q" placeholder="Rechercher couleur, thème, âge..." value="{{ query or '' }}">
         <button type="submit">⌕</button>
       </form>
       <a href="/cart" class="cart-badge">Panier</a>

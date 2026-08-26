@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>{% block title %}L'Effet Waouh — La marque des grands moments{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}Décorations d'exception, kits festifs prêts à poser et objets personnalisés pour vos mariages, gender reveals, baby showers, baptêmes et anniversaires.{% endblock %}">
+
+  <!-- Fonts: Playfair Display + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAF8F5;
+      --bg-card: #FFFFFF;
+      --bg-alt: #F3EFEA;
+      --ink: #1A1A18;
+      --ink-soft: #4A4A45;
+      --ink-muted: #7A7A73;
+      --line: #E8E2D9;
+      --line-subtle: #F0EBE3;
+      --gold: #B8935B;
+      --gold-light: #F4EDE2;
+      --gold-dark: #8F6D38;
+      --rose: #E88E9B;
+      --rose-light: #FDF2F4;
+      --sky: #5B92B8;
+      --sky-light: #F0F6FA;
+      --green-sauge: #6B8B70;
+      --green-light: #F1F6F2;
+      
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-pill: 9999px;
+      
+      --shadow-sm: 0 2px 8px rgba(26, 26, 24, 0.04);
+      --shadow-md: 0 8px 24px rgba(26, 26, 24, 0.07);
+      --shadow-lg: 0 16px 40px rgba(26, 26, 24, 0.12);
+      --shadow-gold: 0 8px 25px rgba(184, 147, 91, 0.25);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Container math */
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .container-narrow {
+      width: 100%;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    /* Typography */
+    .font-serif { font-family: var(--font-serif); }
+    .font-sans { font-family: var(--font-sans); }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    /* Announcement Bar */
+    .announcement-bar {
+      background: var(--ink);
+      color: #FAF8F5;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 8px 16px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .announcement-bar span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .announcement-bar .dot {
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    /* Header */
+    header.site-header {
+      background: rgba(250, 248, 245, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .header-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      gap: 24px;
+    }
+
+    /* Logo */
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      background: var(--ink);
+      color: #FAF8F5;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(26, 26, 24, 0.15);
+      border: 1px solid rgba(184, 147, 91, 0.3);
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .brand-tagline {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold-dark);
+      font-weight: 600;
+    }
+
+    /* Natural Search in Header */
+    .search-container {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+    .search-form {
+      display: flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-pill);
+      padding: 4px 6px 4px 16px;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .search-form:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184, 147, 91, 0.15);
+    }
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13.5px;
+      color: var(--ink);
+      padding-right: 8px;
+    }
+    .search-input::placeholder {
+      color: var(--ink-muted);
+      font-size: 13px;
+    }
+    .search-submit-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #FAF8F5;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      font-size: 13px;
+    }
+    .search-submit-btn:hover {
+      background: var(--gold);
+      transform: scale(1.05);
+    }
+
+    /* Header Nav Links */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .header-link-btn {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-link-btn:hover {
+      color: var(--ink);
+      background: var(--bg-alt);
+    }
+    .header-link-btn.highlight {
+      background: var(--gold-light);
+      color: var(--gold-dark);
+      border: 1px solid rgba(184, 147, 91, 0.25);
+    }
+    .header-link-btn.highlight:hover {
+      background: var(--gold);
+      color: #FFF;
+    }
+
+    /* Cart trigger badge */
+    .cart-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink);
+      color: #FAF8F5;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 13.5px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 14px rgba(26, 26, 24, 0.12);
+    }
+    .cart-trigger:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(26, 26, 24, 0.2);
+    }
+    .cart-badge-count {
+      background: var(--gold);
+      color: #FFF;
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+    }
+
+    /* Universe Subnavigation Bar */
+    .universe-nav-bar {
+      border-top: 1px solid var(--line-subtle);
+      background: #FAF8F5;
+      padding: 6px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .universe-nav-bar::-webkit-scrollbar {
+      display: none;
+    }
+    .universe-nav-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+      white-space: nowrap;
+    }
+    .universe-nav-item a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .universe-nav-item a:hover {
+      background: var(--bg-card);
+      border-color: var(--line);
+      color: var(--ink);
+    }
+    .universe-nav-item.active a {
+      background: var(--ink);
+      color: #FAF8F5;
+      border-color: var(--ink);
+    }
+    .universe-nav-item.kits a {
+      background: var(--gold-light);
+      color: var(--gold-dark);
+      border-color: rgba(184, 147, 91, 0.3);
+    }
+    .universe-nav-item.kits a:hover {
+      background: var(--gold);
+      color: #FFF;
+    }
+    .universe-nav-item.atelier a {
+      background: #FDF2F4;
+      color: #B5475E;
+      border-color: rgba(232, 142, 155, 0.3);
+    }
+    .universe-nav-item.atelier a:hover {
+      background: var(--rose);
+      color: #FFF;
+    }
+
+    /* Standard Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: #FAF8F5;
+      border-color: var(--ink);
+      box-shadow: 0 4px 14px rgba(26, 26, 24, 0.15);
+    }
+    .btn-primary:hover {
+      background: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(26, 26, 24, 0.22);
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: #FFFFFF;
+      border-color: var(--gold);
+      box-shadow: var(--shadow-gold);
+    }
+    .btn-gold:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+    .btn-outline:hover {
+      background: var(--bg-card);
+      border-color: var(--ink);
+    }
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 12.5px;
+    }
+    .btn-lg {
+      padding: 16px 32px;
+      font-size: 15px;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .badge-gold { background: var(--gold-light); color: var(--gold-dark); border: 1px solid rgba(184, 147, 91, 0.2); }
+    .badge-rose { background: var(--rose-light); color: #B5475E; border: 1px solid rgba(232, 142, 155, 0.25); }
+    .badge-sky { background: var(--sky-light); color: #35678B; border: 1px solid rgba(91, 146, 184, 0.25); }
+    .badge-green { background: var(--green-light); color: #436348; border: 1px solid rgba(107, 139, 112, 0.25); }
+    .badge-dark { background: var(--ink); color: #FAF8F5; }
+
+    /* Product Card Component */
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.2s ease;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #D6CCC0;
+    }
+    .product-card-media {
+      position: relative;
+      aspect-ratio: 1;
+      background: var(--bg-alt);
+      overflow: hidden;
+    }
+    .product-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-card-media img {
+      transform: scale(1.04);
+    }
+    .product-card-badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+    .product-card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .product-card-event {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin-bottom: 6px;
+    }
+    .product-card-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.35;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .product-card-desc {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .product-card-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--line-subtle);
+    }
+    .product-card-price-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card-price {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .product-card-compare {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      text-decoration: line-through;
+    }
+    .product-card-add-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .product-card-add-btn:hover {
+      background: var(--ink);
+      color: #FFF;
+      border-color: var(--ink);
+      transform: scale(1.08);
+    }
+
+    /* Grid standard */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    /* Trust & Guarantee Section */
+    .trust-strip {
+      background: var(--bg-card);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 36px 0;
+      margin-top: auto;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .trust-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--gold-light);
+      color: var(--gold-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .trust-content h4 {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .trust-content p {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      line-height: 1.4;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--ink);
+      color: #FAF8F5;
+      padding: 64px 0 32px;
+      font-size: 13.5px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-col h5 {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      color: #FAF8F5;
+      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links a {
+      color: #B5B5AD;
+      transition: color 0.2s ease;
+    }
+    .footer-links a:hover {
+      color: #FAF8F5;
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #8A8A82;
+      font-size: 12px;
+    }
+
+    /* Mobile Bottom Navigation */
+    .mobile-bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--line);
+      z-index: 99;
+      height: 60px;
+      padding: 6px 12px;
+    }
+    .mobile-bottom-nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 100%;
+    }
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      text-decoration: none;
+      position: relative;
+    }
+    .mobile-nav-item.active {
+      color: var(--ink);
+    }
+    .mobile-nav-item svg {
+      width: 20px;
+      height: 20px;
+    }
+    .mobile-nav-badge {
+      position: absolute;
+      top: -2px;
+      right: 6px;
+      background: var(--gold);
+      color: #FFF;
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 8px;
+      padding: 1px 5px;
+    }
+
+    /* Toast Notification */
+    #cartToast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--ink);
+      color: #FAF8F5;
+      padding: 14px 22px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 12px 32px rgba(26, 26, 24, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    #cartToast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    #cartToast a {
+      color: var(--gold);
+      text-decoration: underline;
+      margin-left: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .search-container { max-width: 320px; }
+    }
+
+    @media (max-width: 768px) {
+      .announcement-bar { font-size: 11px; }
+      .header-main { height: 64px; }
+      .search-container { display: none; }
+      .trust-grid { grid-template-columns: 1fr; gap: 20px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .mobile-bottom-nav { display: block; }
+      body { padding-bottom: 60px; }
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+      .product-card-body { padding: 12px; }
+      .product-card-title { font-size: 14px; }
+      .product-card-desc { display: none; }
+      .product-card-price { font-size: 16px; }
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body id="page-top">
+
+  <!-- Top Announcement Bar -->
+  <aside class="announcement-bar" id="announcementBar">
+    <span>🚚 Expédition 24/48h depuis notre atelier nantais</span>
+    <span class="dot"></span>
+    <span>✨ Livraison offerte dès 59€ d'achats</span>
+    <span class="dot"></span>
+    <span>⭐ Note 4.9/5 sur +1 200 événements célébrés</span>
+  </aside>
+
+  <!-- Sticky Site Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <div class="header-main">
+        
+        <!-- Brand Logo -->
+        <a href="/" class="brand-logo" id="headerBrandLogo">
+          <div class="brand-mark">W</div>
+          <div class="brand-text">
+            <span class="brand-name">L'Effet Waouh</span>
+            <span class="brand-tagline">La marque des grands moments</span>
+          </div>
+        </a>
+
+        <!-- Natural Search Bar -->
+        <div class="search-container">
+          <form class="search-form" action="/search" method="get" id="naturalSearchForm">
+            <input type="text" name="q" class="search-input" placeholder="Ex: Décoration rose pour baby shower, kit mariage..." value="{{ query or '' }}" autocomplete="off" id="naturalSearchInput">
+            <button type="submit" class="search-submit-btn" aria-label="Rechercher">⌕</button>
+          </form>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <a href="/explorer" class="header-link-btn" id="headerNavExplorer">Explorer tout</a>
+          <a href="/kits" class="header-link-btn highlight" id="headerNavKits">✨ Kits Tout-en-un</a>
+          <a href="/personnalise" class="header-link-btn" id="headerNavAtelier">🎨 Atelier Perso</a>
+          
+          <a href="/cart" class="cart-trigger" id="headerCartTrigger">
+            <span>Panier</span>
+            <span class="cart-badge-count" id="cartCountBadge">{{ cart_count or 0 }}</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Universe Pill Navigation -->
+    <nav class="universe-nav-bar" id="universeNavBar" aria-label="Univers Événements">
+      <div class="container">
+        <ul class="universe-nav-list">
+          <li class="universe-nav-item {% if current_universe == 'all' or (current_path == '/explorer' and not current_event) %}active{% endif %}">
+            <a href="/explorer">✨ Tous les Univers</a>
+          </li>
+          <li class="universe-nav-item {% if current_universe == 'mariage' or current_event == 'mariage' %}active{% endif %}">
+            <a href="/univers/mariage">💍 Mariage</a>
+          </li>
+          <li class="universe-nav-item {% if current_universe == 'gender-reveal' or current_event == 'gender_reveal' %}active{% endif %}">
+            <a href="/univers/gender-reveal">🎈 Gender Reveal</a>
+          </li>
+          <li class="universe-nav-item {% if current_universe == 'baby-shower' or current_event == 'baby_shower' %}active{% endif %}">
+            <a href="/univers/baby-shower">🍼 Baby Shower</a>
+          </li>
+          <li class="universe-nav-item {% if current_universe == 'naissance' or current_event == 'naissance' %}active{% endif %}">
+            <a href="/univers/naissance">👶 Naissance</a>
+          </li>
+          <li class="universe-nav-item {% if current_universe == 'bapteme' or current_event == 'bapteme' %}active{% endif %}">
+            <a href="/univers/bapteme">🕊️ Baptême</a>
+          </li>
+          <li class="universe-nav-item {% if current_universe == 'anniversaire' or current_event == 'anniversaire' %}active{% endif %}">
+            <a href="/univers/anniversaire">🎂 Anniversaire</a>
+          </li>
+          <li class="universe-nav-item kits {% if current_path == '/kits' %}active{% endif %}">
+            <a href="/kits">📦 Formules Kits (-20%)</a>
+          </li>
+          <li class="universe-nav-item atelier {% if current_path == '/personnalise' %}active{% endif %}">
+            <a href="/personnalise">✏️ Atelier Personnalisé</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Insertion -->
+  <main style="flex:1;">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Reassurances & Trust Strip -->
+  <section class="trust-strip" id="trustSection">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">📦</div>
+          <div class="trust-content">
+            <h4>Expédition 24/48h</h4>
+            <p>Depuis notre atelier à Nantes. Colissimo, Mondial Relay ou Chronopost.</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">✨</div>
+          <div class="trust-content">
+            <h4>Qualité & Effet Garanti</h4>
+            <p>Produits testés, biodégradables et sélectionnés pour un rendu photo parfait.</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">✏️</div>
+          <div class="trust-content">
+            <h4>Atelier de Personnalisation</h4>
+            <p>Gravure laser bois, affiches d'art et bougies personnalisées avec soin.</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🔒</div>
+          <div class="trust-content">
+            <h4>Paiement 100% Sécurisé</h4>
+            <p>Carte bancaire, Apple Pay et service client réactif basé en France.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" id="siteFooter">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom:16px;">
+            <div class="brand-mark" style="background:#FAF8F5;color:var(--ink);">W</div>
+            <div class="brand-text">
+              <span class="brand-name" style="color:#FAF8F5;">L'Effet Waouh</span>
+              <span class="brand-tagline" style="color:var(--gold);">La marque des grands moments</span>
+            </div>
+          </div>
+          <p style="color:#A8A8A0;line-height:1.7;margin-bottom:16px;max-width:320px;">
+            Créateur d'émotions et de souvenirs inoubliables. Nous concevons des décors féeriques, kits complets et objets personnalisés pour célébrer les plus beaux instants de la vie.
+          </p>
+          <div style="font-size:12px;color:var(--gold);">📍 Atelier & Stockage : Nantes, France</div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Les Univers</h5>
+          <ul class="footer-links">
+            <li><a href="/univers/mariage">Mariage & Sortie Mairie</a></li>
+            <li><a href="/univers/gender-reveal">Gender Reveal Révélation</a></li>
+            <li><a href="/univers/baby-shower">Baby Shower Cocooning</a></li>
+            <li><a href="/univers/naissance">Naissance & Déco Bébé</a></li>
+            <li><a href="/univers/bapteme">Baptême & Cadeaux Invités</a></li>
+            <li><a href="/univers/anniversaire">Anniversaire Enfants & 30 Ans</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Formules & Services</h5>
+          <ul class="footer-links">
+            <li><a href="/kits">Kits Événementiels Tout-en-un</a></li>
+            <li><a href="/personnalise">L'Atelier Personnalisation</a></li>
+            <li><a href="/blog">Conseils & Idées Déco</a></li>
+            <li><a href="/admin">Espace Backoffice & IA Agents</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Recherche Intelligente</h5>
+          <p style="color:#A8A8A0;font-size:12.5px;margin-bottom:12px;">Tapez votre recherche en langage naturel :</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <a href="/search?q=mariage+cierges+40cm" class="badge badge-dark" style="border:1px solid #444;">Cierges mariage 40cm</a>
+            <a href="/search?q=ballon+gender+reveal+rose" class="badge badge-dark" style="border:1px solid #444;">Ballon Gender Reveal</a>
+            <a href="/search?q=fleurs+sechees+bapteme" class="badge badge-dark" style="border:1px solid #444;">Baptême fleurs séchées</a>
+            <a href="/search?q=kit+anniversaire+licorne" class="badge badge-dark" style="border:1px solid #444;">Kit Licorne</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 L'Effet Waouh. Tous droits réservés. Conçu et expédié depuis Nantes.</div>
+        <div style="display:flex;gap:16px;">
+          <span>Expédition en 24h</span>
+          <span>•</span>
+          <span>Paiement sécurisé</span>
+          <span>•</span>
+          <span>Service client 7j/7</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Sticky Navigation -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Navigation Mobile">
+    <div class="mobile-bottom-nav-inner">
+      <a href="/" class="mobile-nav-item {% if current_path == '/' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Accueil</span>
+      </a>
+      <a href="/explorer" class="mobile-nav-item {% if current_path == '/explorer' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Explorer</span>
+      </a>
+      <a href="/kits" class="mobile-nav-item {% if current_path == '/kits' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span>Kits -20%</span>
+      </a>
+      <a href="/personnalise" class="mobile-nav-item {% if current_path == '/personnalise' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        <span>Atelier</span>
+      </a>
+      <a href="/cart" class="mobile-nav-item {% if current_path == '/cart' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span>Panier</span>
+        {% if cart_count and cart_count > 0 %}
+        <span class="mobile-nav-badge" id="mobileCartBadge">{{ cart_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </nav>
+
+  <!-- Interactive Cart Notification Toast -->
+  <div id="cartToast">
+    <span>✓ Produit ajouté avec succès !</span>
+    <a href="/cart">Voir le panier →</a>
+  </div>
+
+  <script>
+    // Global Quick Add-to-Cart Function with Async Fetch & Visual Feedback
+    async function flyToCart(event, productSlug, variantId = null, quantity = 1, customText = '') {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      try {
+        const response = await fetch('/cart/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            product_slug: productSlug,
+            variant_id: variantId,
+            quantity: quantity,
+            custom_text: customText
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const badge = document.getElementById('cartCountBadge');
+          const mobileBadge = document.getElementById('mobileCartBadge');
+          if (badge) badge.innerText = data.count || 1;
+          if (mobileBadge) mobileBadge.innerText = data.count || 1;
+
+          // Show toast
+          const toast = document.getElementById('cartToast');
+          if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => {
+              toast.classList.remove('show');
+            }, 3200);
+          }
+        }
+      } catch (err) {
+        console.error('Erreur ajout panier:', err);
+      }
+    }
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

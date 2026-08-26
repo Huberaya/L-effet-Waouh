@@ -1,0 +1,537 @@
+{% extends "base_premium.html" %}
+
+{% block title %}L'Effet Waouh — La marque des grands moments de la vie{% endblock %}
+{% block meta_desc %}Décorations féeriques, kits prêts à poser et créations personnalisées pour sublimer vos mariages, gender reveals, baby showers, baptêmes et anniversaires.{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Home Specific Styles */
+  .hero-home {
+    position: relative;
+    background: #1A1A18;
+    color: #FAF8F5;
+    border-radius: var(--radius-lg);
+    margin: 16px 0 48px;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+  }
+  .hero-bg-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.38;
+    filter: saturate(1.1);
+  }
+  .hero-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(26, 26, 24, 0.92) 0%, rgba(26, 26, 24, 0.6) 60%, rgba(26, 26, 24, 0.2) 100%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 640px;
+    padding: 64px 48px;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(184, 147, 91, 0.2);
+    border: 1px solid rgba(184, 147, 91, 0.4);
+    color: #F4EDE2;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-size: clamp(34px, 4.8vw, 54px);
+    color: #FFFFFF;
+    line-height: 1.15;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+  }
+  .hero-subtitle {
+    font-size: 16px;
+    line-height: 1.65;
+    color: #D6D6CE;
+    margin-bottom: 32px;
+  }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* Section Title Block */
+  .section-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 40px;
+  }
+  .section-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold-dark);
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .section-title {
+    font-size: clamp(26px, 3.2vw, 36px);
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .section-desc {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* Universes Cards Grid */
+  .universes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .universe-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+  }
+  .universe-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--gold);
+  }
+  .universe-card-img {
+    aspect-ratio: 16/10;
+    width: 100%;
+    object-fit: cover;
+    background: var(--bg-alt);
+    transition: transform 0.5s ease;
+  }
+  .universe-card:hover .universe-card-img {
+    transform: scale(1.05);
+  }
+  .universe-card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .universe-card-name {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .universe-card-tagline {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.45;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .universe-card-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Kits Spotlight Banner */
+  .kits-spotlight {
+    background: linear-gradient(135deg, #F9F5EE 0%, #F1E9DC 100%);
+    border: 1px solid rgba(184, 147, 91, 0.35);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    margin-bottom: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .kits-spotlight-content h3 {
+    font-size: clamp(24px, 3vw, 34px);
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .kits-features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0 32px;
+  }
+  .kits-features-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .kits-features-list li span.check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #FFF;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+  }
+
+  /* Custom Atelier Interactive Preview */
+  .custom-atelier-section {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    margin-bottom: 64px;
+  }
+  .atelier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .atelier-live-preview {
+    background: #FAF8F5;
+    border: 2px dashed #D9D2C7;
+    border-radius: var(--radius-md);
+    padding: 32px;
+    text-align: center;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .live-wood-plaque {
+    background: #E8D3B9;
+    background-image: radial-gradient(#DEBE9B 15%, transparent 16%);
+    background-size: 12px 12px;
+    border: 4px solid #C4A47E;
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 10px 25px rgba(143, 109, 56, 0.2);
+    transition: all 0.3s ease;
+  }
+  .live-engraved-names {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: #573B1B;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    min-height: 30px;
+  }
+  .live-engraved-date {
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #7A572F;
+    font-weight: 600;
+  }
+
+  /* Reviews Carousel */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .review-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .review-stars {
+    color: #D4A017;
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .review-quote {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+  .review-author-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .review-author-name {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  @media (max-width: 992px) {
+    .universes-grid { grid-template-columns: repeat(2, 1fr); }
+    .kits-spotlight { grid-template-columns: 1fr; padding: 32px; }
+    .atelier-grid { grid-template-columns: 1fr; gap: 32px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .hero-content { padding: 36px 20px; }
+    .universes-grid { grid-template-columns: 1fr; }
+    .custom-atelier-section { padding: 24px; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- 1. Hero Immersif Waouh -->
+  <section class="hero-home" id="heroHome">
+    <img src="/static/images/09-premiere-danse-v1.jpg" alt="Ouverture de bal et haie d'honneur" class="hero-bg-media">
+    <div class="hero-gradient-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span>✨ Spécialiste Événements & Fêtes</span>
+      </div>
+      <h1 class="hero-title">L'art de sublimer vos plus beaux moments</h1>
+      <p class="hero-subtitle">
+        Des décors spectaculaires, des kits clés en main et des créations gravées sur-mesure dans notre atelier nantais pour marquer les esprits et faire battre les cœurs.
+      </p>
+      <div class="hero-actions">
+        <a href="/explorer" class="btn btn-gold btn-lg" id="heroCtaExplorer">Découvrir le catalogue →</a>
+        <a href="/kits" class="btn btn-outline btn-lg" style="color:#FAF8F5;border-color:rgba(255,255,255,0.3);" id="heroCtaKits">Voir les kits tout-en-un</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Explorer par Univers -->
+  <section id="universesSection" style="margin-bottom:64px;">
+    <div class="section-header">
+      <span class="section-tag">Explorez par célébration</span>
+      <h2 class="section-title">Quel grand moment préparez-vous ?</h2>
+      <p class="section-desc">Chaque événement possède son ambiance, ses couleurs et ses accessoires incontournables.</p>
+    </div>
+
+    <div class="universes-grid">
+      {% for u in universes %}
+      <a href="/univers/{{ u.slug }}" class="universe-card" id="universeCard-{{ u.slug }}">
+        <div style="overflow:hidden;aspect-ratio:16/10;background:#EAE5DC;">
+          <img src="{{ u.hero_image }}" alt="{{ u.name }}" class="universe-card-img" loading="lazy">
+        </div>
+        <div class="universe-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <h3 class="universe-card-name">{{ u.name }}</h3>
+            <span class="badge badge-gold">{{ u.product_count }} pièces</span>
+          </div>
+          <p class="universe-card-tagline">{{ u.tagline }}</p>
+          <span class="universe-card-link">Explorer la collection →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- 3. Best-Sellers & Produits Phares -->
+  <section id="featuredProductsSection" style="margin-bottom:64px;">
+    <div class="section-header">
+      <span class="section-tag">Coups de cœur de nos clients</span>
+      <h2 class="section-title">Les indispensables de la fête</h2>
+      <p class="section-desc">Les pièces maîtresses les plus commandées pour créer un effet waouh immédiat.</p>
+    </div>
+
+    <div class="products-grid">
+      {% for p in featured %}
+      <div class="product-card" id="productCard-{{ p.slug }}">
+        <div class="product-card-media">
+          <a href="/produit/{{ p.slug }}">
+            <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">
+          </a>
+          <div class="product-card-badges">
+            <span class="badge badge-dark">★ Best-seller</span>
+            {% if p.is_customizable %}<span class="badge badge-rose">Personnalisable</span>{% endif %}
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-card-event">{{ p.event_type }}</span>
+          <a href="/produit/{{ p.slug }}">
+            <h3 class="product-card-title">{{ p.name }}</h3>
+          </a>
+          <p class="product-card-desc">{{ p.short_desc }}</p>
+          <div class="product-card-footer">
+            <div class="product-card-price-wrap">
+              <span class="product-card-price">{{ p.price_ttc }} €</span>
+              {% if p.compare_at_price > p.price_ttc %}
+              <span class="product-card-compare">{{ p.compare_at_price }} €</span>
+              {% endif %}
+            </div>
+            <button class="product-card-add-btn" onclick="flyToCart(event, '{{ p.slug }}')" aria-label="Ajouter au panier">+</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div style="text-align:center;margin-top:36px;">
+      <a href="/explorer" class="btn btn-outline" id="viewAllProdsBtn">Voir tous les 30+ produits du catalogue →</a>
+    </div>
+  </section>
+
+  <!-- 4. Formules Kits Clés en Main -->
+  <section class="kits-spotlight" id="kitsSpotlightSection">
+    <div class="kits-spotlight-content">
+      <span class="badge badge-gold" style="margin-bottom:12px;">Prêt à poser • Gain de temps</span>
+      <h3>Les Kits Événementiels Tout-en-un</h3>
+      <p style="color:var(--ink-soft);line-height:1.65;margin-bottom:16px;">
+        Ne perdez plus des heures à coordonner 10 boutiques différentes. Nos kits réunissent arche de ballons, vaisselle assortie, accessoires d'animation et guide de montage.
+      </p>
+      <ul class="kits-features-list">
+        <li><span class="check">✓</span> Économisez jusqu'à 20% par rapport à l'achat unitaire</li>
+        <li><span class="check">✓</span> Harmonisation parfaite des couleurs & matières</li>
+        <li><span class="check">✓</span> Notice pas-à-pas et ruban de montage fournis</li>
+        <li><span class="check">✓</span> Expédition express en un seul colis protégé</li>
+      </ul>
+      <a href="/kits" class="btn btn-primary" id="spotlightKitsBtn">Découvrir les kits complets →</a>
+    </div>
+
+    <div style="background:#FFF;border-radius:var(--radius-md);overflow:hidden;border:1px solid rgba(184,147,91,0.25);box-shadow:var(--shadow-md);">
+      <img src="/static/images/products/kit-mariage-50-pers.jpg" alt="Kit mariage 50 personnes" style="width:100%;aspect-ratio:4/3;object-fit:cover;">
+      <div style="padding:20px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-weight:700;font-size:15px;">Formules Mariage, Baby Shower & Anniversaire</div>
+          <div style="font-size:12.5px;color:var(--ink-muted);">De 10 à 50 personnes à partir de 29,90€</div>
+        </div>
+        <a href="/kits" class="btn btn-gold btn-sm">Voir les packs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. L'Atelier Personnalisation en Direct -->
+  <section class="custom-atelier-section" id="atelierSection">
+    <div class="atelier-grid">
+      <div>
+        <span class="section-tag">Artisanat & Émotion</span>
+        <h2 style="font-size:32px;margin-bottom:14px;">L'Atelier Personnalisation</h2>
+        <p style="color:var(--ink-soft);line-height:1.65;margin-bottom:24px;">
+          Faites graver les prénoms des mariés, la date de naissance de votre bébé ou le prénom de votre enfant sur du bois naturel, du verre ambré ou du papier d'art.
+        </p>
+
+        <!-- Live interactive fields -->
+        <div style="background:#FAF8F5;border:1px solid var(--line);border-radius:var(--radius-md);padding:20px;margin-bottom:24px;">
+          <label style="display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;text-transform:uppercase;">Prénoms ou Texte à graver</label>
+          <input type="text" id="demoLiveText" value="Camille & Thomas" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);margin-bottom:14px;font-size:14px;" oninput="updateLivePreview()">
+          
+          <label style="display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;text-transform:uppercase;">Date de l'événement</label>
+          <input type="text" id="demoLiveDate" value="18 Juillet 2026" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14px;" oninput="updateLivePreview()">
+        </div>
+
+        <a href="/personnalise" class="btn btn-primary" id="openAtelierBtn">Explorer tous les objets personnalisables →</a>
+      </div>
+
+      <div class="atelier-live-preview">
+        <span style="position:absolute;top:14px;left:18px;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--gold-dark);letter-spacing:0.08em;">Aperçu direct en temps réel</span>
+        <div class="live-wood-plaque">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#7A572F;margin-bottom:6px;">Livre d'or / Plaque gravée</div>
+          <div class="live-engraved-names" id="livePreviewNames">Camille & Thomas</div>
+          <div class="live-engraved-date" id="livePreviewDate">18 JUILLET 2026</div>
+          <div style="margin-top:12px;font-size:18px;color:#8F6D38;">✦ ✧ ✦</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Avis Clients Vérifiés -->
+  <section id="reviewsSection" style="margin-bottom:64px;">
+    <div class="section-header">
+      <span class="section-tag">Retours d'expérience</span>
+      <h2 class="section-title">Ils ont vécu l'effet Waouh</h2>
+      <p class="section-desc">Plus de 1 200 mariages, fêtes et naissances sublimés avec nos décors.</p>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote">« Les cierges magiques 40cm pour notre ouverture de bal ont duré 4 vraies minutes. Les photos de notre photographe sont juste magiques ! »</p>
+        </div>
+        <div class="review-author-wrap">
+          <span class="review-author-name">Camille & Julien</span>
+          <span>Mariage (Nantes)</span>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote">« Le ballon 90cm était 100% opaque, aucun suspense gâché ! L'explosion de confettis roses a ému toute la famille aux larmes. »</p>
+        </div>
+        <div class="review-author-wrap">
+          <span class="review-author-name">Laura & Maxime</span>
+          <span>Gender Reveal (Rennes)</span>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote">« Bougies en verre ambré commandées pour le baptême de ma fille : odeur de fleur de coton divine et gravure du prénom ultra nette. »</p>
+        </div>
+        <div class="review-author-wrap">
+          <span class="review-author-name">Sophie B.</span>
+          <span>Baptême (Angers)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function updateLivePreview() {
+    const textInput = document.getElementById('demoLiveText');
+    const dateInput = document.getElementById('demoLiveDate');
+    const nameElem = document.getElementById('livePreviewNames');
+    const dateElem = document.getElementById('livePreviewDate');
+
+    if (nameElem && textInput) {
+      nameElem.innerText = textInput.value.trim() || 'Vos Prénoms';
+    }
+    if (dateElem && dateInput) {
+      dateElem.innerText = dateInput.value.trim().toUpperCase() || 'DATE ÉVÉNEMENT';
+    }
+  }
+</script>
+{% endblock %}

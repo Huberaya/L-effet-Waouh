@@ -20,7 +20,7 @@
           {% for e in stats.by_event %}
           <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
             <span style="font-weight:600">{{ e.event_type }}</span>
-            <span style="display:flex;gap:12px;align-items:center"><span>{{ e.c }} produits</span><span style="color:#999">{{ "%.2f"|format(e.avg_price) }}€ moyen</span><span style="width:60px;height:6px;background:var(--line);display:inline-block"><span style="width:{{ (e.c / stats.nb_products *100)|int }}%;height:100%;background:var(--ink);display:block"></span></span></span>
+            <span style="display:flex;gap:12px;align-items:center"><span>{{ e.c }} produits</span><span style="color:#999">{{ e.avg_price | round(2) }}€ moyen</span><span style="width:60px;height:6px;background:var(--line);display:inline-block"><span style="width:{{ ((e.c / stats.nb_products) * 100) | round(0) }}%;height:100%;background:var(--ink);display:block"></span></span></span>
           </div>
           {% endfor %}
         </div>

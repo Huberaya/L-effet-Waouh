@@ -1,0 +1,6 @@
+{
+  "name": "L'Effet Waouh",
+  "description": "Boutique en ligne événementielle — Vente & Location (Gender Reveal, Mariage, Naissance, Baptême, Anniversaire, Kits)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

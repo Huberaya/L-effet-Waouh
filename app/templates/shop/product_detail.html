@@ -1,0 +1,552 @@
+{% extends "base_premium.html" %}
+
+{% block title %}{{ product.name }} — L'Effet Waouh{% endblock %}
+{% block meta_desc %}{{ product.short_desc }}. Expédition express 24/48h depuis notre atelier nantais.{% endblock %}
+
+{% block extra_css %}
+<style>
+  .product-page-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 48px;
+    margin: 24px 0 64px;
+    align-items: flex-start;
+  }
+
+  /* Gallery */
+  .product-gallery-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 96px;
+  }
+  .product-main-media {
+    aspect-ratio: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+  }
+  .product-main-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .product-thumbnails-list {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .product-thumb-item {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--line);
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--bg-card);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .product-thumb-item.active {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(184, 147, 91, 0.2);
+  }
+  .product-thumb-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Buy Box Info */
+  .product-info-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+  .product-category-crumb {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold-dark);
+    margin-bottom: 8px;
+  }
+  .product-title {
+    font-size: clamp(24px, 3.2vw, 36px);
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .product-rating-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    margin-bottom: 20px;
+  }
+  .product-price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line-subtle);
+    border-bottom: 1px solid var(--line-subtle);
+    margin-bottom: 24px;
+  }
+  .price-main {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .price-compare {
+    font-size: 16px;
+    color: var(--ink-muted);
+    text-decoration: line-through;
+  }
+  .price-saving-badge {
+    background: var(--gold-light);
+    color: var(--gold-dark);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+  }
+
+  /* Stock & Dispatch Timer Badge */
+  .dispatch-badge-box {
+    background: var(--green-light);
+    border: 1px solid rgba(107, 139, 112, 0.3);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dispatch-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--green-sauge);
+    box-shadow: 0 0 0 3px rgba(107, 139, 112, 0.25);
+    flex-shrink: 0;
+  }
+
+  /* Variants Options */
+  .variant-selector-block {
+    margin-bottom: 24px;
+  }
+  .variant-block-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .variant-pills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .variant-pill {
+    padding: 10px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-pill);
+    background: var(--bg-card);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .variant-pill:hover {
+    border-color: var(--ink);
+  }
+  .variant-pill.active {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #FAF8F5;
+  }
+
+  /* Personalization live input box */
+  .custom-input-box {
+    background: #FFFDF9;
+    border: 1px solid rgba(184, 147, 91, 0.35);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  /* Add to cart row */
+  .add-to-cart-row {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .qty-picker {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    background: var(--bg-card);
+    padding: 4px;
+    height: 52px;
+  }
+  .qty-btn {
+    width: 40px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .qty-value {
+    width: 36px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  /* Accordions / Tabs */
+  .product-details-accordion {
+    border-top: 1px solid var(--line);
+    margin-top: 24px;
+  }
+  .accordion-item {
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .accordion-header {
+    width: 100%;
+    text-align: left;
+    padding: 16px 0;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .accordion-body {
+    padding-bottom: 18px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 900px) {
+    .product-page-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .product-gallery-wrap {
+      position: static;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <nav style="padding-top:20px;margin-bottom:12px;font-size:12.5px;color:var(--ink-muted);" aria-label="Fil d'Ariane">
+    <a href="/">Accueil</a>
+    <span style="margin:0 6px;">/</span>
+    <a href="/univers/{{ product.event_type }}">{{ product.event_type|title }}</a>
+    <span style="margin:0 6px;">/</span>
+    <span style="color:var(--ink);font-weight:600;">{{ product.name }}</span>
+  </nav>
+
+  <div class="product-page-grid">
+
+    <!-- 1. Media & Gallery Column -->
+    <div class="product-gallery-wrap">
+      <div class="product-main-media" id="productMainMedia">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}" id="mainProductImage">
+        <div style="position:absolute;top:16px;left:16px;display:flex;gap:8px;">
+          {% if product.is_featured %}<span class="badge badge-dark">★ Coup de cœur</span>{% endif %}
+          {% if product.is_customizable %}<span class="badge badge-rose">Gravure Atelier</span>{% endif %}
+        </div>
+      </div>
+
+      <!-- Thumbnail bar -->
+      {% if product.gallery and product.gallery|length > 1 %}
+      <div class="product-thumbnails-list">
+        {% for img in product.gallery %}
+        <div class="product-thumb-item {% if loop.first %}active{% endif %}" onclick="switchGalleryImage('{{ img.url }}', this)">
+          <img src="{{ img.url }}" alt="{{ img.caption }}" loading="lazy">
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Reassurances list under gallery -->
+      <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius-md);padding:18px;margin-top:8px;">
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--ink-soft);">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span>📍</span>
+            <span>Préparé & emballé avec soin dans notre atelier à Nantes</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span>🔄</span>
+            <span>Retour sous 14 jours & service client réactif 7j/7</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span>🌿</span>
+            <span>Matières nobles, biodégradables ou réutilisables</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Buy Box & Product Info Column -->
+    <div class="product-info-wrap">
+      <span class="product-category-crumb">Univers {{ product.event_type }}</span>
+      <h1 class="product-title">{{ product.name }}</h1>
+
+      <!-- Rating & reviews line -->
+      <div class="product-rating-line">
+        <span style="color:#D4A017;letter-spacing:2px;">★★★★★</span>
+        <span style="font-weight:700;">{{ product.rating }} / 5</span>
+        <span style="color:var(--ink-muted);">({{ product.review_count }} avis vérifiés)</span>
+      </div>
+
+      <!-- Price block -->
+      <div class="product-price-block">
+        <span class="price-main" id="dynamicPrice">{{ product.price_ttc }} €</span>
+        {% if product.compare_at_price > product.price_ttc %}
+        <span class="price-compare">{{ product.compare_at_price }} €</span>
+        <span class="price-saving-badge">Économie {{ product.savings }} € (-20%)</span>
+        {% endif %}
+      </div>
+
+      <!-- Stock status -->
+      <div class="dispatch-badge-box">
+        <div class="dispatch-dot"></div>
+        <div style="font-size:13px;">
+          <strong style="color:#2F5335;">En stock immédiat à l'atelier</strong> — Commandez avant 14h pour une expédition aujourd'hui !
+        </div>
+      </div>
+
+      <!-- Variants Selection if any -->
+      {% if product.variants and product.variants|length > 0 %}
+      <div class="variant-selector-block">
+        <div class="variant-block-title">
+          <span>Choisir une déclinaison :</span>
+          <span id="selectedVariantLabel" style="color:var(--gold-dark);font-weight:700;">{{ product.variants[0].name }}</span>
+        </div>
+        <div class="variant-pills-wrap">
+          {% for v in product.variants %}
+          <div class="variant-pill {% if loop.first %}active{% endif %}" onclick="selectVariant({{ v.id }}, '{{ v.name }}', {{ v.price_ttc }}, this)">
+            {{ v.name }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Customization live form if product is customizable -->
+      {% if product.is_customizable %}
+      <div class="custom-input-box">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold-dark);margin-bottom:8px;">
+          ✨ Personnalisation sur-mesure à l'atelier
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:12px;">
+          Indiquez vos prénoms, date ou message pour la gravure laser / impression :
+        </p>
+        <input type="text" id="productCustomTextInput" placeholder="Ex : Camille & Thomas - 18 Juillet 2026" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14px;background:#FFF;">
+      </div>
+      {% endif %}
+
+      <!-- Add to Cart Action -->
+      <div class="add-to-cart-row">
+        <div class="qty-picker">
+          <button type="button" class="qty-btn" onclick="updateQuantity(-1)">-</button>
+          <span class="qty-value" id="productQtyDisplay">1</span>
+          <button type="button" class="qty-btn" onclick="updateQuantity(1)">+</button>
+        </div>
+
+        <button type="button" class="btn btn-gold btn-lg" style="flex:1;" onclick="submitAddToCart()" id="mainAddToCartBtn">
+          Ajouter au panier • <span id="btnTotalPrice">{{ product.price_ttc }} €</span>
+        </button>
+      </div>
+
+      <!-- Highlights list -->
+      {% if product.highlights and product.highlights|length > 0 %}
+      <div style="margin:16px 0 24px;display:flex;flex-direction:column;gap:8px;">
+        {% for h in product.highlights %}
+        <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft);">
+          <span style="color:var(--gold);font-weight:800;">✓</span>
+          <span>{{ h }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Accordions: Description, Specs & Conseil -->
+      <div class="product-details-accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion('acc-desc')">
+            <span>Description détaillée</span>
+            <span>+</span>
+          </button>
+          <div class="accordion-body" id="acc-desc">
+            <p>{{ product.long_desc }}</p>
+          </div>
+        </div>
+
+        {% if product.specs %}
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion('acc-specs')">
+            <span>Caractéristiques & Dimensions</span>
+            <span>+</span>
+          </button>
+          <div class="accordion-body" id="acc-specs">
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+              {% for k, v in product.specs %}
+              <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line-subtle);padding:4px 0;">
+                <strong style="color:var(--ink);">{{ k }}</strong>
+                <span>{{ v }}</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion('acc-delivery')">
+            <span>Livraison & Délais</span>
+            <span>+</span>
+          </button>
+          <div class="accordion-body" id="acc-delivery">
+            <p><strong>Mondial Relay (3-4 jours) :</strong> 4,90 € (Offert dès 59€ d'achats)</p>
+            <p><strong>Colissimo Domicile (48h) :</strong> 7,90 € (Offert dès 75€ d'achats)</p>
+            <p><strong>Chronopost Express (24h) :</strong> 12,90 € pour vos commandes urgentes de dernière minute.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Verified Reviews Section -->
+  <section style="margin:48px 0 64px;border-top:1px solid var(--line);padding-top:48px;" id="reviewsSection">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:16px;">
+      <div>
+        <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-dark);">Avis vérifiés</span>
+        <h2 style="font-size:26px;">Expériences clients sur ce produit</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:28px;font-weight:800;">4.9 / 5</span>
+        <span style="color:#D4A017;font-size:18px;">★★★★★</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      {% for r in product.reviews %}
+      <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius-md);padding:22px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <strong style="font-size:14px;">{{ r.author }}</strong>
+          <span style="font-size:12px;color:var(--ink-muted);">{{ r.date }}</span>
+        </div>
+        <div style="color:#D4A017;font-size:12px;margin-bottom:10px;">★★★★★ <span class="badge badge-green" style="margin-left:6px;font-size:9px;">Achat vérifié</span></div>
+        <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.55;">{{ r.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Similar Products -->
+  {% if similar and similar|length > 0 %}
+  <section style="margin-bottom:64px;">
+    <div style="margin-bottom:24px;">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-dark);">Complétez votre décor</span>
+      <h2 style="font-size:26px;">Vous aimerez aussi</h2>
+    </div>
+    <div class="products-grid">
+      {% for sp in similar %}
+      <div class="product-card">
+        <div class="product-card-media">
+          <a href="/produit/{{ sp.slug }}">
+            <img src="{{ sp.image_url }}" alt="{{ sp.name }}" loading="lazy">
+          </a>
+        </div>
+        <div class="product-card-body">
+          <span class="product-card-event">{{ sp.event_type }}</span>
+          <a href="/produit/{{ sp.slug }}">
+            <h3 class="product-card-title">{{ sp.name }}</h3>
+          </a>
+          <div class="product-card-footer">
+            <div class="product-card-price">{{ sp.price_ttc }} €</div>
+            <button class="product-card-add-btn" onclick="flyToCart(event, '{{ sp.slug }}')">+</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+
+<script>
+  let currentQty = 1;
+  let currentVariantId = {% if product.variants and product.variants|length > 0 %}{{ product.variants[0].id }}{% else %}null{% endif %};
+  let currentUnitPrice = {{ product.price_ttc }};
+  const productSlug = "{{ product.slug }}";
+
+  function switchGalleryImage(url, elem) {
+    const mainImg = document.getElementById('mainProductImage');
+    if (mainImg) mainImg.src = url;
+    document.querySelectorAll('.product-thumb-item').forEach(el => el.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+  }
+
+  function selectVariant(id, name, price, elem) {
+    currentVariantId = id;
+    currentUnitPrice = price;
+    document.getElementById('selectedVariantLabel').innerText = name;
+    document.getElementById('dynamicPrice').innerText = price.toFixed(2) + ' €';
+    document.querySelectorAll('.variant-pill').forEach(el => el.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    updateTotalPrice();
+  }
+
+  function updateQuantity(delta) {
+    currentQty = Math.max(1, currentQty + delta);
+    document.getElementById('productQtyDisplay').innerText = currentQty;
+    updateTotalPrice();
+  }
+
+  function updateTotalPrice() {
+    const total = (currentUnitPrice * currentQty).toFixed(2);
+    document.getElementById('btnTotalPrice').innerText = total + ' €';
+  }
+
+  function submitAddToCart() {
+    const customInput = document.getElementById('productCustomTextInput');
+    const customText = customInput ? customInput.value.trim() : '';
+    flyToCart(null, productSlug, currentVariantId, currentQty, customText);
+  }
+
+  function toggleAccordion(id) {
+    const elem = document.getElementById(id);
+    if (elem) {
+      elem.style.display = (elem.style.display === 'none' || !elem.style.display) ? 'block' : 'none';
+    }
+  }
+</script>
+{% endblock %}

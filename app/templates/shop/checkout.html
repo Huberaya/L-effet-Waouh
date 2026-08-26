@@ -36,7 +36,7 @@
       <div style="position:sticky;top:120px;border:1px solid var(--line);padding:24px;background:#FAF8F3" class="reveal reveal-delay-1">
         <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:16px">{{ items|length }} articles</div>
         {% for it in items %}
-        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line)"><span>{{ it['name'][:24] }} ×{{ it['quantity'] }}</span><span>{{ (it['quantity']*it['price_ttc_at_add'])|round(2) }}€</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line)"><span>{{ it['name'] }} ×{{ it['quantity'] }}</span><span>{{ (it['quantity']*it['price_ttc_at_add'])|round(2) }}€</span></div>
         {% endfor %}
         <div style="display:flex;justify-content:space-between;font-family:var(--serif);font-size:20px;padding-top:16px"><span>Total</span><span>{{ total_ttc|round(2) }}€</span></div>
       </div>

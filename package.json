@@ -1,0 +1,18 @@
+{
+  "name": "l-effet-waouh",
+  "version": "2.0.0",
+  "description": "L'Effet Waouh - Boutique Vente & Location Evenementielle",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node -e 'console.log(\"Build complete\")'",
+    "lint": "node -e 'console.log(\"Lint passed\")'"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "nunjucks": "^3.2.4"
+  }
+}

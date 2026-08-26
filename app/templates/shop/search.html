@@ -24,7 +24,7 @@
       <div class="img"><img src="{{ p.image_url or '/static/images/06-bulles-confettis.jpg' }}" alt="{{ p['name'] }}" onerror="this.src='/static/images/01-hero.jpg'"></div>
       <div class="badges"><span class="badge gold">{{ p['event_type'] }}</span>{% if p['is_featured'] %}<span class="badge ink">Best</span>{% endif %}</div>
       <h4>{{ p['name'] }}</h4>
-      <div class="desc">{{ p['short_desc'][:70] }}</div>
+      <div class="desc">{{ p['short_desc'] }}</div>
       <div class="price">{{ p['price_ttc'] }}€ <small>• {{ p['stock_qty'] }} en stock</small></div>
     </a>
     {% endfor %}

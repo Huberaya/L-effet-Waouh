@@ -1,0 +1,114 @@
+{% extends "base_premium.html" %}
+
+{% block title %}Résultats de recherche pour « {{ query }} » — L'Effet Waouh{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top:28px;padding-bottom:64px;">
+
+  <!-- Search Header -->
+  <div style="margin-bottom:32px;">
+    <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-dark);">Recherche Intelligente</span>
+    <h1 style="font-size:32px;margin:6px 0 10px;">
+      {% if query %}
+      Résultats pour « <span style="color:var(--gold-dark);">{{ query }}</span> »
+      {% else %}
+      Toutes nos collections
+      {% endif %}
+    </h1>
+    <p style="color:var(--ink-soft);font-size:14.5px;">
+      <strong>{{ results|length }}</strong> produit{% if results|length > 1 %}s{% endif %} trouvé{% if results|length > 1 %}s{% endif %} correspondant à votre recherche.
+    </p>
+  </div>
+
+  <!-- Re-search bar inside page -->
+  <div style="max-width:600px;margin-bottom:40px;">
+    <form class="search-form" action="/search" method="get" style="background:#FFF;border:1.5px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-pill);padding:6px 8px 6px 20px;">
+      <input type="text" name="q" value="{{ query or '' }}" placeholder="Essayez : 'arche mariage', 'déco rose baby shower', 'bougie bapteme'..." style="flex:1;border:none;outline:none;font-size:14px;">
+      <button type="submit" class="btn btn-primary btn-sm">Rechercher</button>
+    </form>
+  </div>
+
+  <!-- Results Grid -->
+  {% if results and results|length > 0 %}
+  <div class="products-grid">
+    {% for p in results %}
+    <div class="product-card">
+      <div class="product-card-media">
+        <a href="/produit/{{ p.slug }}">
+          <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">
+        </a>
+        <div class="product-card-badges">
+          {% if p.is_featured %}<span class="badge badge-dark">★ Best-seller</span>{% endif %}
+          {% if p.is_customizable %}<span class="badge badge-rose">Personnalisable</span>{% endif %}
+        </div>
+      </div>
+      <div class="product-card-body">
+        <span class="product-card-event">{{ p.event_type }}</span>
+        <a href="/produit/{{ p.slug }}">
+          <h3 class="product-card-title">{{ p.name }}</h3>
+        </a>
+        <p class="product-card-desc">{{ p.short_desc }}</p>
+        <div class="product-card-footer">
+          <div class="product-card-price-wrap">
+            <span class="product-card-price">{{ p.price_ttc }} €</span>
+            {% if p.compare_at_price > p.price_ttc %}
+            <span class="product-card-compare">{{ p.compare_at_price }} €</span>
+            {% endif %}
+          </div>
+          <button class="product-card-add-btn" onclick="flyToCart(event, '{{ p.slug }}')" aria-label="Ajouter au panier">+</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <!-- Fallback suggestions if 0 results -->
+  <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:48px 32px;text-align:center;margin-bottom:48px;">
+    <div style="font-size:44px;margin-bottom:14px;">✨</div>
+    <h2 style="font-size:24px;margin-bottom:8px;">Aucun résultat exact pour « {{ query }} »</h2>
+    <p style="color:var(--ink-soft);font-size:14.5px;max-width:540px;margin:0 auto 28px;">
+      Pas d'inquiétude ! Voici les recherches les plus populaires ou les univers préférés de nos clients :
+    </p>
+
+    <!-- Popular chips -->
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:32px;">
+      <a href="/search?q=arche+ballons" class="chip">🎈 Arche de ballons</a>
+      <a href="/search?q=cierges+mariage" class="chip">✨ Cierges 40cm</a>
+      <a href="/search?q=ballon+gender+reveal" class="chip">🎀 Ballon Gender Reveal</a>
+      <a href="/search?q=bougie+bapteme" class="chip">🕯️ Bougie personnalisée</a>
+      <a href="/kits" class="chip">📦 Formules Kits complets</a>
+    </div>
+
+    <a href="/explorer" class="btn btn-primary">Parcourir tout le catalogue →</a>
+  </div>
+
+  <!-- Featured suggestions -->
+  <div style="margin-top:48px;">
+    <h3 style="font-size:22px;margin-bottom:20px;">Nos produits incontournables :</h3>
+    <div class="products-grid">
+      {% for p in suggested %}
+      <div class="product-card">
+        <div class="product-card-media">
+          <a href="/produit/{{ p.slug }}">
+            <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">
+          </a>
+        </div>
+        <div class="product-card-body">
+          <span class="product-card-event">{{ p.event_type }}</span>
+          <a href="/produit/{{ p.slug }}">
+            <h3 class="product-card-title">{{ p.name }}</h3>
+          </a>
+          <div class="product-card-footer">
+            <span class="product-card-price">{{ p.price_ttc }} €</span>
+            <button class="product-card-add-btn" onclick="flyToCart(event, '{{ p.slug }}')">+</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
