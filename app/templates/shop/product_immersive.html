@@ -1,0 +1,133 @@
+{% extends "base_immersive.html" %}
+{% block title %}{{ product.name }} — {{ product.price_ttc }}€ | L'Effet Waouh{% endblock %}
+{% block content %}
+<div style="padding-top:100px"></div>
+
+<div class="wrap">
+  <div style="display:flex;gap:8px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:24px;overflow-x:auto;white-space:nowrap">
+    <a href="/">Accueil</a><span>/</span><a href="/explorer">Explorer</a><span>/</span><a href="/explorer?event={{ product.event_type }}">{{ product.event_type }}</a><span>/</span><span style="color:var(--ink)">{{ product.name[:40] }}</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:start">
+    <!-- IMAGES IMMERSIVE - Horizontal scroll + 3D -->
+    <div>
+      <div style="position:relative;border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line);aspect-ratio:4/3" class="tilt">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}" style="width:100%;height:100%;object-fit:cover" id="mainImg" onerror="this.src='/static/images/01-hero.jpg'">
+        <div style="position:absolute;top:16px;left:16px;display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge gold">{{ product.event_type }}</span>
+          {% if product.is_featured %}<span class="badge ink">★ Best-seller</span>{% endif %}
+          <span class="badge cream">📦 {{ product.stock_qty }} en stock</span>
+        </div>
+        <div style="position:absolute;bottom:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:end">
+          <div style="background:rgba(14,14,14,.8);color:#fff;padding:8px 14px;border-radius:999px;font-size:10px;letter-spacing:1px;text-transform:uppercase;backdrop-filter:blur(12px)">Scroll horizontal pour voir +3 photos + vidéo 15s</div>
+          <div style="background:#fff;padding:8px 12px;border-radius:999px;font-size:10px">⭐ 4.8/5 (127 avis)</div>
+        </div>
+      </div>
+      
+      <!-- Horizontal scroll thumbs -->
+      <div class="h-scroll" style="margin-top:1px;border-radius:16px">
+        <div style="flex:0 0 120px;aspect-ratio:1;background:#fff;padding:8px;cursor:pointer" onclick="document.getElementById('mainImg').src='{{ product.image_url }}'"><img src="{{ product.image_url }}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"></div>
+        <div style="flex:0 0 120px;aspect-ratio:1;background:#fff;padding:8px;cursor:pointer;opacity:.7" onclick="document.getElementById('mainImg').src='/static/images/products/mariage-chemin-gaze-eucalyptus.jpg'"><img src="/static/images/products/mariage-chemin-gaze-eucalyptus.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:8px"></div>
+        <div style="flex:0 0 120px;aspect-ratio:1;background:#fff;padding:8px;cursor:pointer;opacity:.7"><img src="/static/images/products/gender-reveal-arche-85pcs.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:8px"></div>
+        <div style="flex:0 0 120px;aspect-ratio:1;background:var(--cream-2);display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#999">+ Vidéo 15s<br>TikTok</div>
+      </div>
+
+      <!-- Parfait pour + FAQ immersive -->
+      <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+        <div style="background:#fff;padding:20px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:12px">Parfait pour</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+            <span class="badge ink">{{ product.event_type }}</span>
+            <span class="badge cream">Cadeau invité</span>
+            <span class="badge cream">Photo</span>
+            <span class="badge gold">Perso</span>
+          </div>
+          <div style="font-size:12px;color:#666;line-height:1.6">Idéal pour sortie mairie, déco table, cadeaux invités. Compatible kits.</div>
+        </div>
+        <div style="background:#FFFBF5;padding:20px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:12px">FAQ</div>
+          <div style="font-size:12px;line-height:1.6"><b>Hélium?</b><span style="color:#666"> Non, paille fournie.</span><br><b>Délai?</b><span style="color:#666"> 24/48h stock, 48/72h perso.</span><br><b>Perso?</b><span style="color:#666"> Oui prénom/date/photo.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFOS STICKY IMMERSIVE -->
+    <div style="position:sticky;top:100px">
+      <h1 style="font-family:var(--serif);font-size:40px;line-height:.9;letter-spacing:-1px;margin-bottom:16px;font-weight:400">{{ product.name }}</h1>
+      <p style="color:#666;font-size:15px;line-height:1.6;margin-bottom:20px">{{ product.short_desc }}</p>
+
+      <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+        <span class="badge cream">⭐ 4.8/5 (127 avis vérifiés)</span>
+        <span class="badge gold">Marge {{ marge }}%</span>
+        <span class="badge {% if product.stock_qty<10 %}rose{% else %}cream{% endif %}">📦 {{ product.stock_qty }} en stock</span>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <div style="font-family:var(--serif);font-size:36px">{{ product.price_ttc }}€</div>
+          <div style="text-align:right;font-size:10px;color:#999">HT {{ product.price_ht }}€ • TVA {{ product.tva_rate or 20 }}%<br>SKU {{ product.sku }}</div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#666">🚚 Mondial Relay 4.90€ • Gratuit dès 75€ • Colissimo 6.90€ • Retour 14j</div>
+        {% if product.price_ttc < 75 %}
+        <div style="margin-top:12px;background:var(--cream-2);border:1px dashed var(--gold);padding:12px;border-radius:12px;font-size:12px">💡 Ajoutez {{ (75 - product.price_ttc)|round(2) }}€ pour livraison gratuite! <a href="/kits" style="text-decoration:underline">Voir kits →</a></div>
+        {% endif %}
+      </div>
+
+      <!-- PERSONNALISATION IMMERSIVE -->
+      <div style="background:var(--cream-2);border:2px solid var(--gold-light);border-radius:16px;padding:20px;margin-bottom:20px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:12px">Personnalisation — Aperçu live premium</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <input id="input-prenom" placeholder="Prénom" value="Léon" style="padding:12px;border-radius:999px;border:1px solid var(--line);font-size:13px">
+          <input id="input-date" placeholder="Date" value="12.03.2026" style="padding:12px;border-radius:999px;border:1px solid var(--line);font-size:13px">
+        </div>
+        <canvas id="affiche-canvas" width="400" height="240" style="width:100%;background:#fff;border-radius:12px;border:1px solid var(--line)"></canvas>
+        <div style="font-size:10px;color:#999;margin-top:8px">Canvas live → export PNG pour POD → prod 24/48h</div>
+      </div>
+
+      <form method="post" action="/cart/add" style="display:flex;gap:12px;margin-bottom:16px">
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <input type="number" name="quantity" value="1" min="1" max="20" style="width:72px;padding:14px;border-radius:999px;border:1px solid var(--line);text-align:center">
+        <button class="btn" style="flex:1;justify-content:center" type="submit">Ajouter au panier — {{ product.price_ttc }}€</button>
+      </form>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center;font-size:10px;letter-spacing:.5px;text-transform:uppercase">
+        <div style="background:#fff;padding:12px">✅ Paiement<br><span style="color:#999;text-transform:none">Stripe sécurisé</span></div>
+        <div style="background:#fff;padding:12px">⭐ Avis<br><span style="color:#999;text-transform:none">127 vérifiés</span></div>
+        <div style="background:#fff;padding:12px">📦 48h<br><span style="color:#999;text-transform:none">Stock Nantes</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMMANDATIONS HORIZONTAL SCROLL -->
+  {% if similar %}
+  <div style="margin-top:80px">
+    <div class="section-label">Recommandations — Basées sur cet univers</div>
+    <h2 class="sec-title" style="font-size:32px">Parfait avec<br><em>ce produit</em></h2>
+    <div class="h-scroll" style="margin-top:24px">
+      {% for s in similar %}
+      <a href="/shop/p/{{ s.slug }}" class="prod-card tilt format-small">
+        <div class="img-wrap" style="aspect-ratio:1"><img src="{{ s.image_url }}" alt="{{ s.name }}"></div>
+        <div class="content">
+          <div class="badges"><span class="badge cream">{{ s.event_type }}</span></div>
+          <h3 style="font-size:14px">{{ s.name[:45] }}</h3>
+          <div class="price-row"><div class="price" style="font-size:16px">{{ s.price_ttc }}€</div><div class="add-btn">+</div></div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/personalization.js"></script>
+<script>
+// Init canvas
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.PersonalizationPreview){
+    new PersonalizationPreview('affiche-canvas',{prenom:'input-prenom',date:'input-date',poids:'input-poids',message:'input-message'});
+  }
+});
+</script>
+{% endblock %}

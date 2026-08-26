@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>{% block title %}L'Effet Waouh — La marque des grands moments de vie{% endblock %}</title>
+<meta name="description" content="{% block meta_desc %}Expérience immersive premium. Mariage, Gender Reveal, Naissance, Baby Shower, Baptême, Anniversaire. 150+ produits, personnalisable, stock Nantes 48h.{% endblock %}">
+<style>
+/* PREMIUM IMMERSIVE DESIGN SYSTEM V4 */
+:root{
+  --cream:#FFFBF5;
+  --cream-2:#FFF8EF;
+  --ink:#0E0E0E;
+  --ink-2:#1A1A1A;
+  --line:#EDE6DC;
+  --line-2:#F5EFE6;
+  --terra:#B0764A;
+  --gold:#C9A86A;
+  --gold-light:#E8D5B5;
+  --rose:#FF6B8A;
+  --rose-light:#FFD6DE;
+  --bleu:#4FC3F7;
+  --bleu-light:#C5E8FF;
+  --sage:#A8B5A0;
+  --lavender:#C9B6E4;
+  --serif:"Instrument Serif", Georgia, serif;
+  --sans:"Inter", -apple-system, sans-serif;
+  --ease:.16,1,.3,1;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+@font-face{font-family:"Instrument Serif";src:local("Georgia");font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1440px;margin:0 auto;padding:0 32px}
+@media(max-width:768px){.wrap{padding:0 20px}}
+
+/* TOPBAR IMMERSIVE - Floating + Blur */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .6s var(--ease-out)}
+.topbar-inner{max-width:1440px;margin:16px auto 0;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.topbar-pill{display:flex;align-items:center;gap:0;background:rgba(255,251,245,.85);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(237,230,220,.8);border-radius:999px;padding:8px;box-shadow:0 8px 32px rgba(14,14,14,.06),0 1px 0 rgba(255,255,255,.8) inset;transition:all .4s var(--ease-out)}
+.topbar-pill:hover{background:rgba(255,251,245,.95);box-shadow:0 12px 40px rgba(14,14,14,.1),0 1px 0 rgba(255,255,255,.8) inset}
+.brand{display:flex;align-items:center;gap:12px;padding:8px 20px 8px 16px;border-right:1px solid var(--line);font-family:var(--serif);font-weight:400;font-size:18px;letter-spacing:-.3px;line-height:1}
+.brand .w{width:32px;height:32px;background:var(--ink);color:var(--cream);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600}
+.brand small{display:block;font-family:var(--sans);font-size:8px;letter-spacing:2px;text-transform:uppercase;opacity:.5;font-weight:600;margin-top:2px}
+.nav9{display:flex;align-items:center;gap:2px;padding:0 8px}
+.nav9 a{position:relative;padding:10px 14px;border-radius:999px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;font-weight:600;transition:all .3s var(--ease-out);white-space:nowrap}
+.nav9 a:hover{background:var(--ink);color:var(--cream);transform:translateY(-1px)}
+.nav9 a.active{background:var(--ink);color:var(--cream)}
+.nav9 a .count{font-size:9px;opacity:.6;margin-left:4px}
+.topbar-actions{display:flex;align-items:center;gap:8px;padding-left:8px}
+.search-btn{width:40px;height:40px;border-radius:50%;background:var(--cream-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+.search-btn:hover{background:var(--ink);color:var(--cream);transform:scale(1.05)}
+.cart-pill{display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--cream);border-radius:999px;padding:10px 18px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;font-weight:600;transition:all .3s}
+.cart-pill:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(14,14,14,.2)}
+.cart-pill .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+
+/* HORIZONTAL SCROLL NAV - Univers Explorer */
+.universe-scroll{position:fixed;top:88px;left:0;right:0;z-index:999;background:linear-gradient(to bottom, var(--cream) 0%, rgba(255,251,245,0) 100%);padding:16px 0;pointer-events:none;opacity:0;transform:translateY(-10px);transition:all .6s var(--ease-out)}
+.universe-scroll.visible{pointer-events:auto;opacity:1;transform:translateY(0)}
+.universe-track{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding:0 32px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.universe-track::-webkit-scrollbar{display:none}
+.universe-card{flex:0 0 280px;scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center;transition:all .4s var(--ease-out);cursor:pointer}
+.universe-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 32px rgba(14,14,14,.08);border-color:var(--ink)}
+.universe-card.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.universe-card .thumb{width:56px;height:56px;border-radius:12px;overflow:hidden;background:var(--cream-2);flex-shrink:0}
+.universe-card .thumb img{width:100%;height:100%;object-fit:cover}
+.universe-card h4{font-family:var(--serif);font-size:16px;line-height:1.1;margin-bottom:2px}
+.universe-card p{font-size:11px;opacity:.7;line-height:1.3}
+
+/* PAGE TRANSITIONS */
+.page{opacity:0;transform:translateY(12px);animation:pageIn .8s var(--ease-out) forwards}
+@keyframes pageIn{to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* PRODUCT CARD PREMIUM - Varied Formats */
+.prod-grid-immersive{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.prod-card{position:relative;background:#fff;overflow:hidden;transition:all .6s var(--ease-out);cursor:pointer;transform-style:preserve-3d}
+.prod-card:hover{z-index:2;box-shadow:0 20px 60px rgba(14,14,14,.12)}
+.prod-card .img-wrap{position:relative;overflow:hidden;background:var(--cream-2)}
+.prod-card .img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out), filter .6s}
+.prod-card:hover .img-wrap img{transform:scale(1.08)}
+.prod-card .content{padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px}
+.prod-card .top-row{display:flex;justify-content:space-between;align-items:start;gap:8px}
+.prod-card .badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:600;transition:all .3s}
+.badge.rose{background:var(--rose);color:#fff;border-color:var(--rose)}
+.badge.bleu{background:var(--bleu);color:#fff;border-color:var(--bleu)}
+.badge.gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+.badge.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+.badge.cream{background:var(--cream-2);color:var(--ink)}
+.prod-card h3{font-family:var(--serif);font-size:18px;line-height:1.15;letter-spacing:-.2px;font-weight:400;transition:all .3s}
+.prod-card:hover h3{letter-spacing:-.4px}
+.prod-card .desc{font-size:12.5px;color:#6B6B6B;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prod-card .price-row{display:flex;justify-content:space-between;align-items:end;margin-top:auto;padding-top:12px;border-top:1px solid var(--line-2)}
+.prod-card .price{font-family:var(--serif);font-size:20px;line-height:1}
+.prod-card .price small{display:block;font-family:var(--sans);font-size:10px;color:#999;font-weight:500;margin-top:2px;letter-spacing:.3px}
+.prod-card .add-btn{width:32px;height:32px;border-radius:50%;background:var(--cream-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.prod-card:hover .add-btn{background:var(--ink);color:#fff;transform:scale(1.1) rotate(90deg)}
+
+/* Card Formats - Avoid repetition */
+.prod-card.format-large{grid-column:span 6;grid-row:span 2}
+.prod-card.format-large .img-wrap{aspect-ratio:4/3}
+.prod-card.format-large h3{font-size:28px;line-height:.95}
+.prod-card.format-medium{grid-column:span 4}
+.prod-card.format-medium .img-wrap{aspect-ratio:1}
+.prod-card.format-small{grid-column:span 3}
+.prod-card.format-small .img-wrap{aspect-ratio:1}
+.prod-card.format-small h3{font-size:15px}
+.prod-card.format-kit{grid-column:span 6;background:var(--ink);color:var(--cream)}
+.prod-card.format-kit .content{color:var(--cream)}
+.prod-card.format-kit .desc{color:#AAA}
+.prod-card.format-kit .price-row{border-color:rgba(255,255,255,.1)}
+.prod-card.format-kit .badge{border-color:rgba(255,255,255,.2)}
+.prod-card.format-kit .add-btn{background:var(--cream);color:var(--ink)}
+.prod-card.format-personalized{grid-column:span 4;background:var(--cream-2);border:2px solid var(--gold-light)}
+.prod-card.format-personalized .img-wrap{background:var(--gold-light)}
+
+@media(max-width:1100px){
+  .prod-card.format-large{grid-column:span 12}
+  .prod-card.format-medium{grid-column:span 6}
+  .prod-card.format-small{grid-column:span 6}
+  .prod-card.format-kit{grid-column:span 12}
+  .prod-card.format-personalized{grid-column:span 6}
+}
+@media(max-width:640px){
+  .prod-card.format-medium,.prod-card.format-small,.prod-card.format-personalized{grid-column:span 12}
+}
+
+/* HORIZONTAL SCROLL - Recommendations */
+.h-scroll{overflow-x:auto;scrollbar-width:none;scroll-snap-type:x mandatory;display:flex;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;padding:1px}
+.h-scroll::-webkit-scrollbar{display:none}
+.h-scroll .prod-card{flex:0 0 320px;scroll-snap-align:start}
+.h-scroll .prod-card.format-large{flex:0 0 480px}
+
+/* FILTERS - Bottom Sheet / Sidebar */
+.filters-bar{position:sticky;top:88px;z-index:100;background:rgba(255,251,245,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:16px 0;margin-bottom:1px}
+.filters-inner{max-width:1440px;margin:0 auto;padding:0 32px;display:flex;gap:12px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.filters-inner::-webkit-scrollbar{display:none}
+.filter-pill{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .3s}
+.filter-pill:hover{border-color:var(--ink);transform:translateY(-1px)}
+.filter-pill.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filter-pill .icon{width:20px;height:20px;border-radius:50%;background:var(--cream-2);display:flex;align-items:center;justify-content:center;font-size:12px}
+
+/* 3D TILT */
+.tilt{transform-style:preserve-3d;transition:transform .1s}
+.tilt:hover{transform:perspective(1000px) rotateX(var(--rx,0)) rotateY(var(--ry,0)) translateZ(10px)}
+
+/* MICRO-INTERACTIONS */
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;overflow:hidden;transition:all .4s var(--ease-out)}
+.btn::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.15) 0%, transparent 50%);opacity:0;transition:opacity .3s;pointer-events:none}
+.btn:hover::before{opacity:1}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(14,14,14,.15)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn.light{background:#fff;color:var(--ink)}
+.btn.gold{background:var(--gold);border-color:var(--gold)}
+.btn:disabled{opacity:.5;pointer-events:none}
+
+/* SCROLL INDICATOR */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;background:var(--gold);transform-origin:left;transform:scaleX(var(--progress,0));z-index:1001;transition:transform .1s linear}
+
+/* MOBILE BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:1000;background:rgba(14,14,14,.9);backdrop-filter:blur(24px);border-radius:999px;padding:8px;display:flex;gap:4px;box-shadow:0 16px 40px rgba(14,14,14,.2);display:none}
+.bottom-nav a{padding:12px 18px;border-radius:999px;color:#fff;font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:600;opacity:.6;transition:all .3s}
+.bottom-nav a.active{opacity:1;background:rgba(255,255,255,.15)}
+@media(max-width:1100px){.bottom-nav{display:flex}.topbar .nav9{display:none}}
+
+/* SECTIONS */
+section{padding:80px 0;position:relative}
+.section-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--terra);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--line);max-width:80px}
+.sec-title{font-family:var(--serif);font-size:clamp(36px,6vw,64px);line-height:.9;letter-spacing:-1.5px;margin-bottom:20px;font-weight:400}
+.sec-title em{font-style:italic;font-weight:300;color:var(--terra)}
+.sec-sub{max-width:560px;color:#6B6B6B;font-size:16px;line-height:1.6;font-weight:300}
+
+footer{padding:80px 0 40px;border-top:1px solid var(--line);background:#fff;margin-top:80px}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="progress"></div>
+
+<div class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-pill">
+      <a href="/" class="brand"><div class="w">W</div>L'Effet Waouh<small>La marque des grands moments</small></a>
+      <nav class="nav9" id="mainNav">
+        <a href="/explorer" data-event="all">Explorer <span class="count">171</span></a>
+        <a href="/explorer?event=mariage" data-event="mariage">Mariage <span class="count">40</span></a>
+        <a href="/explorer?event=gender_reveal" data-event="gender_reveal">Gender Reveal</a>
+        <a href="/explorer?event=baby_shower" data-event="baby_shower">Baby Shower</a>
+        <a href="/explorer?event=naissance" data-event="naissance">Naissance</a>
+        <a href="/explorer?event=bapteme" data-event="bapteme">Baptême</a>
+        <a href="/explorer?event=anniversaire" data-event="anniversaire">Anniversaire</a>
+        <a href="/kits" data-event="kits">Kits</a>
+      </nav>
+      <div class="topbar-actions">
+        <button class="search-btn" onclick="document.getElementById('searchOverlay').classList.add('active')">⌕</button>
+        <a href="/cart" class="cart-pill"><span class="dot"></span>Panier</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Universe Horizontal Scroll -->
+<div class="universe-scroll" id="universeScroll">
+  <div class="universe-track" id="universeTrack">
+    <!-- JS will populate -->
+  </div>
+</div>
+
+<!-- Search Overlay -->
+<div id="searchOverlay" style="position:fixed;inset:0;z-index:2000;background:rgba(255,251,245,.95);backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center;padding:32px">
+  <div style="max-width:640px;width:100%">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <div style="font-family:var(--serif);font-size:24px">Rechercher couleur, thème, âge...</div>
+      <button onclick="document.getElementById('searchOverlay').classList.remove('active')" style="width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer">✕</button>
+    </div>
+    <form action="/search" method="get" style="display:flex;gap:12px">
+      <input name="q" placeholder="Ex: gender reveal fille, baptême garçon, licorne 5 ans, 30 ans rose gold..." autofocus style="flex:1;padding:20px 24px;border-radius:999px;border:1px solid var(--line);font-size:16px;outline:none">
+      <button class="btn" type="submit">Rechercher →</button>
+    </form>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px">
+      <span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#999;padding:8px 0">Suggestions:</span>
+      <a href="/search?q=gender%20reveal%20fille" class="filter-pill">gender reveal fille</a>
+      <a href="/search?q=bapteme%20garcon" class="filter-pill">baptême garçon</a>
+      <a href="/search?q=licorne%205%20ans" class="filter-pill">licorne 5 ans</a>
+      <a href="/search?q=30%20ans%20rose%20gold" class="filter-pill">30 ans rose gold</a>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+{% block content %}{% endblock %}
+</div>
+
+<div class="bottom-nav" id="bottomNav">
+  <a href="/" class="active">Accueil</a>
+  <a href="/explorer">Explorer</a>
+  <a href="/kits">Kits</a>
+  <a href="/cart">Panier</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px">
+      <div>
+        <div style="font-family:var(--serif);font-size:20px;margin-bottom:16px">L'Effet Waouh</div>
+        <div style="font-size:14px;color:#666;line-height:1.7">La marque des grands moments de vie.<br>Mariage, Gender Reveal, Naissance, Baby Shower, Baptême, Anniversaire.<br>Expérience immersive premium, personnalisable, stock Nantes 48h.</div>
+        <div style="display:flex;gap:8px;margin-top:20px">
+          <span class="badge cream">📦 48h Nantes</span>
+          <span class="badge cream">🚚 Gratuit dès 75€</span>
+          <span class="badge cream">✨ 171 produits</span>
+        </div>
+      </div>
+      <div style="font-size:13px;line-height:2.2"><b>Explorer</b><br><a href="/explorer?event=mariage">Mariage</a><br><a href="/explorer?event=gender_reveal">Gender Reveal</a><br><a href="/explorer?event=naissance">Naissance</a><br><a href="/explorer?event=baby_shower">Baby Shower</a><br><a href="/explorer?event=bapteme">Baptême</a><br><a href="/explorer?event=anniversaire">Anniversaire</a></div>
+      <div style="font-size:13px;line-height:2.2"><b>Guides</b><br><a href="/blog">Blog idées déco</a><br><a href="/kits">Kits x4 panier</a><br>Personnalisation<br>Livraison & retours<br>Contact</div>
+      <div style="font-size:13px;line-height:2.2"><b>Contact</b><br>contact@leffetwaouh.fr<br>Nantes — France entière<br><br><span class="badge ink">Paiement sécurisé Stripe</span></div>
+    </div>
+    <div style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#999">
+      <span>© 2026 L'Effet Waouh — Immersif, fluide, premium</span>
+      <span>Scroll horizontal • 3D tilt • Micro-interactions • Sans doublons</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll progress
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight - window.innerHeight;
+  const p=window.scrollY / h;
+  document.getElementById('progress').style.setProperty('--progress',p);
+  document.getElementById('topbar').style.transform=window.scrollY>100?'translateY(-4px)':'translateY(0)';
+});
+
+// 3D Tilt effect
+document.querySelectorAll('.tilt').forEach(card=>{
+  card.addEventListener('mousemove',(e)=>{
+    const rect=card.getBoundingClientRect();
+    const x=e.clientX - rect.left;
+    const y=e.clientY - rect.top;
+    const rx=((y/rect.height)-.5)* -8;
+    const ry=((x/rect.width)-.5)*8;
+    card.style.setProperty('--rx',rx+'deg');
+    card.style.setProperty('--ry',ry+'deg');
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.setProperty('--rx','0deg');
+    card.style.setProperty('--ry','0deg');
+  });
+});
+
+// Button ripple
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('mousemove',(e)=>{
+    const rect=btn.getBoundingClientRect();
+    btn.style.setProperty('--x',e.clientX-rect.left+'px');
+    btn.style.setProperty('--y',e.clientY-rect.top+'px');
+  });
+});
+
+// Search overlay
+document.getElementById('searchOverlay').addEventListener('click',(e)=>{
+  if(e.target===e.currentTarget) e.currentTarget.classList.remove('active');
+});
+
+// Universe scroll data
+const universes=[
+  {slug:'mariage',name:'Mariage',count:40,desc:'Déco salle, table, voiture, cadeaux invités',img:'/static/images/products/mariage-arche-blanc-or-200pcs.jpg',color:'#EDE6DC'},
+  {slug:'gender_reveal',name:'Gender Reveal',count:14,desc:'Ballons 90cm, fumigènes, canons',img:'/static/images/products/gender-reveal-ballon-90cm-rose.jpg',color:'#FFD6DE'},
+  {slug:'baby_shower',name:'Baby Shower',count:20,desc:'Kits 70pcs, vaisselle, jeux',img:'/static/images/products/baby-shower-kit-fille-70pcs.jpg',color:'#C5E8FF'},
+  {slug:'naissance',name:'Naissance',count:23,desc:'Guirlandes, affiches perso, cartes étapes',img:'/static/images/products/naissance-guirlande-bienvenue.jpg',color:'#E8D5B5'},
+  {slug:'bapteme',name:'Baptême',count:22,desc:'Bougies perso, dragées plexi, magnets',img:'/static/images/products/bapteme-bougie-verre-ambre.jpg',color:'#C9B6E4'},
+  {slug:'anniversaire',name:'Anniversaire',count:31,desc:'Licorne, Harry Potter, 30 ans rose gold',img:'/static/images/products/anniversaire-licorne-70pcs.jpg',color:'#A8B5A0'},
+  {slug:'kits',name:'Kits x4',count:13,desc:'Tout compris, économie 15%',img:'/static/images/products/kit-mariage-50-pers.jpg',color:'#121212'},
+];
+const track=document.getElementById('universeTrack');
+if(track){
+  universes.forEach(u=>{
+    const div=document.createElement('a');
+    div.href='/explorer?event='+u.slug;
+    div.className='universe-card';
+    div.innerHTML=`<div class="thumb" style="background:${u.color}"><img src="${u.img}" onerror="this.src='/static/images/01-hero.jpg'"></div><div><h4>${u.name} <span style="font-size:10px;opacity:.5">${u.count}</span></h4><p>${u.desc}</p></div>`;
+    track.appendChild(div);
+  });
+}
+
+// Show universe scroll on explorer
+if(window.location.pathname.includes('explorer')){
+  document.getElementById('universeScroll').classList.add('visible');
+}
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

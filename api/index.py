@@ -35,6 +35,7 @@ try:
             "sql/seed_products_bapteme.sql",
             "sql/seed_products_kits_personnalises.sql",
             "sql/seed_products_naissance_full.sql",
+            "sql/dedup_products.sql",
         ]
         for sql_file in sql_files:
             p = ROOT / sql_file

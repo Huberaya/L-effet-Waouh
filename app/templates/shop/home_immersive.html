@@ -1,0 +1,220 @@
+{% extends "base_immersive.html" %}
+{% block content %}
+
+<!-- HERO IMMERSIVE FULLSCREEN -->
+<div style="min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding-top:100px;background:radial-gradient(120% 120% at 20% 20%, #FFF8EF 0%, #FFFBF5 50%, #F5EFE6 100%)">
+  <div class="wrap" style="width:100%;position:relative;z-index:2">
+    <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center">
+      <div class="page">
+        <div class="section-label">Nouveau — Expérience immersive premium V4</div>
+        <h1 class="sec-title" style="font-size:clamp(48px,8vw,84px);line-height:.85">Tout ce qu'il vous faut pour créer un <em>événement inoubliable</em></h1>
+        <p class="sec-sub" style="font-size:18px;max-width:520px;margin-bottom:32px">Mariage, Gender Reveal, Naissance, Baby Shower, Baptême, Anniversaire. 143 produits uniques, photos correspondantes, pas de doublons, navigation fluide horizontale + verticale, 3D tilt, micro-interactions. Stock Nantes 48h.</p>
+        
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px">
+          <a href="/explorer" class="btn">Explorer le catalogue →</a>
+          <a href="/kits" class="btn light">Kits x4 panier moyen</a>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 20px;display:inline-flex;gap:16px;align-items:center">
+          <div style="display:flex;gap:8px">
+            <span class="badge cream">📦 48h Nantes</span>
+            <span class="badge cream">🚚 Gratuit dès 75€</span>
+            <span class="badge gold">✨ 143 uniques</span>
+          </div>
+          <div style="width:1px;height:24px;background:var(--line)"></div>
+          <div style="font-size:11px;color:#666">Pas de répétition photo • Pas de doublons • Formats variés</div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:8px;flex-wrap:wrap">
+          <span style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#999;padding:8px 0">Explorer:</span>
+          <a href="/explorer?event=gender_reveal" class="filter-pill">Gender Reveal fille</a>
+          <a href="/explorer?event=bapteme" class="filter-pill">Baptême garçon</a>
+          <a href="/explorer?theme=licorne" class="filter-pill">Licorne 5 ans</a>
+          <a href="/explorer?event=anniversaire&filter=rose" class="filter-pill">30 ans rose gold</a>
+        </div>
+      </div>
+
+      <div style="position:relative" class="page">
+        <!-- 3D Stack of products -->
+        <div style="position:relative;width:100%;aspect-ratio:4/3">
+          <div class="tilt" style="position:absolute;top:0;left:0;width:75%;aspect-ratio:4/3;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(14,14,14,.1);transform:rotate(-3deg)">
+            <img src="/static/images/products/gender-reveal-ballon-90cm-rose.jpg" style="width:100%;height:100%;object-fit:cover" onerror="this.src='/static/images/01-hero.jpg'">
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(to top, rgba(0,0,0,.6), transparent);color:#fff;font-size:11px">Ballon 90cm — Best-seller 4409 ventes/mois</div>
+          </div>
+          <div class="tilt" style="position:absolute;top:20%;right:0;width:65%;aspect-ratio:1;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(14,14,14,.15);transform:rotate(4deg)">
+            <img src="/static/images/products/mariage-arche-blanc-or-200pcs.jpg" style="width:100%;height:100%;object-fit:cover" onerror="this.src='/static/images/01-hero.jpg'">
+            <div style="position:absolute;top:12px;left:12px"><span class="badge ink">Mariage</span></div>
+          </div>
+          <div class="tilt" style="position:absolute;bottom:0;left:15%;width:55%;aspect-ratio:1;background:var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(14,14,14,.2);transform:rotate(-2deg);padding:16px;color:#fff">
+            <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Kit complet -15%</div>
+            <div style="font-family:var(--serif);font-size:18px;line-height:1">Kit Mariage 50 pers<br>88.90€ au lieu de 108€</div>
+            <div style="margin-top:12px"><span class="badge gold">Panier x4</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background decorative -->
+  <div style="position:absolute;top:20%;right:10%;width:40vw;height:40vw;background:radial-gradient(circle, var(--gold-light) 0%, transparent 70%);opacity:.4;pointer-events:none;filter:blur(40px)"></div>
+  <div style="position:absolute;bottom:10%;left:5%;width:30vw;height:30vw;background:radial-gradient(circle, var(--rose-light) 0%, transparent 70%);opacity:.3;pointer-events:none;filter:blur(40px)"></div>
+</div>
+
+<!-- UNIVERSES HORIZONTAL SCROLL IMMERSIVE -->
+<section style="padding:0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div style="padding:32px 0 0">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:24px">
+        <div>
+          <div class="section-label">9 univers — Scroll horizontal intuitif</div>
+          <h2 class="sec-title" style="font-size:40px">Explorez d'un geste<br><em>sans changer de page</em></h2>
+        </div>
+        <div style="font-size:12px;color:#666;max-width:320px">Glissez horizontalement pour découvrir les univers. Chaque carte a sa photo correspondante, pas de répétition. Cliquez pour filtrer le catalogue fluide.</div>
+      </div>
+    </div>
+    <div class="h-scroll" style="border-radius:0;border-left:none;border-right:none">
+      <a href="/explorer?event=mariage" class="universe-card tilt" style="flex:0 0 360px;background:#fff;padding:24px;border-right:1px solid var(--line)">
+        <div class="thumb" style="width:80px;height:80px;border-radius:16px;overflow:hidden;background:#EDE6DC;margin-bottom:16px"><img src="/static/images/products/mariage-arche-blanc-or-200pcs.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <h4 style="font-family:var(--serif);font-size:22px">Mariage <span style="font-size:11px;opacity:.5">40</span></h4>
+        <p style="font-size:12px;color:#666;margin:8px 0 16px">Déco salle, table, voiture, gadgets, accessoires invités/mariés, cadeaux invités, jeux, photobooth, EVJF, kits.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="badge cream">Arche blanc/or</span><span class="badge cream">Cierges 40cm</span><span class="badge cream">Rideau LED</span></div>
+      </a>
+      <a href="/explorer?event=gender_reveal" class="universe-card tilt" style="flex:0 0 360px;background:#FFD6DE;padding:24px;border-right:1px solid var(--line)">
+        <div class="thumb" style="width:80px;height:80px;border-radius:16px;overflow:hidden;background:#fff;margin-bottom:16px"><img src="/static/images/products/gender-reveal-ballon-90cm-rose.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <h4 style="font-family:var(--serif);font-size:22px">Gender Reveal <span style="font-size:11px;opacity:.5">14</span></h4>
+        <p style="font-size:12px;color:#666;margin:8px 0 16px">Ballons 90cm, confettis, fumigènes T1, boîtes surprise, kits révélation, déco rose/bleu, badges Team Boy/Girl.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="badge rose">4409 ventes/mois</span><span class="badge cream">Marge 74%</span></div>
+      </a>
+      <a href="/explorer?event=baby_shower" class="universe-card tilt" style="flex:0 0 360px;background:#C5E8FF;padding:24px;border-right:1px solid var(--line)">
+        <div class="thumb" style="width:80px;height:80px;border-radius:16px;overflow:hidden;background:#fff;margin-bottom:16px"><img src="/static/images/products/baby-shower-kit-fille-70pcs.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <h4 style="font-family:var(--serif);font-size:22px">Baby Shower <span style="font-size:11px;opacity:.5">20</span></h4>
+        <p style="font-size:12px;color:#666;margin:8px 0 16px">Kits déco 70pcs, ballons, guirlandes, vaisselle, table, jeux pronostics, cadeaux invités, photobooth.</p>
+        <div style="display:flex;gap:6px"><span class="badge bleu">Kit complet 20 pers 88.90€</span></div>
+      </a>
+      <a href="/explorer?event=naissance" class="universe-card tilt" style="flex:0 0 360px;background:#E8D5B5;padding:24px;border-right:1px solid var(--line)">
+        <div class="thumb" style="width:80px;height:80px;border-radius:16px;overflow:hidden;background:#fff;margin-bottom:16px"><img src="/static/images/products/naissance-guirlande-bienvenue.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <h4 style="font-family:var(--serif);font-size:22px">Naissance <span style="font-size:11px;opacity:.5">23</span></h4>
+        <p style="font-size:12px;color:#666;margin:8px 0 16px">Cadeaux, déco, boîtes souvenirs, empreintes, cartes étapes, affiches personnalisées.</p>
+        <div style="display:flex;gap:6px"><span class="badge gold">Affiche perso 12.90€ marge 84%</span></div>
+      </a>
+      <a href="/explorer?event=bapteme" class="universe-card tilt" style="flex:0 0 360px;background:#C9B6E4;padding:24px;border-right:1px solid var(--line)">
+        <div class="thumb" style="width:80px;height:80px;border-radius:16px;overflow:hidden;background:#fff;margin-bottom:16px"><img src="/static/images/products/bapteme-bougie-verre-ambre.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <h4 style="font-family:var(--serif);font-size:22px">Baptême <span style="font-size:11px;opacity:.5">22</span></h4>
+        <p style="font-size:12px;color:#666;margin:8px 0 16px">Déco, cadeaux invités, contenants dragées plexi, bougies personnalisées, table, souvenirs, parrain/marraine.</p>
+        <div style="display:flex;gap:6px"><span class="badge cream">Bougie ambré best-seller</span></div>
+      </a>
+      <a href="/explorer?event=anniversaire" class="universe-card tilt" style="flex:0 0 360px;background:#A8B5A0;padding:24px;border-right:1px solid var(--line)">
+        <div class="thumb" style="width:80px;height:80px;border-radius:16px;overflow:hidden;background:#fff;margin-bottom:16px"><img src="/static/images/products/anniversaire-licorne-70pcs.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <h4 style="font-family:var(--serif);font-size:22px">Anniversaire <span style="font-size:11px;opacity:.5">31</span></h4>
+        <p style="font-size:12px;color:#666;margin:8px 0 16px">Enfant/adulte, 1/18/20/30/40/50/60 ans. Thèmes: licorne, princesse, super-héros, Harry Potter, Barbie, Glow.</p>
+        <div style="display:flex;gap:6px"><span class="badge cream">Licorne best 2024</span><span class="badge cream">30 ans rose gold</span></div>
+      </a>
+      <a href="/kits" class="universe-card tilt" style="flex:0 0 360px;background:var(--ink);color:#fff;padding:24px">
+        <div style="width:80px;height:80px;border-radius:16px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px">📦</div>
+        <h4 style="font-family:var(--serif);font-size:22px;color:#fff">Kits Événementiels <span style="font-size:11px;opacity:.5">13</span></h4>
+        <p style="font-size:12px;color:#AAA;margin:8px 0 16px">Kit Mariage 50 pers, GR Premium 30 pers, Baby Shower 20 pers, Baptême 20 invités, Anniv Licorne 15 enfants.</p>
+        <div style="display:flex;gap:6px"><span class="badge gold">Panier x4 74.90€</span><span class="badge" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.2)">-15%</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BEST SELLERS IMMERSIVE GRID -->
+<section>
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:24px;margin-bottom:32px">
+      <div>
+        <div class="section-label">Best-sellers — Formats variés, pas de répétition</div>
+        <h2 class="sec-title">En stock à Nantes<br><em>— Photos correspondantes</em></h2>
+      </div>
+      <div style="display:flex;gap:12px">
+        <a href="/explorer" class="btn light">Explorer tout →</a>
+        <a href="/explorer?filter=kit" class="btn">Kits x4</a>
+      </div>
+    </div>
+
+    <div class="prod-grid-immersive">
+      {% for p in featured %}
+      {% set fmt = 'small' %}
+      {% if loop.index == 1 %}{% set fmt = 'large' %}
+      {% elif loop.index == 2 %}{% set fmt = 'kit' %}
+      {% elif loop.index == 3 %}{% set fmt = 'personalized' %}
+      {% elif loop.index % 3 == 0 %}{% set fmt = 'medium' %}
+      {% endif %}
+      <a href="/shop/p/{{ p.slug }}" class="prod-card tilt format-{{ fmt }}">
+        <div class="img-wrap" style="background:{{ p.bg_color or '#FFFBF5' }};{% if fmt=='large' %}aspect-ratio:4/3{% elif fmt=='kit' %}aspect-ratio:16/9{% else %}aspect-ratio:1{% endif %}">
+          <img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy" onerror="this.src='/static/images/01-hero.jpg'">
+          {% if fmt=='large' %}<div style="position:absolute;top:16px;left:16px"><span class="badge gold">★ Best-seller</span></div>{% endif %}
+        </div>
+        <div class="content">
+          <div class="top-row">
+            <div class="badges"><span class="badge {% if p.is_featured %}gold{% else %}cream{% endif %}">{{ p.event_type }}</span>{% if fmt=='personalized' %}<span class="badge gold">Perso</span>{% endif %}</div>
+            <span style="font-size:10px;color:#999">{{ p.stock_qty }} en stock</span>
+          </div>
+          <h3>{{ p.name }}</h3>
+          <div class="desc">{{ p.short_desc }}</div>
+          <div class="price-row">
+            <div class="price">{{ p.price_ttc }}€<small>• Marge {{ ((p.price_ttc-p.cost_price)/p.price_ttc*100)|round(0) if p.cost_price else 65 }}%</small></div>
+            <div class="add-btn">+</div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- KITS BANNER IMMERSIVE -->
+<section style="padding:0">
+  <div class="wrap">
+    <div style="background:var(--ink);color:#fff;border-radius:16px;padding:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-50%;right:-10%;width:50%;height:200%;background:radial-gradient(circle, var(--gold) 0%, transparent 70%);opacity:.15;pointer-events:none"></div>
+      <div style="position:relative;z-index:1">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Objectif panier x4 — Sans doublons</div>
+        <h3 style="font-family:var(--serif);font-size:28px;line-height:1">Kits événementiels — Économie 15%</h3>
+        <p style="color:#AAA;font-size:14px;margin-top:8px">Un kit = tout pour votre événement. Plus de doublons, un seul kit par besoin. Ex: Kit Mariage 50 pers 88.90€ au lieu de 108€ séparé.</p>
+      </div>
+      <a href="/kits" class="btn gold" style="position:relative;z-index:1">Voir les 13 kits →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONNALISATION IMMERSIVE -->
+<section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center">
+      <div>
+        <div class="section-label">Axe stratégique — Personnalisation live</div>
+        <h2 class="sec-title">Chaque événement est <em>unique</em></h2>
+        <p class="sec-sub">Prénom, date, message, photo, couleur, thème. Expérience fluide: Produit → Perso → Aperçu → Commande. Canvas live, export PNG POD, prod 24/48h.</p>
+        <div style="margin-top:32px;display:grid;gap:16px">
+          <div style="display:flex;gap:16px;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:var(--cream-2);display:flex;align-items:center;justify-content:center;font-weight:600">1</div><div><b>Affiche personnalisée</b> prénom date poids — 12.90€ — Marge 84% — Photo correspondante minimaliste</div></div>
+          <div style="display:flex;gap:16px;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:var(--cream-2);display:flex;align-items:center;justify-content:center;font-weight:600">2</div><div><b>Ballon bulle</b> prénom + confettis 60cm — 18.90€ — Best-seller perso — Photo bulle transparent vinyle</div></div>
+          <div style="display:flex;gap:16px;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:var(--cream-2);display:flex;align-items:center;justify-content:center;font-weight:600">3</div><div><b>Bougie soja</b> personnalisée 70g — 6.90€ — Lot 10/20/30 — Photo verre ambré réel</div></div>
+        </div>
+        <a href="/explorer?filter=perso" class="btn" style="margin-top:32px">Voir personnalisables →</a>
+      </div>
+      <div style="background:var(--cream-2);border:1px solid var(--line);border-radius:16px;padding:24px" class="tilt">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:16px">Aperçu live — Canvas premium</div>
+        <canvas id="hero-canvas" width="400" height="300" style="width:100%;background:#fff;border-radius:12px;border:1px solid var(--line)"></canvas>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <input id="hero-prenom" value="Léon" placeholder="Prénom" style="flex:1;padding:12px;border-radius:999px;border:1px solid var(--line)">
+          <input id="hero-date" value="12.03.2026" placeholder="Date" style="flex:1;padding:12px;border-radius:999px;border:1px solid var(--line)">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/personalization.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.PersonalizationPreview){
+    new PersonalizationPreview('hero-canvas',{prenom:'hero-prenom',date:'hero-date'});
+  }
+});
+</script>
+{% endblock %}

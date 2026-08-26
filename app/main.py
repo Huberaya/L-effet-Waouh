@@ -24,9 +24,10 @@ app = FastAPI(
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 # Routers
-from .routers import shop, cart, checkout, admin, shop_v3, admin_v3
+from .routers import shop, cart, checkout, admin, shop_v3, admin_v3, explorer
 app.include_router(shop.router)
 app.include_router(shop_v3.router)
+app.include_router(explorer.router)
 app.include_router(cart.router)
 app.include_router(checkout.router)
 app.include_router(admin.router)
@@ -52,34 +53,36 @@ def home(request: Request):
     except:
         nb_gr = 0
     conn.close()
-    # Enrich with product images
+    # Enrich with product images + bg_color
     try:
         from .core.product_images import get_product_image
+        import hashlib
         enriched = []
         for p in featured:
             d = dict(p)
             d['image_url'] = get_product_image(d)
+            h = int(hashlib.md5(d.get('slug','').encode()).hexdigest()[:6], 16)
+            hue = h % 360
+            d['bg_color'] = f"hsl({hue}, 35%, 96%)"
             enriched.append(d)
         featured = enriched
-    except:
+    except Exception as e:
+        print(f"home enrich error: {e}")
         pass
-    # Try V3 home, fallback V2
-    try:
-        return templates.TemplateResponse(request, "shop/home_v3.html", {
-            "request": request,
-            "featured": featured,
-            "categories": cats,
-            "nb_products": nb_products,
-            "nb_gr": nb_gr
-        })
-    except:
-        return templates.TemplateResponse(request, "shop/home.html", {
-            "request": request,
-            "featured": featured,
-            "categories": cats,
-            "nb_products": nb_products,
-            "nb_gr": nb_gr
-        })
+    # Try immersive V4, then V3, then V2
+    for tmpl in ["shop/home_immersive.html", "shop/home_v3.html", "shop/home.html"]:
+        try:
+            return templates.TemplateResponse(request, tmpl, {
+                "request": request,
+                "featured": featured,
+                "categories": cats,
+                "nb_products": nb_products,
+                "nb_gr": nb_gr
+            })
+        except Exception as e:
+            print(f"Template {tmpl} failed: {e}")
+            continue
+    return HTMLResponse("Home error", status_code=500)
 
 @app.get("/health")
 def health():

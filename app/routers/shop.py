@@ -89,9 +89,9 @@ def product_detail(request: Request, slug: str):
     prod_dict = dict(prod)
     prod_dict['image_url'] = get_product_image(prod_dict)
     similar_enriched = enrich_products(similar)
-    # Try V3 template, fallback V2
+    # Try immersive premium template first
     try:
-        return templates.TemplateResponse(request, "shop/product_v3.html", {
+        return templates.TemplateResponse(request, "shop/product_immersive.html", {
             "request": request,
             "product": prod_dict,
             "variants": variants,
@@ -100,14 +100,24 @@ def product_detail(request: Request, slug: str):
             "marge": marge
         })
     except:
-        return templates.TemplateResponse(request, "shop/product.html", {
-            "request": request,
-            "product": prod_dict,
-            "variants": variants,
-            "images": images,
-            "similar": similar_enriched,
-            "marge": marge
-        })
+        try:
+            return templates.TemplateResponse(request, "shop/product_v3.html", {
+                "request": request,
+                "product": prod_dict,
+                "variants": variants,
+                "images": images,
+                "similar": similar_enriched,
+                "marge": marge
+            })
+        except:
+            return templates.TemplateResponse(request, "shop/product.html", {
+                "request": request,
+                "product": prod_dict,
+                "variants": variants,
+                "images": images,
+                "similar": similar_enriched,
+                "marge": marge
+            })
 
 @router.get("/shop/event/{event_type}", response_class=HTMLResponse)
 def shop_event(request: Request, event_type: str):
