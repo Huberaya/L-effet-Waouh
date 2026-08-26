@@ -19,9 +19,15 @@ app.use(cookieParser());
 
 // Static assets
 app.use('/static', express.static(path.join(__dirname, 'app', 'static')));
+app.use('/static', express.static(path.join(process.cwd(), 'app', 'static')));
 
 // Configure Nunjucks Template Engine
-const nunjucksEnv = nunjucks.configure(path.join(__dirname, 'app', 'templates'), {
+const templateDirs = [
+  path.join(__dirname, 'app', 'templates'),
+  path.join(process.cwd(), 'app', 'templates')
+];
+
+const nunjucksEnv = nunjucks.configure(templateDirs, {
   autoescape: true,
   express: app,
   watch: false,
@@ -426,7 +432,12 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Start Server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`L'Effet Waouh Server running at http://0.0.0.0:${PORT}`);
-});
+// Start Server (only when not run as a serverless function on Vercel)
+if (!process.env.VERCEL) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`L'Effet Waouh Server running at http://0.0.0.0:${PORT}`);
+  });
+}
+
+export default app;
+export { app };
