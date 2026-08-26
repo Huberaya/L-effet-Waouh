@@ -18,8 +18,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Static assets
-app.use('/static', express.static(path.join(__dirname, 'app', 'static')));
+app.use('/static', express.static(path.join(process.cwd(), 'public', 'static')));
+app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 app.use('/static', express.static(path.join(process.cwd(), 'app', 'static')));
+app.use('/static', express.static(path.join(__dirname, 'app', 'static')));
+app.use('/images', express.static(path.join(process.cwd(), 'public', 'images')));
+app.use('/images', express.static(path.join(process.cwd(), 'app', 'static', 'images')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // Configure Nunjucks Template Engine
 const templateDirs = [

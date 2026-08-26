@@ -7,19 +7,16 @@
       "config": {
         "includeFiles": [
           "app/**",
-          "src/**"
+          "src/**",
+          "public/**"
         ]
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/static/(.*)",
-      "dest": "/app/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
   ]
 }
