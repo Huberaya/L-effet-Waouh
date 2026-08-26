@@ -41,19 +41,13 @@ def home(request: Request):
     except:
         featured = []
     try:
-        cats = conn.execute("SELECT * FROM categories WHERE parent_id IS NULL AND is_active=1 ORDER BY position").fetchall()
+        # Stats for universes
+        by_event = conn.execute("SELECT event_type, COUNT(*) as c FROM products WHERE is_active=1 GROUP BY event_type").fetchall()
+        stats = {r['event_type']: r['c'] for r in by_event}
     except:
-        cats = []
-    try:
-        nb_products = conn.execute("SELECT COUNT(*) FROM products WHERE is_active=1").fetchone()[0]
-    except:
-        nb_products = 0
-    try:
-        nb_gr = conn.execute("SELECT COUNT(*) FROM products WHERE event_type='gender_reveal' AND is_active=1").fetchone()[0]
-    except:
-        nb_gr = 0
+        stats = {}
     conn.close()
-    # Enrich with product images + bg_color
+    # Enrich
     try:
         from .core.product_images import get_product_image
         import hashlib
@@ -62,22 +56,30 @@ def home(request: Request):
             d = dict(p)
             d['image_url'] = get_product_image(d)
             h = int(hashlib.md5(d.get('slug','').encode()).hexdigest()[:6], 16)
-            hue = h % 360
-            d['bg_color'] = f"hsl({hue}, 35%, 96%)"
+            d['bg_color'] = f"hsl({h%360}, 35%, 96%)"
             enriched.append(d)
         featured = enriched
-    except Exception as e:
-        print(f"home enrich error: {e}")
+    except:
         pass
-    # Try immersive V4, then V3, then V2
-    for tmpl in ["shop/home_immersive.html", "shop/home_v3.html", "shop/home.html"]:
+    
+    universes = [
+        {"slug":"mariage","name":"Mariage","count":stats.get('mariage',30),"desc":"Déco salle, table, voiture, cadeaux invités","img":"/static/images/products/mariage-arche-blanc-or-200pcs.jpg","color":"#EDE6DC"},
+        {"slug":"gender_reveal","name":"Gender Reveal","count":stats.get('gender_reveal',14),"desc":"Ballons 90cm, fumigènes, canons","img":"/static/images/products/gender-reveal-ballon-90cm-rose.jpg","color":"#FFD6DE"},
+        {"slug":"baby_shower","name":"Baby Shower","count":stats.get('baby_shower',19),"desc":"Kits 70pcs, vaisselle, jeux","img":"/static/images/products/baby-shower-kit-fille-70pcs.jpg","color":"#C5E8FF"},
+        {"slug":"naissance","name":"Naissance","count":stats.get('naissance',21),"desc":"Guirlandes, affiches perso","img":"/static/images/products/naissance-guirlande-bienvenue.jpg","color":"#E8D5B5"},
+        {"slug":"bapteme","name":"Baptême","count":stats.get('bapteme',15),"desc":"Bougies perso, dragées plexi","img":"/static/images/products/bapteme-bougie-verre-ambre.jpg","color":"#C9B6E4"},
+        {"slug":"anniversaire","name":"Anniversaire","count":stats.get('anniversaire',24),"desc":"Licorne, Harry Potter, 30 ans","img":"/static/images/products/anniversaire-licorne-70pcs.jpg","color":"#A8B5A0"},
+        {"slug":"kits","name":"Kits x4","count":13,"desc":"Tout compris, économie 15%","img":"/static/images/products/kit-mariage-50-pers.jpg","color":"#121212"},
+    ]
+    
+    for tmpl in ["shop/home_premium_v5.html", "shop/home_immersive.html", "shop/home_v3.html", "shop/home.html"]:
         try:
             return templates.TemplateResponse(request, tmpl, {
                 "request": request,
                 "featured": featured,
-                "categories": cats,
-                "nb_products": nb_products,
-                "nb_gr": nb_gr
+                "universes": universes,
+                "nb_products": sum(stats.values()) if stats else 120,
+                "nb_gr": stats.get('gender_reveal',14)
             })
         except Exception as e:
             print(f"Template {tmpl} failed: {e}")
@@ -92,6 +94,28 @@ def health():
 def legacy_reservation():
     return RedirectResponse("/shop/c/mariage", status_code=302)
 
+@app.get("/shop", response_class=HTMLResponse)
+def redirect_shop():
+    return RedirectResponse("/explorer", status_code=302)
+
+@app.get("/shop/event/{event_type}", response_class=HTMLResponse)
+def redirect_shop_event(event_type: str):
+    return RedirectResponse(f"/explorer?event={event_type}", status_code=302)
+
+@app.get("/shop/c/{slug}", response_class=HTMLResponse)
+def redirect_shop_c(slug: str):
+    # Try to map category slug to event
+    conn = get_sqlite_conn()
+    try:
+        cat = conn.execute("SELECT event_type FROM categories WHERE slug=?", (slug,)).fetchone()
+        if cat and cat['event_type']:
+            return RedirectResponse(f"/explorer?event={cat['event_type']}", status_code=302)
+    except:
+        pass
+    finally:
+        conn.close()
+    return RedirectResponse(f"/explorer?q={slug}", status_code=302)
+
 @app.get("/sitemap.xml")
 def sitemap():
     from fastapi.responses import Response
@@ -105,20 +129,18 @@ def sitemap():
     conn.close()
     urls = [
         "https://leffetwaouh.fr/",
-        "https://leffetwaouh.fr/shop",
+        "https://leffetwaouh.fr/explorer",
         "https://leffetwaouh.fr/kits",
         "https://leffetwaouh.fr/blog",
-        "https://leffetwaouh.fr/event/mariage",
-        "https://leffetwaouh.fr/event/gender-reveal",
-        "https://leffetwaouh.fr/event/baby-shower",
-        "https://leffetwaouh.fr/event/naissance",
-        "https://leffetwaouh.fr/event/bapteme",
-        "https://leffetwaouh.fr/event/anniversaire",
+        "https://leffetwaouh.fr/explorer?event=mariage",
+        "https://leffetwaouh.fr/explorer?event=gender_reveal",
+        "https://leffetwaouh.fr/explorer?event=baby_shower",
+        "https://leffetwaouh.fr/explorer?event=naissance",
+        "https://leffetwaouh.fr/explorer?event=bapteme",
+        "https://leffetwaouh.fr/explorer?event=anniversaire",
     ]
     for p in products:
         urls.append(f"https://leffetwaouh.fr/shop/p/{p['slug']}")
-    for c in cats:
-        urls.append(f"https://leffetwaouh.fr/shop/c/{c['slug']}")
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u in urls[:1000]:
         xml += f"  <url><loc>{u}</loc><changefreq>weekly</changefreq></url>\n"

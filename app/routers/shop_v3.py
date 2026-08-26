@@ -163,35 +163,10 @@ def kits(request: Request):
 
 @router.get("/event/{event_type}", response_class=HTMLResponse)
 def event_page(request: Request, event_type: str):
-    conn = get_sqlite_conn()
-    # Normalize
+    from fastapi.responses import RedirectResponse
     event_type = event_type.replace('-','_')
-    products = conn.execute("SELECT * FROM products WHERE event_type=? AND is_active=1 ORDER BY is_featured DESC, price_ttc", (event_type,)).fetchall()
-    if not products:
-        # Try categories
-        cat = conn.execute("SELECT * FROM categories WHERE event_type=? LIMIT 1", (event_type,)).fetchone()
-        if cat:
-            products = conn.execute("""
-                SELECT p.* FROM products p JOIN product_categories pc ON pc.product_id=p.id 
-                WHERE pc.category_id=? AND p.is_active=1
-            """, (cat['id'],)).fetchall()
-    subcats = conn.execute("SELECT * FROM categories WHERE event_type=? AND parent_id IS NOT NULL ORDER BY position LIMIT 20", (event_type,)).fetchall()
-    conn.close()
-    titles = {
-        'mariage': 'Mariage — 38 produits, déco, cadeaux invités, kits',
-        'gender_reveal': 'Gender Reveal — Ballons 90cm, fumigènes, canons',
-        'baby_shower': 'Baby Shower — Kits 70pcs, jeux, cadeaux invités',
-        'naissance': 'Naissance — Affiches personnalisées, cartes étapes',
-        'bapteme': 'Baptême — Bougies personnalisées, dragées, magnets',
-        'anniversaire': 'Anniversaire — 40 produits, 16 thèmes, kits'
-    }
-    return templates.TemplateResponse(request, "shop/event.html", {
-        "request": request,
-        "products": enrich_products(products),
-        "subcategories": subcats,
-        "event_type": event_type,
-        "title": titles.get(event_type, event_type)
-    })
+    # V5: unifier vers /explorer single page pour cohérence immersive
+    return RedirectResponse(f"/explorer?event={event_type}", status_code=302)
 
 @router.get("/blog", response_class=HTMLResponse)
 def blog_index(request: Request):

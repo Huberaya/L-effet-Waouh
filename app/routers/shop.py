@@ -17,60 +17,6 @@ def enrich_products(products):
         enriched.append(d)
     return enriched
 
-@router.get("/shop", response_class=HTMLResponse)
-def shop_all(request: Request, event: str = None, q: str = None):
-    conn = get_sqlite_conn()
-    sql = "SELECT * FROM products WHERE is_active=1"
-    params = []
-    if event:
-        sql += " AND event_type=?"
-        params.append(event)
-    if q:
-        sql += " AND (name LIKE ? OR short_desc LIKE ?)"
-        params.extend([f"%{q}%", f"%{q}%"])
-    sql += " ORDER BY is_featured DESC, created_at DESC LIMIT 60"
-    products = conn.execute(sql, params).fetchall()
-    cats = conn.execute("SELECT * FROM categories WHERE parent_id IS NULL ORDER BY position").fetchall()
-    conn.close()
-    return templates.TemplateResponse(request, "shop/category.html", {
-        "request": request,
-        "products": enrich_products(products),
-        "categories": cats,
-        "current_event": event,
-        "query": q,
-        "title": f"Boutique {event}" if event else "Toute la boutique"
-    })
-
-@router.get("/shop/c/{slug}", response_class=HTMLResponse)
-def shop_category(request: Request, slug: str):
-    conn = get_sqlite_conn()
-    cat = conn.execute("SELECT * FROM categories WHERE slug=?", (slug,)).fetchone()
-    if not cat:
-        conn.close()
-        raise HTTPException(404, "Catégorie non trouvée")
-    # Produits de cette catégorie ou de ses enfants
-    products = conn.execute("""
-        SELECT p.* FROM products p
-        JOIN product_categories pc ON pc.product_id=p.id
-        JOIN categories c ON c.id=pc.category_id
-        WHERE (c.slug=? OR c.parent_id=(SELECT id FROM categories WHERE slug=?))
-        AND p.is_active=1
-        ORDER BY p.is_featured DESC, p.price_ttc ASC
-    """, (slug, slug)).fetchall()
-    # Si pas via liaison, fallback event_type
-    if not products:
-        products = conn.execute("SELECT * FROM products WHERE event_type=? AND is_active=1 ORDER BY is_featured DESC", (cat["event_type"],)).fetchall()
-    
-    subcats = conn.execute("SELECT * FROM categories WHERE parent_id=? ORDER BY position", (cat["id"],)).fetchall()
-    conn.close()
-    return templates.TemplateResponse(request, "shop/category.html", {
-        "request": request,
-        "products": enrich_products(products),
-        "categories": subcats,
-        "current_category": cat,
-        "title": cat["name"]
-    })
-
 @router.get("/shop/p/{slug}", response_class=HTMLResponse)
 def product_detail(request: Request, slug: str):
     conn = get_sqlite_conn()
@@ -90,18 +36,9 @@ def product_detail(request: Request, slug: str):
     prod_dict['image_url'] = get_product_image(prod_dict)
     similar_enriched = enrich_products(similar)
     # Try immersive premium template first
-    try:
-        return templates.TemplateResponse(request, "shop/product_immersive.html", {
-            "request": request,
-            "product": prod_dict,
-            "variants": variants,
-            "images": images,
-            "similar": similar_enriched,
-            "marge": marge
-        })
-    except:
+    for tmpl in ["shop/product_premium_v5.html", "shop/product_immersive.html", "shop/product_v3.html", "shop/product.html"]:
         try:
-            return templates.TemplateResponse(request, "shop/product_v3.html", {
+            return templates.TemplateResponse(request, tmpl, {
                 "request": request,
                 "product": prod_dict,
                 "variants": variants,
@@ -109,25 +46,7 @@ def product_detail(request: Request, slug: str):
                 "similar": similar_enriched,
                 "marge": marge
             })
-        except:
-            return templates.TemplateResponse(request, "shop/product.html", {
-                "request": request,
-                "product": prod_dict,
-                "variants": variants,
-                "images": images,
-                "similar": similar_enriched,
-                "marge": marge
-            })
-
-@router.get("/shop/event/{event_type}", response_class=HTMLResponse)
-def shop_event(request: Request, event_type: str):
-    conn = get_sqlite_conn()
-    products = conn.execute("SELECT * FROM products WHERE event_type=? AND is_active=1 ORDER BY is_featured DESC, price_ttc", (event_type,)).fetchall()
-    cat = conn.execute("SELECT * FROM categories WHERE event_type=? AND parent_id IS NULL LIMIT 1", (event_type,)).fetchone()
-    conn.close()
-    return templates.TemplateResponse(request, "shop/category.html", {
-        "request": request,
-        "products": enrich_products(products),
-        "title": cat["name"] if cat else event_type,
-        "current_event": event_type
-    })
+        except Exception as e:
+            print(f"Template {tmpl} failed: {e}")
+            continue
+    raise HTTPException(500, "Template error")

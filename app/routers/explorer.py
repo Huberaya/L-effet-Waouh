@@ -143,7 +143,7 @@ def explorer(request: Request, event: str = None, filter: str = None, q: str = N
         {"slug":"kits","name":"Kits x4","count":13,"desc":"Tout compris, économie 15%","img":"/static/images/products/kit-mariage-50-pers.jpg","color":"#121212"},
     ]
     
-    return templates.TemplateResponse(request, "shop/explorer.html", {
+    return templates.TemplateResponse(request, "shop/explorer_v5.html", {
         "request": request,
         "products": enriched,
         "recommendations": recos_enriched,

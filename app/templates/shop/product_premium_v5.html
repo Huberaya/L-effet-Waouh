@@ -1,0 +1,148 @@
+{% extends "base_premium_v5.html" %}
+{% block content %}
+<div style="padding-top:92px">
+  <!-- BREADCRUMB H-SCROLL -->
+  <div class="wrap" style="padding-bottom:0">
+    <div class="h-scroll" style="border:none;padding:0 0 14px;gap:8px">
+      <a href="/" class="pill"><span>Accueil</span></a>
+      <span style="font-size:12px;color:#999">/</span>
+      <a href="/explorer" class="pill"><span>Explorer</span></a>
+      <span style="font-size:12px;color:#999">/</span>
+      <a href="/explorer?event={{ product.event_type }}" class="pill"><span>{{ product.event_type }}</span></a>
+      <span style="font-size:12px;color:#999">/</span>
+      <span class="pill active"><span>{{ product.name[:32] }}</span></span>
+    </div>
+  </div>
+
+  <div class="wrap" style="display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start">
+    <!-- GALLERY -->
+    <div>
+      <div class="tilt" style="background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/3;position:relative">
+        <img id="main-img" src="{{ product.image_url }}" alt="{{ product.name }}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='/static/images/01-hero.jpg'">
+        <div style="position:absolute;top:16px;left:16px;display:flex;gap:8px">
+          <span class="badge gold">{{ product.event_type }}</span>
+          {% if product.is_featured %}<span class="badge ink">★ Best-seller</span>{% endif %}
+        </div>
+        <div style="position:absolute;bottom:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center">
+          <span class="badge cream">📦 48h Nantes</span>
+          <span class="badge cream">{{ product.stock_qty }} en stock</span>
+        </div>
+      </div>
+      <!-- Thumbs h-scroll -->
+      <div class="h-scroll" style="margin-top:14px;gap:10px;border:none;padding:0">
+        <div style="flex:0 0 88px;aspect-ratio:1;border-radius:12px;overflow:hidden;border:2px solid var(--ink);cursor:pointer" onclick="document.getElementById('main-img').src='{{ product.image_url }}'"><img src="{{ product.image_url }}" style="width:100%;height:100%;object-fit:cover"></div>
+        {% for img in images[:6] %}
+        <div style="flex:0 0 88px;aspect-ratio:1;border-radius:12px;overflow:hidden;border:1px solid var(--line);cursor:pointer" onclick="document.getElementById('main-img').src='{{ img.url }}'"><img src="{{ img.url }}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'"></div>
+        {% endfor %}
+      </div>
+
+      <!-- Lifestyle block -->
+      <div style="margin-top:20px;background:var(--cream-3);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="background:#fff;border-radius:12px;padding:14px"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#999">Photo correspondante</div><div style="font-size:13px;font-weight:600;margin-top:6px">100% correspondante, pas de réutilisation générique. Produit réel.</div></div>
+        <div style="background:var(--ink);color:#fff;border-radius:12px;padding:14px"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold)">Marge {{ marge }}%</div><div style="font-size:13px;font-weight:600;margin-top:6px">{{ product.price_ttc }}€ TTC — Stock Nantes — Expédition 48h</div></div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div>
+      <div class="section-label">{{ product.event_type }} — Sans doublons — Unique visuel</div>
+      <h1 style="font-family:var(--serif);font-size:42px;line-height:.92;letter-spacing:-1px;margin-bottom:14px">{{ product.name }}</h1>
+      <p style="font-size:16px;color:#555;line-height:1.7;margin-bottom:18px">{{ product.short_desc or product.description or "Produit unique, photo correspondante, stock Nantes, 48h." }}</p>
+
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+        <div style="font-size:32px;font-weight:900;letter-spacing:-1px">{{ product.price_ttc }}€</div>
+        {% if product.compare_at_price %}<div style="font-size:14px;color:#999;text-decoration:line-through">{{ product.compare_at_price }}€</div>{% endif %}
+        <span class="badge gold">Économie {{ product.compare_at_price - product.price_ttc if product.compare_at_price else 0 }}€ si kit</span>
+      </div>
+
+      <!-- Variants -->
+      {% if variants %}
+      <div style="margin-bottom:20px">
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:10px">Variantes lot / couleur — Pas de doublons produits</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          {% for v in variants %}
+          <button class="pill {% if loop.first %}active{% endif %}" onclick="selectVariant(this, '{{ v.price_ttc }}€')" data-price="{{ v.price_ttc }}"><span>{{ v.name }} — {{ v.price_ttc }}€</span></button>
+          {% endfor %}
+        </div>
+        <div style="font-size:11px;color:#666;margin-top:8px">Même produit, variantes économiques — Évite doublons SEO + confusion.</div>
+      </div>
+      {% endif %}
+
+      <!-- Personnalisation -->
+      {% if product.is_personalizable %}
+      <div style="background:var(--cream-3);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px">
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:12px">Personnalisation live — Export PNG POD</div>
+        <canvas id="perso-canvas" width="400" height="240" style="width:100%;background:#fff;border-radius:12px;border:1px solid var(--line)"></canvas>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+          <input id="perso-prenom" placeholder="Prénom" value="Léon" style="padding:12px;border-radius:var(--radius-pill);border:1px solid var(--line)">
+          <input id="perso-date" placeholder="Date" value="12.03.2026" style="padding:12px;border-radius:var(--radius-pill);border:1px solid var(--line)">
+        </div>
+        <div style="font-size:11px;color:#666;margin-top:8px">Aperçu live premium, pas de surprise. Prod 24/48h.</div>
+      </div>
+      {% endif %}
+
+      <!-- CTA -->
+      <div style="display:flex;gap:12px;margin-bottom:20px">
+        <button class="btn" style="flex:1" onclick="addToCartFly('{{ product.slug }}', this)"><span>Ajouter au panier — {{ product.price_ttc }}€</span></button>
+        <button class="btn light" onclick="toggleWishlist('{{ product.slug }}')"><span>♡</span></button>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px">
+        <span class="badge cream">🚚 Gratuit dès 75€</span>
+        <span class="badge cream">📦 48h Nantes</span>
+        <span class="badge cream">↩️ 14 jours</span>
+        <span class="badge ink">Marge {{ marge }}%</span>
+      </div>
+
+      <!-- Reco inter-univers -->
+      {% if similar %}
+      <div style="border-top:1px solid var(--line);padding-top:20px">
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:12px">Souvent achetés ensemble — Reco smart inter-univers</div>
+        <div class="h-scroll" style="gap:12px">
+          {% for s in similar %}
+          <a href="/shop/p/{{ s.slug }}" style="flex:0 0 180px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;color:var(--ink)">
+            <div style="aspect-ratio:1;background:#FAF6F1"><img src="{{ s.image_url }}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+            <div style="padding:10px"><div style="font-size:12px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</div><div style="font-size:11px;color:#999">{{ s.price_ttc }}€</div></div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+function selectVariant(btn, price){
+  btn.closest('div').querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+}
+function addToCartFly(slug, btn){
+  fetch('/cart/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product_slug:slug,quantity:1})}).then(()=>{ 
+    if(btn){ btn.innerHTML='<span>✓ Ajouté!</span>'; setTimeout(()=>btn.innerHTML='<span>Ajouter au panier — {{ product.price_ttc }}€</span>',1500); }
+    confetti(); 
+  });
+}
+function confetti(){
+  const c=document.createElement('div'); c.style.position='fixed'; c.style.inset='0'; c.style.pointerEvents='none'; c.style.zIndex='9999';
+  c.innerHTML='<div style="position:absolute;left:50%;top:50%;font-size:32px;animation:confetti 1s ease-out forwards">✨🎉✨</div><style>@keyframes confetti{0%{transform:translate(-50%,-50%) scale(0)}50%{transform:translate(-50%,-80%) scale(1.5)}100%{transform:translate(-50%,-150%) scale(0);opacity:0}}</style>';
+  document.body.appendChild(c); setTimeout(()=>c.remove(),1000);
+}
+function toggleWishlist(slug){
+  let w=JSON.parse(localStorage.getItem('waouh_wishlist')||'[]');
+  if(w.includes(slug)) w=w.filter(x=>x!==slug); else w.push(slug);
+  localStorage.setItem('waouh_wishlist', JSON.stringify(w));
+}
+</script>
+{% endblock %}
+
+{% block scripts %}
+{% if product.is_personalizable %}
+<script src="/static/js/personalization.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.PersonalizationPreview) new PersonalizationPreview('perso-canvas',{prenom:'perso-prenom',date:'perso-date'});
+});
+</script>
+{% endif %}
+{% endblock %}
